@@ -21,7 +21,7 @@ shellcmd xsh_hello(int nargs, char *args[]) {
 
 	/* Check argument count */
 
-	if (nargs > 2) {
+	if (nargs < 2) {
 		fprintf(stderr, "%s: too few argument\n", args[0]);
 		fprintf(stderr, "Try '%s --help' for more information\n", args[0]);
 		return 1;
