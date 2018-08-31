@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
         printf("Parent PID: %d, Child Pid: %d\n", getpid(), pid);
 
         // write a string argument to pipe
-        write(filedes[1], args[1], strlen(args[1]) + 1);
+        write(filedes[1], argv[1], strlen(argv[1]) + 1);
 
         // wait for child to execute
         wait(NULL);
