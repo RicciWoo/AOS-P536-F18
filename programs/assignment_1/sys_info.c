@@ -59,7 +59,9 @@ int main(int argc, char* argv[]) {
         read(filedes[0], argStr, 100);
 
         // execute program corresponding to the argument
+        char *comStr = basename(argStr);
         printf("The argument: %s\n", argStr);
+        printf("The command: %s\n", comStr);
         execlp(argStr, argStr, NULL);
 
     }
