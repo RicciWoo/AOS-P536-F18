@@ -60,7 +60,7 @@ int main(int argc, char* argv[]) {
 
         // execute program corresponding to the argument
         printf("The argument: %s\n", argStr);
-        execlp(argStr);
+        execl("", argStr);
 
     }
     return 0;  // executed by both parent and child 
