@@ -61,8 +61,7 @@ int main(int argc, char* argv[]) {
 
         // execute program corresponding to the argument
         char *comStr = basename(argStr);
-        printf("The argument: %s\n", argStr);
-        printf("The command: %s\n", comStr);
+        // printf("The command: %s\n", comStr);
         if (strncmp(comStr, "echo", 5) != 0)
             execlp(comStr, comStr, NULL);
         else
