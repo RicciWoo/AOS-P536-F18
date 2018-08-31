@@ -13,14 +13,14 @@ int main(int argc, char* argv[]) {
     }
 
     // Check argument count
-    if (nargs < 2) {
-        fprintf(stderr, "%s: too few argument\n", args[0]);
-        fprintf(stderr, "Try '%s --help' for more information\n", args[0]);
+    if (argc < 2) {
+        fprintf(stderr, "%s: too few argument\n", argv[0]);
+        fprintf(stderr, "Try '%s --help' for more information\n", argv[0]);
         return 1;
     }
-    if (nargs > 2) {
-        fprintf(stderr, "%s: too many arguments\n", args[0]);
-        fprintf(stderr, "Try '%s --help' for more information\n", args[0]);
+    if (argc > 2) {
+        fprintf(stderr, "%s: too many arguments\n", argv[0]);
+        fprintf(stderr, "Try '%s --help' for more information\n", argv[0]);
         return 1;
     }
 
