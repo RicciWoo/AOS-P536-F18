@@ -63,7 +63,10 @@ int main(int argc, char* argv[]) {
         char *comStr = basename(argStr);
         printf("The argument: %s\n", argStr);
         printf("The command: %s\n", comStr);
-        execlp(argStr, argStr, NULL);
+        if (strncmp(comStr, "echo", 5) != 0)
+            execlp(comStr, comStr, NULL);
+        else
+            execlp(comStr, comStr, "Hello World!", NULL);
 
     }
     return 0;  // executed by both parent and child 
