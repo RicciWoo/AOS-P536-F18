@@ -60,7 +60,8 @@ int main(int argc, char* argv[]) {
 
         // execute program corresponding to the argument
         printf("The argument: %s\n", argStr);
-        execl("", argStr);
+        char path[] = "/bin/"
+        execl(path, argStr);
 
     }
     return 0;  // executed by both parent and child 
