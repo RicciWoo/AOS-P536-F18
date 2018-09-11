@@ -35,6 +35,7 @@ int main(int argc, char* argv[]) {
         return 0;
     } else {
         // normal mode (with single thread)
+        FILE *fin;
         char *line = NULL;
         size_t len = 0;
         ssize_t nread;
