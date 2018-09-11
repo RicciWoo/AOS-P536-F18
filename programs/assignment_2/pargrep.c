@@ -55,14 +55,14 @@ int main(int argc, char* argv[]) {
         // get number of threads to be used
         size_t len = strlen(argv[1]);
         if (len <= 1) {
-            printf("%s: Invalid input on number of threads\n", argv[0]);
+            printf("%s: Invalid input for multi-threads\n", argv[0]);
             return 1;
         }
         char *str;
         strncpy(str, argv[1] + 1, len);
         // check if input is valid
         if (!checkNumb(str) || !checkChar(argv[2])) {
-            printf("%s: Invalid input on number of threads\n", argv[0]);
+            printf("%s: Invalid input for multi-threads\n", argv[0]);
             return 1;
         }
 
@@ -76,7 +76,7 @@ int main(int argc, char* argv[]) {
         ssize_t nread;
 
         if (!checkChar(argv[1])) {
-            printf("%s: Invalid input on number of threads\n", argv[0]);
+            printf("%s: Invalid input of search word\n", argv[0]);
             return 1;
         }
 
@@ -109,6 +109,7 @@ int main(int argc, char* argv[]) {
             return 0;
         } else {
             fprintf(stderr, "%s: too many arguments for single thread\n", argv[0]);
+            fprintf(stderr, "Try '%s --help (-h)' for more information\n", argv[0]);
         }
     }
 
