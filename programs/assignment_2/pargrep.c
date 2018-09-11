@@ -11,8 +11,8 @@ int main(int argc, char* argv[]) {
         printf("Search for <word> in provided <file> or standard input.\n");
         printf("%s options:\n", argv[0]);
         printf("-t          number of threads\n");
-        printf("word        string to be searched in the file");
-        printf("file        file to lookup or search");
+        printf("word        string to be searched in the file\n");
+        printf("file        file to lookup or search\n");
         return 0;
     }
 
@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
     // read lines from the file or standard input
     if (strncmp(argv[1], "-", 1) == 0) {
         // has specified # of threads, multi-threading mode
-
+        return 0;
     } else {
         // normal mode (with single thread)
         FILE *fin;
@@ -48,12 +48,11 @@ int main(int argc, char* argv[]) {
             }
             while ((nread = getline(&line, &len, fin)) != -1) {
                 if (strstr(line, argv[1])) {
-                    printf("%s\n", line);
+                    printf("%s", line);
                 }
             }
         }
     }
-
 
     return 0;
 }
