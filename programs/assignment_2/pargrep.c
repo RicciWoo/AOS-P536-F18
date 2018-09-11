@@ -32,11 +32,6 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
-    int i = 0;
-    for (i = 0; i < argc; i++)
-        printf("%s ", argv[i]);
-    printf("\n");
-
     // Check argument count
     if (argc < 2) {
         fprintf(stderr, "%s: too few argument\n", argv[0]);
@@ -66,16 +61,16 @@ int main(int argc, char* argv[]) {
         }
         char *str = (char *)malloc(len);
         strncpy(str, argv[1] + 1, len);
-        printf("string of number of threads: %s\n", str);
+
         // check if input is valid
         if (!checkNumb(str)) {
             printf("%s: Invalid input on number of threads\n", argv[0]);
             return 1;
         }
-        // if (!checkChar(argv[2])) {
-        //     printf("%s: Invalid input on search word\n", argv[0]);
-        //     return 1;
-        // }
+        if (!checkChar(argv[2])) {
+            printf("%s: Invalid input on search word\n", argv[0]);
+            return 1;
+        }
 
         // read from a file or standard input on multi-thread mode
         if (argc == 4) {
