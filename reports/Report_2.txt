@@ -1,0 +1,8 @@
+Design outline:
+
+1. use getline to read lines from the file
+
+2. use strstr check if the line contains the word
+
+
+
