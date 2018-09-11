@@ -34,7 +34,7 @@ int main(int argc, char* argv[]) {
         return 0;
     } else {
         // normal mode (with single thread)
-        FILE *fin;
+        
         char *line = NULL;
         size_t len = 0;
         ssize_t nread;
@@ -51,6 +51,18 @@ int main(int argc, char* argv[]) {
                     printf("%s", line);
                 }
             }
+            free(line);
+            fclose(fin);
+            return 0;
+        } esle if {
+            // read from standard input
+            while ((nread = getline(&line, &len, stdin)) != -1) {
+                if (strstr(line, argv[1])) {
+                    printf("%s", line);
+                }
+            }
+            free(line);
+            return 0;
         }
     }
 

@@ -1,8 +1,8 @@
 Design outline:
 
-1. use getline to read lines from the file
+1. Use getline to read lines from the file
 
-2. use strstr check if the line contains the word
+2. Use strstr check if the line contains the word
 
-
+3. Test on 2 files, each with more 100,000 lines
 
