@@ -54,6 +54,10 @@ int main(int argc, char* argv[]) {
         // has specified # of threads, multi-threading mode
         // get number of threads to be used
         size_t len = strlen(argv[1]);
+        if (len <= 1) {
+            printf("%s: Invalid input on number of threads\n", argv[0]);
+            return 1;
+        }
         char *str;
         strncpy(str, argv[1] + 1, len);
         // check if input is valid
