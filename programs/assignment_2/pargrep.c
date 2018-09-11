@@ -21,8 +21,8 @@ int checkChar(char *str) {
 int main(int argc, char* argv[]) {
 
     // check argument of "--help", or "-h"
-    if (argc == 2 && (strncmp(argv[1], "--help", 7) == 0) ||
-                     (strncmp(argv[1], "-h", 3) == 0)) {
+    if (argc == 2 && ((strncmp(argv[1], "--help", 7) == 0) ||
+                     (strncmp(argv[1], "-h", 3) == 0))) {
         printf("Usage: %s [-t] word [file]\n", argv[0]);
         printf("Search for <word> in provided <file> or standard input.\n");
         printf("%s options:\n", argv[0]);
