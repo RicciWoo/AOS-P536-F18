@@ -108,7 +108,7 @@ int main(int argc, char* argv[]) {
             free(line);
             return 0;
         } else {
-            fprintf(stderr, "%s: too many arguments\n", argv[0]);
+            fprintf(stderr, "%s: too many arguments for single thread\n", argv[0]);
         }
     }
 
