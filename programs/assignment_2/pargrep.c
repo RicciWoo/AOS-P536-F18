@@ -4,14 +4,16 @@
 
 int checkNumb(char *str) {
     size_t len = strlen(str);
-    for (int i = 0; i < len; i++)
+    int i = 0;
+    for (i = 0; i < len; i++)
         if (!isdigit(str[i])) return 0;
     return 1;
 }
 
 int checkChar(char *str) {
     size_t len = strlen(str);
-    for (int i = 0; i < len; i++)
+    int i = 0;
+    for (i = 0; i < len; i++)
         if (!isalpha(str[i])) return 0;
     return 1;
 }
