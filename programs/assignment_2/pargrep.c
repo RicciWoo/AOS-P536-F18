@@ -2,10 +2,19 @@
 #include <string.h>
 #include <stdlib.h>
 
-// bool checkChar(char *str) {
-//     size_t len = strlen(str);
-//     for (int i = 0; i < len; )
-// }
+bool checkNumb(char *str) {
+    size_t len = strlen(str);
+    for (int i = 0; i < len; i++)
+        if (!isdigit(str[i])) return false;
+    return true;
+}
+
+bool checkChar(char *str) {
+    size_t len = strlen(str);
+    for (int i = 0; i < len; i++)
+        if (!isalpha(str[i])) return false;
+    return true;
+}
 
 int main(int argc, char* argv[]) {
 
@@ -36,9 +45,16 @@ int main(int argc, char* argv[]) {
     // read lines from the file or standard input
     if (strncmp(argv[1], "-", 1) == 0) {
         // has specified # of threads, multi-threading mode
+        // get number of threads to be used
         size_t len = strlen(argv[1]);
         char *str;
         strncpy(str, argv[1] + 1, len);
+        // check if input is valid
+        if (!checkNumb(str) || !checkChar(argv[2])) {
+            printf("%s: Invalid input on number of threads\n", argv[0]);
+            return 1;
+        }
+
         printf("string of number of threads: %s\n", str);
         return 0;
     } else {
@@ -47,6 +63,11 @@ int main(int argc, char* argv[]) {
         char *line = NULL;
         size_t len = 0;
         ssize_t nread;
+
+        if (!checkChar(argv[1])) {
+            printf("%s: Invalid input on number of threads\n", argv[0]);
+            return 1;
+        }
 
         if (argc == 3) {
             // read from a file
