@@ -55,6 +55,7 @@ int main(int argc, char* argv[]) {
         if (argc == 2) {
             fprintf(stderr, "%s: too few argument for multi threads\n", argv[0]);
             fprintf(stderr, "Try '%s --help (-h)' for more information\n", argv[0]);
+            return 1;
         }
 
         // get number of threads to be used
