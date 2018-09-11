@@ -68,7 +68,7 @@ int main(int argc, char* argv[]) {
             free(line);
             return 0;
         } else {
-            fprintf(stderr, "Invalid parameters\n");
+            fprintf(stderr, "%s: too many arguments\n", argv[0]);
         }
     }
 
