@@ -52,18 +52,36 @@ int main(int argc, char* argv[]) {
     // read lines from the file or standard input
     if (strncmp(argv[1], "-", 1) == 0) {
         // has specified # of threads, multi-threading mode
+        if (argc == 2) {
+            fprintf(stderr, "%s: too few argument for multi threads\n", argv[0]);
+            fprintf(stderr, "Try '%s --help (-h)' for more information\n", argv[0]);
+        }
+
         // get number of threads to be used
         size_t len = strlen(argv[1]);
         if (len <= 1) {
-            printf("%s: Invalid input for multi-threads\n", argv[0]);
+            printf("%s: Please specify number of threads\n", argv[0]);
             return 1;
         }
         char *str;
         strncpy(str, argv[1] + 1, len);
         // check if input is valid
-        if (!checkNumb(str) || !checkChar(argv[2])) {
-            printf("%s: Invalid input for multi-threads\n", argv[0]);
+        if (!checkNumb(str)) {
+            printf("%s: Invalid input on number of threads\n", argv[0]);
             return 1;
+        }
+        if (!checkChar(argv[2])) {
+            printf("%s: Invalid input on search word\n", argv[0]);
+            return 1;
+        }
+
+        // read from a file or standard input on multi-thread mode
+        if (argc == 4) {
+            // read from a file
+
+        } else {
+            // read from standard input
+
         }
 
         printf("string of number of threads: %s\n", str);
@@ -76,7 +94,7 @@ int main(int argc, char* argv[]) {
         ssize_t nread;
 
         if (!checkChar(argv[1])) {
-            printf("%s: Invalid input of search word\n", argv[0]);
+            printf("%s: Invalid input on search word\n", argv[0]);
             return 1;
         }
 
@@ -110,6 +128,7 @@ int main(int argc, char* argv[]) {
         } else {
             fprintf(stderr, "%s: too many arguments for single thread\n", argv[0]);
             fprintf(stderr, "Try '%s --help (-h)' for more information\n", argv[0]);
+            return 1;
         }
     }
 
