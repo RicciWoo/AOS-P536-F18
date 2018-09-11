@@ -31,7 +31,10 @@ int main(int argc, char* argv[]) {
     // read lines from the file or standard input
     if (strncmp(argv[1], "-", 1) == 0) {
         // has specified # of threads, multi-threading mode
-
+        size_t len = strlen(argv[1]);
+        char *str;
+        strncpy(str, argv[1] + 1, len - 1);
+        printf("string of number of threads: %s\n", str);
         return 0;
     } else {
         // normal mode (with single thread)
