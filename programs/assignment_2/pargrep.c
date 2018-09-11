@@ -2,6 +2,11 @@
 #include <string.h>
 #include <stdlib.h>
 
+bool checkChar(char *str) {
+    size_t len = strlen(str);
+    for (int i = 0; i < len; )
+}
+
 int main(int argc, char* argv[]) {
 
     // check argument of "--help", or "-h"
@@ -33,7 +38,7 @@ int main(int argc, char* argv[]) {
         // has specified # of threads, multi-threading mode
         size_t len = strlen(argv[1]);
         char *str;
-        strncpy(str, argv[1] + 1, len - 1);
+        strncpy(str, argv[1] + 1, len);
         printf("string of number of threads: %s\n", str);
         return 0;
     } else {
