@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
     }
 
     // read lines from the file or standard input
-    if (strncmp(argv[1], "-", 2) == 0) {
+    if (strncmp(argv[1], "-", 1) == 0) {
         // has specified # of threads, multi-threading mode
         // get number of threads to be used
         size_t len = strlen(argv[1]);
@@ -84,7 +84,7 @@ int main(int argc, char* argv[]) {
             // read from a file
             fin = fopen(argv[2], "r");
             if (fin == NULL) {
-                fprintf(stderr, "Cannot open the file %s\n", argv[2]);
+                fprintf(stderr, "%s: Cannot open the file %s\n", argv[0], argv[2]);
                 return 2;
             }
 
