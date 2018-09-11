@@ -20,11 +20,6 @@ int checkChar(char *str) {
 
 int main(int argc, char* argv[]) {
 
-    int i = 0;
-    for (i = 0; i < argc; i++)
-        printf("%s ", argv[i]);
-    printf("\n");
-
     // check argument of "--help", or "-h"
     if (argc == 2 && (strncmp(argv[1], "--help", 7) == 0) ||
                      (strncmp(argv[1], "-h", 3) == 0)) {
@@ -36,6 +31,11 @@ int main(int argc, char* argv[]) {
         printf("file        file to lookup or search\n");
         return 0;
     }
+
+    int i = 0;
+    for (i = 0; i < argc; i++)
+        printf("%s ", argv[i]);
+    printf("\n");
 
     // Check argument count
     if (argc < 2) {
