@@ -45,7 +45,7 @@ int main(int argc, char* argv[]) {
     }
 
     // read lines from the file or standard input
-    if (strncmp(argv[1], "-", 1) == 0) {
+    if (strncmp(argv[1], "-", 2) == 0) {
         // has specified # of threads, multi-threading mode
         // get number of threads to be used
         size_t len = strlen(argv[1]);
