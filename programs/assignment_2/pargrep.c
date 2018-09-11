@@ -54,10 +54,10 @@ int main(int argc, char* argv[]) {
                 }
             }
 
+            free(line);
             fclose(fin);
             return 0;
-
-        } else if {
+        } else if (argc == 2) {
             // read from standard input
             while ((nread = getline(&line, &len, stdin)) != -1) {
                 if (strstr(line, argv[1])) {
@@ -67,9 +67,9 @@ int main(int argc, char* argv[]) {
 
             free(line);
             return 0;
+        } else {
+            fprintf(stderr, "Invalid parameters\n");
         }
-
-        free(line);
     }
 
     return 0;
