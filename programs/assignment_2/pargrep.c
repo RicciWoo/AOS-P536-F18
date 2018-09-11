@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
     // read lines from the file or standard input
     if (strncmp(argv[1], "-", 1) == 0) {
         // has specified # of threads, multi-threading mode
-        
+
         return 0;
     } else {
         // normal mode (with single thread)
@@ -56,7 +56,7 @@ int main(int argc, char* argv[]) {
             fclose(fin);
             return 0;
 
-        } esle if {
+        } else if {
             // read from standard input
             while ((nread = getline(&line, &len, stdin)) != -1) {
                 if (strstr(line, argv[1])) {
