@@ -2,14 +2,14 @@
 #include <string.h>
 #include <stdlib.h>
 
-bool checkNumb(char *str) {
+int checkNumb(char *str) {
     size_t len = strlen(str);
     for (int i = 0; i < len; i++)
         if (!isdigit(str[i])) return 0;
     return 1;
 }
 
-bool checkChar(char *str) {
+int checkChar(char *str) {
     size_t len = strlen(str);
     for (int i = 0; i < len; i++)
         if (!isalpha(str[i])) return 0;
