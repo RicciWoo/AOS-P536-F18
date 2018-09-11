@@ -30,7 +30,6 @@ int main(int argc, char* argv[]) {
 
     // read lines from the file or standard input
     if (strncmp(argv[1], "-", 1) == 0) {
-        char *sub = malloc()
         // has specified # of threads, multi-threading mode
 
     } else {
@@ -47,7 +46,7 @@ int main(int argc, char* argv[]) {
                 fprintf(stderr, "Cannot open the file %s\n", argv[2]);
                 return 2;
             }
-            while ((nread = getline(&line, &len, stream)) != -1) {
+            while ((nread = getline(&line, &len, fin)) != -1) {
                 if (strstr(line, argv[1])) {
                     printf("%s\n", line);
                 }
