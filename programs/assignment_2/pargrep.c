@@ -5,15 +5,15 @@
 bool checkNumb(char *str) {
     size_t len = strlen(str);
     for (int i = 0; i < len; i++)
-        if (!isdigit(str[i])) return false;
-    return true;
+        if (!isdigit(str[i])) return 0;
+    return 1;
 }
 
 bool checkChar(char *str) {
     size_t len = strlen(str);
     for (int i = 0; i < len; i++)
-        if (!isalpha(str[i])) return false;
-    return true;
+        if (!isalpha(str[i])) return 0;
+    return 1;
 }
 
 int main(int argc, char* argv[]) {
