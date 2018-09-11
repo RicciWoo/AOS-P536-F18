@@ -6,3 +6,8 @@ Design outline:
 
 3. Test on 2 files, each with more 100,000 lines
 
+4. Use getline to read from standard input (pipe)
+
+5. get number of threads to be used from cammand line
+
+
