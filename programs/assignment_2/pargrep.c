@@ -65,6 +65,7 @@ int main(int argc, char* argv[]) {
         }
         char *str;
         strncpy(str, argv[1] + 1, len);
+        printf("string of number of threads: %s\n", str);
         // check if input is valid
         if (!checkNumb(str)) {
             printf("%s: Invalid input on number of threads\n", argv[0]);
@@ -84,7 +85,6 @@ int main(int argc, char* argv[]) {
 
         }
 
-        printf("string of number of threads: %s\n", str);
         return 0;
     } else {
         // normal mode (with single thread)
