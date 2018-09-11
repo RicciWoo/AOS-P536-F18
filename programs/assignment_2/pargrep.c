@@ -31,10 +31,10 @@ int main(int argc, char* argv[]) {
     // read lines from the file or standard input
     if (strncmp(argv[1], "-", 1) == 0) {
         // has specified # of threads, multi-threading mode
+        
         return 0;
     } else {
         // normal mode (with single thread)
-        
         char *line = NULL;
         size_t len = 0;
         ssize_t nread;
@@ -46,14 +46,16 @@ int main(int argc, char* argv[]) {
                 fprintf(stderr, "Cannot open the file %s\n", argv[2]);
                 return 2;
             }
+
             while ((nread = getline(&line, &len, fin)) != -1) {
                 if (strstr(line, argv[1])) {
                     printf("%s", line);
                 }
             }
-            free(line);
+
             fclose(fin);
             return 0;
+
         } esle if {
             // read from standard input
             while ((nread = getline(&line, &len, stdin)) != -1) {
@@ -61,9 +63,12 @@ int main(int argc, char* argv[]) {
                     printf("%s", line);
                 }
             }
+
             free(line);
             return 0;
         }
+
+        free(line);
     }
 
     return 0;
