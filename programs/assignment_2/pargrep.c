@@ -71,10 +71,10 @@ int main(int argc, char* argv[]) {
             printf("%s: Invalid input on number of threads\n", argv[0]);
             return 1;
         }
-        if (!checkChar(argv[2])) {
-            printf("%s: Invalid input on search word\n", argv[0]);
-            return 1;
-        }
+        // if (!checkChar(argv[2])) {
+        //     printf("%s: Invalid input on search word\n", argv[0]);
+        //     return 1;
+        // }
 
         // read from a file or standard input on multi-thread mode
         if (argc == 4) {
