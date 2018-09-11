@@ -2,10 +2,10 @@
 #include <string.h>
 #include <stdlib.h>
 
-bool checkChar(char *str) {
-    size_t len = strlen(str);
-    for (int i = 0; i < len; )
-}
+// bool checkChar(char *str) {
+//     size_t len = strlen(str);
+//     for (int i = 0; i < len; )
+// }
 
 int main(int argc, char* argv[]) {
 
