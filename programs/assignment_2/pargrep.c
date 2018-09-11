@@ -64,8 +64,8 @@ int main(int argc, char* argv[]) {
             printf("%s: Please specify number of threads\n", argv[0]);
             return 1;
         }
-        char *str;
-        strncpy(str, argv[1] + 1, len - 1);
+        char *str = (char *)malloc(len);
+        strncpy(str, argv[1] + 1, len);
         printf("string of number of threads: %s\n", str);
         // check if input is valid
         if (!checkNumb(str)) {
