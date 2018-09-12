@@ -3,12 +3,12 @@
 #include <stdlib.h>
 #include <pthread.h>
 
+#define LINES_EACH_READ 1024
+#define MAX_NUM_THREADS 1024
+
 #include <vector>
 
 using namespace std
-
-#define LINES_EACH_READ 1024
-#define MAX_NUM_THREADS 1024
 
 int checkNumb(char *str) {
     size_t len = strlen(str);
