@@ -3,6 +3,13 @@
 #include <stdlib.h>
 #include <pthread.h>
 
+#include <vector>
+
+using namespace std
+
+#define LINES_EACH_READ 1024
+#define MAX_NUM_THREADS 1024
+
 int checkNumb(char *str) {
     size_t len = strlen(str);
     int i = 0;
@@ -18,6 +25,25 @@ int checkChar(char *str) {
         if (!isalpha(str[i])) return 0;
     return 1;
 }
+
+struct IndexLines {
+    long index;
+    char *line;
+    IndexLines(long i, char *l) : index(i), line(l) {}
+};
+
+struct DataPass {
+    int len;
+    IndexLines *ptr;
+    DataPass(int l, IndexLines *p) : len(l), ptr(p) {}
+};
+
+// create vector of indexlines pointers
+vector<IndexLines*> index_lines;
+
+// void *searchWord(void *) {
+    
+// }
 
 int main(int argc, char* argv[]) {
 
@@ -68,26 +94,53 @@ int main(int argc, char* argv[]) {
         char *str = (char *)malloc(len);
         strncpy(str, argv[1] + 1, len);
 
-        // check if input is valid
+        // check if input number of thread is valid
         if (!checkNumb(str)) {
             printf("%s: Invalid input on number of threads\n", argv[0]);
             return 1;
         }
+
+        // convert number of thread to int
+        long num_threads_long = atol(str);
+        if (num_threads_long > MAX_NUM_THREADS || num_threads_long < 1) {
+            printf("%s: number of threads must be 1 <= t <= 1024\n", argv[0]);
+            return 1;
+        }
+        int num_threads = (int)num_threads_long;
+
+        // check if input search word is valid
         if (!checkChar(argv[2])) {
             printf("%s: Invalid input on search word\n", argv[0]);
             return 1;
         }
 
-        // convert number of thread to int
-        long num_threads = atol(str);
-        printf("number of threads: %ld\n", num_threads);
+        // variable for creating threads
+        pthread_t *threads = (pthread_t*)malloc(size(pthread_t*) * num_threads);
+        int rc;
 
-        // 
-
-
+        long num_lines = 0;
         // read from a file or standard input on multi-thread mode
         if (argc == 4) {
             // read from a file， using multiple threads
+            fin = fopen(argv[3], "r");
+            if (fin == NULL) {
+                fprintf(stderr, "%s: Cannot open the file %s\n", argv[0], argv[3]);
+                return 2;
+            }
+
+            while ((nread = getline(&line, &len, fin)) != -1) {
+                IndexLines *temp_il = new IndexLines(num_lines++, line);
+                index_lines.push_back(temp_il);
+                line = NULL;
+                len = 0;
+            }
+
+            printf("num_lines: %ld\n", num_lines);
+
+            // int t = 0;
+            // for (t = 0; t < num_threads; t++) {
+            //     rc = pthread_create(&threads[t], NULL, )
+            // }
 
         } else {
             // read from standard input, using multiple threads
