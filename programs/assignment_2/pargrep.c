@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 
+#include <cctype>
 #include <vector>
 
 using namespace std;
