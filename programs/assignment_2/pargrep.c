@@ -116,7 +116,7 @@ int main(int argc, char* argv[]) {
         }
 
         // variable for creating threads
-        pthread_t *threads = (pthread_t*)malloc(size(pthread_t*) * num_threads);
+        pthread_t *threads = (pthread_t*)malloc(size(pthread_t) * num_threads);
         int rc;
 
         long num_lines = 0;
