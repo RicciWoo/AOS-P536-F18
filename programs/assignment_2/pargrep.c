@@ -21,6 +21,11 @@ int checkChar(char *str) {
 
 int main(int argc, char* argv[]) {
 
+    FILE *fin;
+    char *line = NULL;
+    size_t len = 0;
+    ssize_t nread;
+
     // check argument of "--help", or "-h"
     if (argc == 2 && ((strncmp(argv[1], "--help", 7) == 0) ||
                      (strncmp(argv[1], "-h", 3) == 0))) {
@@ -78,9 +83,7 @@ int main(int argc, char* argv[]) {
         cout << "number of threads: " << num_threads << endl;
 
         // 
-        char *line = NULL;
-        size_t len = 0;
-        ssize_t nread;
+
 
         // read from a file or standard input on multi-thread mode
         if (argc == 4) {
@@ -95,9 +98,6 @@ int main(int argc, char* argv[]) {
         return 0;
     } else {
         // normal mode (with single thread)
-        char *line = NULL;
-        size_t len = 0;
-        ssize_t nread;
 
         if (!checkChar(argv[1])) {
             printf("%s: Invalid input on search word\n", argv[0]);
@@ -106,7 +106,6 @@ int main(int argc, char* argv[]) {
 
         if (argc == 3) {
             // read from a file
-            FILE *fin;
             fin = fopen(argv[2], "r");
             if (fin == NULL) {
                 fprintf(stderr, "%s: Cannot open the file %s\n", argv[0], argv[2]);
