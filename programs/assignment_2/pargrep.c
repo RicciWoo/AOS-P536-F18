@@ -79,7 +79,7 @@ int main(int argc, char* argv[]) {
         }
 
         // convert number of thread to int
-        long num_threads = stol(str);
+        long num_threads = atol(str);
         printf("number of threads: %ld\n", num_threads);
 
         // 
