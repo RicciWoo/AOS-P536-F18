@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <pthread.h>
 
 int checkNumb(char *str) {
     size_t len = strlen(str);
@@ -72,19 +73,21 @@ int main(int argc, char* argv[]) {
             return 1;
         }
 
+        // 
+
         // read from a file or standard input on multi-thread mode
         if (argc == 4) {
-            // read from a file
+            // read from a file， using multiple threads
 
         } else {
-            // read from standard input
+            // read from standard input, using multiple threads
 
         }
 
+        pthread_exit(NULL); // let threads that created to finish execution
         return 0;
     } else {
         // normal mode (with single thread)
-        FILE *fin;
         char *line = NULL;
         size_t len = 0;
         ssize_t nread;
@@ -96,6 +99,7 @@ int main(int argc, char* argv[]) {
 
         if (argc == 3) {
             // read from a file
+            FILE *fin;
             fin = fopen(argv[2], "r");
             if (fin == NULL) {
                 fprintf(stderr, "%s: Cannot open the file %s\n", argv[0], argv[2]);
@@ -108,8 +112,8 @@ int main(int argc, char* argv[]) {
                 }
             }
 
-            free(line);
             fclose(fin);
+            free(line);
             return 0;
         } else if (argc == 2) {
             // read from standard input
