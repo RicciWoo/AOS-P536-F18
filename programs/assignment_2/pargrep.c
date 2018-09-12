@@ -73,7 +73,14 @@ int main(int argc, char* argv[]) {
             return 1;
         }
 
+        // convert number of thread to int
+        long num_threads = stol(str);
+        cout << "number of threads: " << num_threads << endl;
+
         // 
+        char *line = NULL;
+        size_t len = 0;
+        ssize_t nread;
 
         // read from a file or standard input on multi-thread mode
         if (argc == 4) {
