@@ -10,4 +10,15 @@ Design outline:
 
 5. get number of threads to be used from cammand line
 
+Concurrency design:
 
+1. read from the file or standard input (pipe) once
+
+2. split them evenly into number of threads (upper bound)
+
+3. user specify number of threads to be used
+   (I will experiment the best number of threads on silo)
+
+4. also pass the line number to threads for indexing
+
+5. when all results return to main(), sorted them by index
