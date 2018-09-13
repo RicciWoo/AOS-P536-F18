@@ -153,6 +153,13 @@ int main(int argc, char* argv[]) {
             printf("lines_per_thread: %ld\n", lines_per_thread);
             printf("lines_last_thread: %ld\n", lines_last_thread);
 
+            for (int i = 0; i < num_threads; i++) {
+                printf("thread #%d:\n", i);
+                printf("length: %d, ", data_pass[i].len);
+                printf("index: %ld, ", data_pass[i].ptr->index);
+                printf("line: %s\n", data_pass[i].ptr->line);
+            }
+
             // int t = 0;
             // for (t = 0; t < num_threads; t++) {
             //     rc = pthread_create(&threads[t], NULL, )
