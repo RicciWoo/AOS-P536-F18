@@ -35,8 +35,8 @@ struct IndexLines {
 
 struct DataPass {
     int len;
-    IndexLines *ptr;
-    DataPass(int l, IndexLines *p) : len(l), ptr(p) {}
+    long start;
+    DataPass(int l, long s) : len(l), start(s) {}
 };
 
 // create vector of indexlines pointers
@@ -146,24 +146,24 @@ int main(int argc, char* argv[]) {
             DataPass *data_pass = (DataPass*)malloc(sizeof(DataPass) * num_threads);
             for (int i = 0; i < num_threads; i++) {
                 data_pass[i].len = lines_per_thread;
-                data_pass[i].ptr = index_lines[lines_per_thread * i];
+                data_pass[i].start = lines_per_thread * i;
             }
             data_pass[num_threads - 1].len = lines_last_thread;
-
-            printf("lines_per_thread: %ld\n", lines_per_thread);
-            printf("lines_last_thread: %ld\n", lines_last_thread);
 
             for (int i = 0; i < num_threads; i++) {
                 printf("thread #%d:\n", i);
                 printf("length: %d, ", data_pass[i].len);
-                printf("index: %ld\n", data_pass[i].ptr->index);
-                printf("line: %s\n", data_pass[i].ptr->line);
+                printf("start: %ld\n", data_pass[i].start);
             }
 
             // int t = 0;
             // for (t = 0; t < num_threads; t++) {
             //     rc = pthread_create(&threads[t], NULL, )
             // }
+
+            // free all lines
+            for (int i = 0; i < index_lines.size(); i++)
+                free(index_lines[i]);
 
         } else {
             // read from standard input, using multiple threads
