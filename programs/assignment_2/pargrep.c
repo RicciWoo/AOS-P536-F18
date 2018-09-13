@@ -136,7 +136,22 @@ int main(int argc, char* argv[]) {
                 len = 0;
             }
 
-            printf("num_lines: %ld\n", num_lines);
+            // calculate number of lines for each thread
+            long lines_per_thread = num_lines / num_threads;
+            if (num_lines % num_threads != 0) lines_per_thread++;
+            long lines_last_thread = num_lines - 
+                                     lines_per_thread * (num_threads - 1);
+
+            // set the data_pass
+            DataPass *data_pass = (DataPass*)malloc(sizeof(DataPass) * num_threads);
+            for (int i = 0; i < num_threads; i++) {
+                data_pass[i].len = lines_per_thread;
+                data_pass[i].ptr = index_lines[lines_per_thread * i];
+            }
+            data_pass[num_threads - 1].len = lines_last_thread;
+
+            printf("lines_per_thread: %ld\n", lines_per_thread);
+            printf("lines_last_thread: %ld\n", lines_last_thread);
 
             // int t = 0;
             // for (t = 0; t < num_threads; t++) {
