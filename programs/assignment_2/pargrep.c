@@ -156,7 +156,7 @@ int main(int argc, char* argv[]) {
             for (int i = 0; i < num_threads; i++) {
                 printf("thread #%d:\n", i);
                 printf("length: %d, ", data_pass[i].len);
-                printf("index: %ld, ", data_pass[i].ptr->index);
+                printf("index: %ld\n", data_pass[i].ptr->index);
                 printf("line: %s\n", data_pass[i].ptr->line);
             }
 
