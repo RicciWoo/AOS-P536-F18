@@ -164,12 +164,6 @@ int main(int argc, char* argv[]) {
             }
             data_pass[num_threads - 1].len = lines_last_thread;
 
-            for (int i = 0; i < num_threads; i++) {
-                printf("thread #%d:\n", i);
-                printf("length: %d, ", data_pass[i].len);
-                printf("start: %ld\n", data_pass[i].start);
-            }
-
             // initialize and set thread detached attribute
             pthread_attr_init(&attr);
             pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
@@ -206,7 +200,14 @@ int main(int argc, char* argv[]) {
 
         } else {
             // read from standard input, using multiple threads
+            while ((nread = getline(&line, &len, stdin)) != -1) {
+                IndexLines *temp_il = new IndexLines(num_lines++, line);
+                index_lines.push_back(temp_il);
+                line = NULL;
+                len = 0;
+            }
 
+            printf("num_lines: %d\n", num_lines);
         }
 
         pthread_exit(NULL); // let threads that created to finish execution
