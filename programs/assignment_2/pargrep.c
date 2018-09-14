@@ -9,7 +9,7 @@
 
 using namespace std;
 
-#define MAX_NUM_THREADS 198
+#define MAX_NUM_THREADS 128
 
 int checkNumb(char *str) {
     size_t len = strlen(str);
