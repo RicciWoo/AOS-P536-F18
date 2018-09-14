@@ -219,7 +219,7 @@ int main(int argc, char* argv[]) {
         }
 
         // let threads that created to finish execution
-        pthread_exit(NULL);
+        //pthread_exit(NULL);
 
     } else {
         // normal mode (with single thread)
