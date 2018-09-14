@@ -182,8 +182,6 @@ int main(int argc, char* argv[]) {
         // update for the last thread
         data_pass[num_threads - 1].len = lines_last_thread;
 
-printf("reach this line\n");
-
         // initialize and set thread detached attribute
         pthread_attr_init(&attr);
         pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
@@ -199,6 +197,8 @@ printf("reach this line\n");
                 return 3;
             }
         }
+
+printf("reach this line\n");
 
         // join the threads
         pthread_attr_destroy(&attr);
