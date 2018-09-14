@@ -173,6 +173,8 @@ int main(int argc, char* argv[]) {
         long lines_last_thread = num_lines - 
                                  lines_per_thread * (num_threads - 1);
 
+        printf("reach this line\n");
+
         // set the data_pass for passing to function in thread
         DataPass *data_pass = (DataPass*)malloc(sizeof(DataPass) * num_threads);
         for (int i = 0; i < num_threads; i++) {
