@@ -178,7 +178,7 @@ int main(int argc, char* argv[]) {
             word = argv[2];
             // create multiple threads
             for (t = 0; t < num_threads; t++) {
-                rc = pthread_create(&threads[t], &attr, searchWord, (void*)&data_pass[t])
+                rc = pthread_create(&threads[t], &attr, searchWord, (void*)&data_pass[t]);
                 if (rc) {
                     printf("%s: return code from pthread_create() is %d", argv[0], rc);
                     return 3;
@@ -188,7 +188,7 @@ int main(int argc, char* argv[]) {
             // join the threads
             pthread_attr_destroy(&attr);
             for (t = 0; t < num_threads; t++) {
-                rc = pthread_join(thread[t], &status);
+                rc = pthread_join(threads[t], &status);
                 if (rc) {
                     printf("%s: return code from pthread_join() is %d\n", argv[0], rc);
                     return 3;
