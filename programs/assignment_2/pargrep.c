@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <sys/time.h>
 
 #include <cctype>
 #include <vector>
@@ -63,6 +64,10 @@ int main(int argc, char* argv[]) {
     char *line = NULL;
     size_t len = 0;
     ssize_t nread;
+
+    // start the timer
+    struct timespec start, stop;
+    clock_gettime(CLOCK_MONOTONIC_RAW, &start);
 
     // check argument of "--help", or "-h"
     if (argc == 2 && ((strncmp(argv[1], "--help", 7) == 0) ||
@@ -215,7 +220,6 @@ int main(int argc, char* argv[]) {
 
         // let threads that created to finish execution
         pthread_exit(NULL);
-        return 0;
 
     } else {
         // normal mode (with single thread)
@@ -231,34 +235,40 @@ int main(int argc, char* argv[]) {
         }
 
         if (argc == 3) {
-            // read from a file
+            // open the file
             fin = fopen(argv[2], "r");
             if (fin == NULL) {
                 printf("%s: Cannot open the file %s\n", argv[0], argv[2]);
                 return 2;
             }
 
+            // read from the file
             while ((nread = getline(&line, &len, fin)) != -1) {
                 if (strstr(line, argv[1])) {
                     printf("%s", line);
                 }
             }
 
+            // close the file
             fclose(fin);
-            free(line);
-            return 0;
         } else {
-            // read from standard input
+            // read from standard input (pipe)
             while ((nread = getline(&line, &len, stdin)) != -1) {
                 if (strstr(line, argv[1])) {
                     printf("%s", line);
                 }
-            }
-
-            free(line);
-            return 0;
+            }            
         }
+
+        // free the line pointer
+        if (line) free(line)
     }
+
+    // stop the timer and print runtime
+    clock_gettime(CLOCK_MONOTONIC_RAW, &stop);
+    uint64_t delta = (stop.tv_sec - start.tv_sec) * 1000000 + 
+                     (stop.tv_nsec - start.tv_nsec) / 1000;
+    printf("Runtime: %ld", uint64_t);
 
     return 0;
 }
