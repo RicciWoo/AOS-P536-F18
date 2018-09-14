@@ -261,7 +261,7 @@ int main(int argc, char* argv[]) {
         }
 
         // free the line pointer
-        if (line) free(line)
+        if (line) free(line);
     }
 
     // stop the timer and print runtime
