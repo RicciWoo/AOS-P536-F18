@@ -195,14 +195,15 @@ int main(int argc, char* argv[]) {
                 }
             }
 
-            // free all lines
+            // print results, and then free the lines
             for (int i = 0; i < index_lines.size(); i++) {
                 if (index_lines[i] != NULL) {
+                    printf("%s", line);
                     free(index_lines[i]);
                     index_lines[i] = NULL;
                 }
             }
-
+            
         } else {
             // read from standard input, using multiple threads
 
