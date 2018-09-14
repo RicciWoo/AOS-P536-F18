@@ -268,7 +268,7 @@ int main(int argc, char* argv[]) {
     clock_gettime(CLOCK_MONOTONIC_RAW, &stop);
     long long delta = (stop.tv_sec - start.tv_sec) * 1000000 + 
                      (stop.tv_nsec - start.tv_nsec) / 1000;
-    printf("Runtime: %ld", delta);
+    printf("\nRuntime: %ld\n", delta);
 
     return 0;
 }
