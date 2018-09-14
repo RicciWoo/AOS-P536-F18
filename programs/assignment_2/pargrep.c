@@ -9,7 +9,7 @@
 
 using namespace std;
 
-#define MAX_NUM_THREADS 500
+#define MAX_NUM_THREADS 198
 
 int checkNumb(char *str) {
     size_t len = strlen(str);
@@ -197,8 +197,6 @@ int main(int argc, char* argv[]) {
                 return 3;
             }
         }
-
-printf("reach this line\n");
 
         // join the threads
         pthread_attr_destroy(&attr);
