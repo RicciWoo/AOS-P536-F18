@@ -197,13 +197,13 @@ int main(int argc, char* argv[]) {
 
             // print results, and then free the lines
             for (int i = 0; i < index_lines.size(); i++) {
-                if (index_lines[i] != NULL) {
-                    printf("%s", line);
-                    free(index_lines[i]);
-                    index_lines[i] = NULL;
+                if (index_lines[i]->line != NULL) {
+                    printf("%s", index_lines[i]->line);
+                    free(index_lines[i]->line);
+                    index_lines[i]->line = NULL;
                 }
             }
-            
+
         } else {
             // read from standard input, using multiple threads
 
