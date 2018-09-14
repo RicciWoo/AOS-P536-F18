@@ -266,9 +266,9 @@ int main(int argc, char* argv[]) {
 
     // stop the timer and print runtime
     clock_gettime(CLOCK_MONOTONIC_RAW, &stop);
-    long long delta = (stop.tv_sec - start.tv_sec) * 1000000 + 
+    uint64_t delta = (stop.tv_sec - start.tv_sec) * 1000000 + 
                      (stop.tv_nsec - start.tv_nsec) / 1000;
-    printf("Runtime: %ld", uint64_t);
+    printf("Runtime: %ld", delta);
 
     return 0;
 }
