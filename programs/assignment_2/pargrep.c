@@ -136,13 +136,14 @@ int main(int argc, char* argv[]) {
         long num_lines = 0;
         // read from a file or standard input on multi-thread mode
         if (argc == 4) {
-            // read from a file， using multiple threads
+            // open a file
             fin = fopen(argv[3], "r");
             if (fin == NULL) {
                 printf("%s: Cannot open the file %s\n", argv[0], argv[3]);
                 return 2;
             }
 
+            // read each line from a file
             while ((nread = getline(&line, &len, fin)) != -1) {
                 IndexLines *temp_il = new IndexLines(num_lines++, line);
                 index_lines.push_back(temp_il);
@@ -150,73 +151,82 @@ int main(int argc, char* argv[]) {
                 len = 0;
             }
 
-            // calculate number of lines for each thread
-            long lines_per_thread = num_lines / num_threads;
-            if (num_lines % num_threads != 0) lines_per_thread++;
-            long lines_last_thread = num_lines - 
-                                     lines_per_thread * (num_threads - 1);
-
-            // set the data_pass
-            DataPass *data_pass = (DataPass*)malloc(sizeof(DataPass) * num_threads);
-            for (int i = 0; i < num_threads; i++) {
-                data_pass[i].len = lines_per_thread;
-                data_pass[i].start = lines_per_thread * i;
-            }
-            data_pass[num_threads - 1].len = lines_last_thread;
-
-            // initialize and set thread detached attribute
-            pthread_attr_init(&attr);
-            pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
-
-            // set the word argument
-            word = argv[2];
-            // create multiple threads
-            for (t = 0; t < num_threads; t++) {
-                rc = pthread_create(&threads[t], &attr, searchWord, (void*)&data_pass[t]);
-                if (rc) {
-                    printf("%s: return code from pthread_create() is %d", argv[0], rc);
-                    return 3;
-                }
-            }
-
-            // join the threads
-            pthread_attr_destroy(&attr);
-            for (t = 0; t < num_threads; t++) {
-                rc = pthread_join(threads[t], &status);
-                if (rc) {
-                    printf("%s: return code from pthread_join() is %d\n", argv[0], rc);
-                    return 3;
-                }
-            }
-
-            // print results, and then free the lines
-            for (int i = 0; i < index_lines.size(); i++) {
-                if (index_lines[i]->line != NULL) {
-                    printf("%s", index_lines[i]->line);
-                    free(index_lines[i]->line);
-                    index_lines[i]->line = NULL;
-                }
-            }
-
+            // close the file
+            fclose(fin);
         } else {
-            // read from standard input, using multiple threads
+            // read from standard input (pipe)
             while ((nread = getline(&line, &len, stdin)) != -1) {
                 IndexLines *temp_il = new IndexLines(num_lines++, line);
                 index_lines.push_back(temp_il);
                 line = NULL;
                 len = 0;
             }
-
-            printf("num_lines: %d\n", num_lines);
         }
 
-        pthread_exit(NULL); // let threads that created to finish execution
+        // calculate number of lines for each thread
+        long lines_per_thread = num_lines / num_threads;
+        if (num_lines % num_threads != 0) lines_per_thread++;
+        long lines_last_thread = num_lines - 
+                                 lines_per_thread * (num_threads - 1);
+
+        // set the data_pass for passing to function in thread
+        DataPass *data_pass = (DataPass*)malloc(sizeof(DataPass) * num_threads);
+        for (int i = 0; i < num_threads; i++) {
+            data_pass[i].len = lines_per_thread;
+            data_pass[i].start = lines_per_thread * i;
+        }
+        // update for the last thread
+        data_pass[num_threads - 1].len = lines_last_thread;
+
+        // initialize and set thread detached attribute
+        pthread_attr_init(&attr);
+        pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+
+        // set the word argument for function in thread
+        word = argv[2];
+
+        // create multiple threads
+        for (t = 0; t < num_threads; t++) {
+            rc = pthread_create(&threads[t], &attr, searchWord, (void*)&data_pass[t]);
+            if (rc) {
+                printf("%s: return code from pthread_create() is %d", argv[0], rc);
+                return 3;
+            }
+        }
+
+        // join the threads
+        pthread_attr_destroy(&attr);
+        for (t = 0; t < num_threads; t++) {
+            rc = pthread_join(threads[t], &status);
+            if (rc) {
+                printf("%s: return code from pthread_join() is %d\n", argv[0], rc);
+                return 3;
+            }
+        }
+
+        // print results, and then free the lines
+        for (int i = 0; i < index_lines.size(); i++) {
+            if (index_lines[i]->line != NULL) {
+                printf("%s", index_lines[i]->line);
+                free(index_lines[i]->line);
+                index_lines[i]->line = NULL;
+            }
+        }
+
+        // let threads that created to finish execution
+        pthread_exit(NULL);
         return 0;
+
     } else {
         // normal mode (with single thread)
-
         if (!checkChar(argv[1])) {
             printf("%s: Invalid input on search word\n", argv[0]);
+            return 1;
+        }
+
+        if (argc == 4) {
+            printf("%s: too many arguments for single thread\n", argv[0]);
+            printf("Try '%s --help (-h)' for more information\n", argv[0]);
             return 1;
         }
 
@@ -237,7 +247,7 @@ int main(int argc, char* argv[]) {
             fclose(fin);
             free(line);
             return 0;
-        } else if (argc == 2) {
+        } else {
             // read from standard input
             while ((nread = getline(&line, &len, stdin)) != -1) {
                 if (strstr(line, argv[1])) {
@@ -247,10 +257,6 @@ int main(int argc, char* argv[]) {
 
             free(line);
             return 0;
-        } else {
-            printf("%s: too many arguments for single thread\n", argv[0]);
-            printf("Try '%s --help (-h)' for more information\n", argv[0]);
-            return 1;
         }
     }
 
