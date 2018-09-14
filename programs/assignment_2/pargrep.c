@@ -119,7 +119,7 @@ int main(int argc, char* argv[]) {
         // convert number of thread to int
         long num_threads_long = atol(str);
         if (num_threads_long > MAX_NUM_THREADS || num_threads_long < 1) {
-            printf("%s: number of threads must be 1 <= t <= 1024\n", argv[0]);
+            printf("%s: number of threads must be 1 <= t <= %d\n", argv[0], MAX_NUM_THREADS);
             return 1;
         }
         int num_threads = (int)num_threads_long;
