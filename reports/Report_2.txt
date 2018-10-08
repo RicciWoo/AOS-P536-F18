@@ -1,0 +1,69 @@
+Design outline:
+
+1. Use getline to read lines from the file
+
+2. Use strstr check if the line contains the word
+
+3. Test on 2 files, each with more 100,000 lines
+
+4. Use getline to read from standard input (pipe)
+
+5. get number of threads to be used from cammand line
+
+Concurrency design:
+
+1. read from the file or standard input (pipe) once
+
+2. split them evenly into number of threads (upper bound)
+
+3. user specify number of threads to be used
+   (I will experiment the best number of threads on silo)
+   (example command: ./pargrep -8 wonderful 1342.txt)
+
+4. also pass the number of the line to threads for indexing
+
+5. when all results return to main(), sorted them by index
+
+Test for the runtime on silo:
+
+1. search in a file (1342.txt) with 13428 lines for word "wonderful"
+
+   single thread: 1736 ms, 
+   4 threads:     5357 ms, 
+   8 threads:     6078 ms,
+   16 threads:    5612 ms,
+   32 threads:    6304 ms,
+   64 threads:    6810 ms,
+   128 threads:   7187 ms
+
+2. search in a file (1342.txt) with 13428 lines for word "you"
+
+   single thread: 5320 ms, 
+   4 threads:     8211 ms, 
+   8 threads:     9372 ms,
+   16 threads:    9862 ms,
+   32 threads:    9810 ms,
+   64 threads:    9661 ms,
+   128 threads:   10869 ms
+
+3. search in a file (98.txt) with 16274 lines for word "wonderful"
+
+   single thread: 2297 ms, 
+   4 threads:     7088 ms, 
+   8 threads:     6811 ms,
+   16 threads:    6940 ms,
+   32 threads:    6599 ms,
+   64 threads:    7658 ms,
+   128 threads:   8087 ms
+
+4. search in a file (98.txt) with 16274 lines for word "you"
+
+   single thread: 4905 ms, 
+   4 threads:     9690 ms, 
+   8 threads:     10044 ms,
+   16 threads:    10266 ms,
+   32 threads:    10053 ms,
+   64 threads:    10207 ms,
+   128 threads:   12556 ms
+
+The performance of multiple threads is not better than that of single thread.
