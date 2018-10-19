@@ -39,7 +39,7 @@ syscall future_get(future_t*, int*);
 syscall future_set(future_t*, int);
  
 uint future_prod(future_t*, int);
-uint future_cons(future_t*, int);
+uint future_cons(future_t*);
 
 struct qnode* newNode(pid32);
 struct qnode *initial_queue();
