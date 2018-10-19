@@ -1,6 +1,9 @@
 #ifndef _FUTURE_H_
 #define _FUTURE_H_  
 
+#define HPID -1
+#define TPID -2
+
 struct qnode{
   pid32 pid;
   struct qnode *qnext;
