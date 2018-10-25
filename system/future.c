@@ -33,22 +33,19 @@ syscall future_free(future_t *f){
 syscall future_get(future_t *f, int *value){
     intmask mask = disable();
     if (f->mode == FUTURE_EXCLUSIVE) {
+        if (f->state == FUTURE_EMPTY) {
+            f->pid = getpid();
+            f->state = FUTURE_WAITING;
+            suspend(f->pid);
+        }
         if (f->state == FUTURE_READY) {
             *value = f->value;
             f->state = FUTURE_EMPTY;
             restore(mask);
             return OK;
         }
-        if (f->state == FUTURE_EMPTY) {
-            f->pid = getpid();
-            f->state = FUTURE_WAITING;
-            suspend(f->pid);
-            *value = f->value;
-            restore(mask);
-            return OK;
-        }
         restore(mask);
-        return OK;
+        return SYSERR;
     } else if (f->mode == FUTURE_SHARED) {
         while (f->state != FUTURE_READY) {
             f->state = FUTURE_WAITING;
@@ -100,7 +97,7 @@ syscall future_set(future_t* f, int value){
             return OK;
         }
         restore(mask);
-        return OK;
+        return SYSERR;
     } else if (f->mode == FUTURE_SHARED) {
         while (is_empty(f->get_queue) == 0) {
             f->state = FUTURE_READY;
