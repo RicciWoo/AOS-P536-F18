@@ -28,18 +28,18 @@ struct qnode *newNode(pid32 pid){
 }
 
 struct qnode *initial_queue(){
-  struct qnode *head;
-  struct qnode *tail;
-  head = newNode((pid32)HPID);
-  tail = newNode((pid32)TPID);
-  head->qprev = NULL;
-  tail->qnext = NULL;
-  head->qnext = tail;
-  tail->qprev = head;
-  return head;
+    struct qnode *head;
+    struct qnode *tail;
+    head = newNode((pid32)HPID);
+    tail = newNode((pid32)TPID);
+    head->qprev = NULL;
+    tail->qnext = NULL;
+    head->qnext = tail;
+    tail->qprev = head;
+    return head;
 }
 
-int is_empty(struct qnode* head){
+int is_empty(struct qnode *head){
     struct qnode *temp = head->qnext;
     if(temp->pid == TPID){
         return 1;
