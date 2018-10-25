@@ -5,6 +5,12 @@
 
 shellcmd xsh_prodcons(int nargs, char *args[]) {
 
+	if (nargs > 3 || nargs < 2) {
+	    fprintf(stderr, "%s: incorrect  arguments\n", args[0]);
+	    fprintf(stderr, "Try '%s -f' with flags e, s, q\n",args[0]);
+	    return 1;
+	}
+
 	future_t *f_exclusive, 
 	         *f_shared, 
 	         *f_queue;
@@ -38,10 +44,6 @@ shellcmd xsh_prodcons(int nargs, char *args[]) {
 		resume( create(future_prod, 1024, 20, "fprod6", 2, f_queue, 6) );
 		return 0;
 	}
-
-	if (nargs > 3 || nargs < 2) {
-	    fprintf(stderr, "%s: incorrect  arguments\n", args[0]);
-	    fprintf(stderr, "Try '%s -f' with flags e, s, q\n",args[0]);
-	    return 1;
-	}
+	
+	return 1;
 }
