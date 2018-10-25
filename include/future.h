@@ -46,8 +46,8 @@ uint future_prod(future_t*, int);
 uint future_cons(future_t*);
 
 struct queue *initial_queue();
-int is_empty(struct qnode *);
-void fenqueue(struct qnode *, pid32);
-pid32 fdequeue(struct qnode *);
+int is_empty(struct queue *);
+void fenqueue(struct queue *, pid32);
+pid32 fdequeue(struct queue *);
 
 #endif /* _FUTURE_H_ */
