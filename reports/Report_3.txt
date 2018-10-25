@@ -1,0 +1,23 @@
+The Futures Interface
+
+1. future_t* future_alloc(future_mode_t mode) - Allocates a new future (in the FUTURE_EMPTY state) with the given mode. We will use the getmem() call to allocate space to new future.
+   Parameters:
+      future_mode_t mode - The mode this future will operate in
+   Returns: future_t - NULL or a pointer to a valid future
+
+2. syscall future_free(future_t* f) - Frees the allocated future. Use the freemem() system call to free the space.
+   Parameters:
+      future_t* f - future to free
+   Returns: syscall - SYSERR or OK
+
+3. syscall future_get(future_t* f, int* value) - Get the value of a future set by an operation and may change the state of future.
+   Parameters:
+      future_t* f - Future on which to wait for and obtain value
+      int* value - Address into which the future's value will be copied.
+   Returns: syscall - SYSERR or OK
+
+3. syscall future_set(future_t* f, int value) - Set a value in a future and may change the state of future.
+   Parameters:
+      future_t* f - Future in which to set the value
+      int value - Result of an operation to be set as value in the future
+   Returns: syscall - SYSERR or OK
