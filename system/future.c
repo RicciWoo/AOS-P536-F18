@@ -34,20 +34,14 @@ syscall future_free(future_t *f){
 syscall future_get(future_t *f, int *value){
     intmask mask = disable();
     if (f->mode == FUTURE_EXCLUSIVE) {
-        while (f->state != FUTURE_READY) {
-            wait(ex);
-            f->pid = getpid();
+        if (f->state != FUTURE_READY) {
             f->state = FUTURE_WAITING;
-            signal(ex);
+            f->pid = getpid();
             suspend(f->pid);
+        } else {
             *value = f->value;
-            restore(mask);
-            return OK;
+            f->state = FUTURE_EMPTY;
         }
-        wait(ex);
-        *value = f->value;
-        f->state = FUTURE_EMPTY;
-        signal(ex);
         restore(mask);
         return OK;
     } else if (f->mode == FUTURE_SHARED) {
@@ -65,18 +59,14 @@ syscall future_get(future_t *f, int *value){
     } else if (f->mode == FUTURE_QUEUE) {
         pid32 pid = getpid();
         if (is_empty(f->set_queue) == 1) {
-            wait(get);
             fenqueue(f->get_queue, pid);
             printf("pid %d", pid);
-            signal(get);
             suspend(pid);
             *value = f->value;
             restore(mask);
             return OK;
         } else {
-            wait(get);
             pid = fdequeue(f->set_queue);
-            signal(get);
             resume(pid);
             restore(mask);
             return OK;
@@ -91,11 +81,9 @@ syscall future_get(future_t *f, int *value){
 syscall future_set(future_t* f, int value){
     intmask mask = disable();
     if (f->mode == FUTURE_EXCLUSIVE) {
-        while (f->state != FUTURE_READY) {
-            wait(ex);
+        if (f->state != FUTURE_READY) {
             f->value = value;
             f->state = FUTURE_READY;
-            signal(ex);
             resume(f->pid);
         }
         restore(mask);
@@ -112,17 +100,13 @@ syscall future_set(future_t* f, int value){
     } else if (f->mode == FUTURE_QUEUE) {
         pid32 pid=getpid();
         if (is_empty(f->get_queue) == 1) {
-            wait(set);
             fenqueue(f->set_queue, pid);
-            signal(set);
             suspend(pid);
             f->value = value;
             restore(mask);
             return OK;
         } else {
-            wait(set);
             pid = fdequeue(f->get_queue);
-            signal(set);
             resume(pid);
             restore(mask);
             return OK;
