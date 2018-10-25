@@ -15,7 +15,7 @@ shellcmd xsh_prodcons(int nargs, char *args[]) {
 
 	if (strncmp(args[2], "e", 20) == 0) {
 		// Test FUTURE_EXCLUSIVE
-		ex = semcreate(2);
+		//ex = semcreate(2);
 		resume( create(future_cons, 1024, 20, "fcons1", 1, f_exclusive) );
 		resume( create(future_prod, 1024, 20, "fprod1", 2, f_exclusive, 1) );
 		return 0;
@@ -29,8 +29,8 @@ shellcmd xsh_prodcons(int nargs, char *args[]) {
 		return 0;
 	} else if(strncmp(args[2], "q", 20) == 0){
 		// Test FUTURE_QUEUE
-		set = semcreate(1);
-		get = semcreate(1);
+		//set = semcreate(1);
+		//get = semcreate(1);
 		resume( create(future_cons, 1024, 20, "fcons6", 1, f_queue) );
 		resume( create(future_cons, 1024, 20, "fcons7", 1, f_queue) );
 		resume( create(future_cons, 1024, 20, "fcons8", 1, f_queue) );
