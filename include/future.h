@@ -5,21 +5,21 @@
 #define TPID -2
 
 struct qnode{
-  pid32 pid;
-  struct qnode *qnext;
-  struct qnode *qprev;
+    pid32 pid;
+    struct qnode *qnext;
+    struct qnode *qprev;
 };
 
 typedef enum {
-  FUTURE_EMPTY,
-  FUTURE_WAITING,
-  FUTURE_READY
+    FUTURE_EMPTY,
+    FUTURE_WAITING,
+    FUTURE_READY
 } future_state_t;
 
 typedef enum {
-  FUTURE_EXCLUSIVE,
-  FUTURE_SHARED,
-  FUTURE_QUEUE
+    FUTURE_EXCLUSIVE,
+    FUTURE_SHARED,
+    FUTURE_QUEUE
 } future_mode_t;
 
 typedef struct {
