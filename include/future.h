@@ -4,10 +4,15 @@
 #define HPID -1
 #define TPID -2
 
-struct qnode{
+struct qnode {
     pid32 pid;
-    struct qnode *qnext;
-    struct qnode *qprev;
+    struct qnode *next;
+    struct qnode *prev;
+};
+
+struct queue {
+    struct qnode *head;
+    struct qnode *tail;
 };
 
 typedef enum {
@@ -27,8 +32,8 @@ typedef struct {
     future_state_t state;
     future_mode_t mode;
     pid32 pid;
-    struct qnode* set_queue;
-    struct qnode* get_queue;
+    struct queue *set_queue;
+    struct queue *get_queue;
 } future_t;
 
 /* Interface for the Futures system calls */
@@ -40,8 +45,7 @@ syscall future_set(future_t *, int);
 uint future_prod(future_t*, int);
 uint future_cons(future_t*);
 
-struct qnode *newNode(pid32);
-struct qnode *initial_queue();
+struct queue *initial_queue();
 int is_empty(struct qnode *);
 void fenqueue(struct qnode *, pid32);
 pid32 fdequeue(struct qnode *);

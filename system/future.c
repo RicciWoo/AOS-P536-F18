@@ -25,8 +25,7 @@ future_t *future_alloc(future_mode_t mode){
 
 // Frees the allocated future. Use the freemem() system call to free the space.
 syscall future_free(future_t *f){
-    char *blkaddr = (char *)f;
-    freemem(blkaddr, (uint32)sizeof(f));
+    freemem((char *)f, (uint32)sizeof(f));
     return OK;
 }
 
@@ -34,13 +33,16 @@ syscall future_free(future_t *f){
 syscall future_get(future_t *f, int *value){
     intmask mask = disable();
     if (f->mode == FUTURE_EXCLUSIVE) {
-        if (f->state != FUTURE_READY) {
-            f->state = FUTURE_WAITING;
-            f->pid = getpid();
-            suspend(f->pid);
-        } else {
+        if (f->state == FUTURE_READY) {
             *value = f->value;
             f->state = FUTURE_EMPTY;
+            restore(mask);
+            return OK;
+        }
+        if (f->state == FUTURE_EMPTY) {
+            f->pid = getpid();
+            f->state = FUTURE_WAITING;
+            suspend(f->pid);
         }
         restore(mask);
         return OK;
@@ -81,10 +83,18 @@ syscall future_get(future_t *f, int *value){
 syscall future_set(future_t* f, int value){
     intmask mask = disable();
     if (f->mode == FUTURE_EXCLUSIVE) {
-        if (f->state != FUTURE_READY) {
+        if (f->state == FUTURE_EMPTY) {
             f->value = value;
             f->state = FUTURE_READY;
+            restore(mask);
+            return OK;
+        }
+        if (f->state != FUTURE_WAITING) {
+            f->state = FUTURE_READY;
+            f->value = value;
             resume(f->pid);
+            restore(mask);
+            return OK;
         }
         restore(mask);
         return OK;
