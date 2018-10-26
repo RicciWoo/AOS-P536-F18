@@ -53,6 +53,7 @@ int is_empty(struct queue *q) {
 }
 
 void fenqueue(struct queue *q, pid32 pid) {
+    printf("enqueue, pid: %d, head: %d, tail: %d\n", pid, q->head, q->tail);
     struct qnode *node = newNode(pid);
     node->next = NULL;
     node->prev = q->tail;
