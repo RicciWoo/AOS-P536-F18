@@ -66,9 +66,11 @@ syscall future_get(future_t *f, int *value){
             pid32 pid = fdequeue(f->set_queue);
             resume(pid);
         }
-        pid32 pid = getpid();
-        fenqueue(f->get_queue, pid);
-        suspend(pid);
+        if (f->state == FUTURE_EMPTY) {
+            pid32 pid = getpid();
+            fenqueue(f->get_queue, pid);
+            suspend(pid);
+        }
         *value = f->value;
         f->state = FUTURE_EMPTY;
         restore(mask);
