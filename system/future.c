@@ -69,12 +69,9 @@ syscall future_get(future_t *f, int *value){
             pid32 pid = getpid();
             fenqueue(f->get_queue, pid);
             suspend(pid);
+            *value = f->value;
+            f->state = FUTURE_EMPTY;
         }
-        // while (f->state != FUTURE_READY) {
-        //     continue; // wait until f->state == FUTURE_READY
-        // }
-        *value = f->value;
-        f->state = FUTURE_EMPTY;
         restore(mask);
         return OK;
     } else {    
@@ -127,17 +124,15 @@ syscall future_set(future_t* f, int value){
         restore(mask);
         return SYSERR;
     } else if (f->mode == FUTURE_QUEUE) {
-        // enqueue itself if state is ready or set_queue is empty
-        if (f->state == FUTURE_READY || is_empty(f->set_queue) == 1) {
+        if (is_empty(f->get_queue) == 1) {
             pid32 pid = getpid();
             fenqueue(f->set_queue, pid);
             suspend(pid);
         }
-        // set_queue is not empty or resumed by get process
         f->value = value;
+        f->state = FUTURE_READY;
         pid32 pid = fdequeue(f->get_queue);
         resume(pid);
-        f->state = FUTURE_READY;
         restore(mask);
         return OK;
     } else {   
