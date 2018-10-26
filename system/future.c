@@ -25,7 +25,7 @@ future_t *future_alloc(future_mode_t mode){
 
 // Frees the allocated future. Use the freemem() system call to free the space.
 syscall future_free(future_t *f){
-    freemem((char *)f, (uint32)sizeof(f));
+    freemem((char *)f, (uint32)sizeof(future_t));
     return OK;
 }
 
