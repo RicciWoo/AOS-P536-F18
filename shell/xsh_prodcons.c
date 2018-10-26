@@ -27,7 +27,7 @@ shellcmd xsh_prodcons(int nargs, char *args[]) {
 		resume( create(future_cons, 1024, 20, "fcons4", 1, f_shared) ); 
 		resume( create(future_cons, 1024, 20, "fcons5", 1, f_shared) );
 		resume( create(future_prod, 1024, 20, "fprod2", 2, f_shared, 2) );
-		resume( create(future_prod, 1024, 20, "fprod2", 2, f_shared, 2) );
+		resume( create(future_prod, 1024, 20, "fprod2", 2, f_shared, 8) );
 		return 0;
 	} else if(strncmp(args[2], "q", 20) == 0){
 		// Test FUTURE_QUEUE
