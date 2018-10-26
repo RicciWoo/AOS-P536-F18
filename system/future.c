@@ -56,7 +56,6 @@ syscall future_get(future_t *f, int *value){
             suspend(pid); // suspend the process
         }
         *value = f->value; // get value when the process get resumed
-        printf("process %d resumed, get value: %d\n", getpid(), *value);
         if (is_empty(f->get_queue) == 1) {
             f->state = FUTURE_EMPTY;
         }
@@ -117,7 +116,6 @@ syscall future_set(future_t* f, int value){
             // resume all processes in get_queue
             while (is_empty(f->get_queue) == 0) {
                 pid32 pid = fdequeue(f->get_queue);
-                printf("resumed process %d\n", pid);
                 resume(pid);
             }
             restore(mask);
@@ -145,4 +143,60 @@ syscall future_set(future_t* f, int value){
         restore(mask);
         return SYSERR;
     }
+}
+
+qnode_t *newNode(pid32 pid) {
+    qnode_t *new_node = (qnode_t *)getmem(sizeof(qnode_t));
+    new_node->pid = pid;
+    new_node->next = NULL;
+    new_node->prev = NULL;
+    return new_node;
+}
+
+void freeNode(qnode_t *node) {
+    freemem((char *)node, (uint32)sizeof(qnode_t));
+}
+
+queue_t *initial_queue() {
+    queue_t *q = (queue_t *)getmem(sizeof(queue_t));
+    q->head = NULL;
+    q->tail = NULL;
+    return q;
+}
+
+int is_empty(queue_t *q) {
+    if (q->head == NULL) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+void fenqueue(queue_t *q, pid32 pid) {
+    qnode_t *node = newNode(pid);
+    node->next = NULL;
+    node->prev = q->tail;
+    if (q->tail != NULL) {
+        qnode_t *temp = q->tail;
+        temp->next = node;
+    }
+    q->tail = node;
+    if (q->head == NULL) {
+        q->head = node;
+    }
+}
+
+pid32 fdequeue(queue_t *q) {
+    qnode_t *node = q->head;
+    pid32 pid = node->pid;
+    q->head = node->next;
+    if (q->head != NULL) {
+        qnode_t *temp = q->head;
+        temp->prev = NULL;
+    }
+    if (q->head == NULL) {
+        q->tail = NULL;
+    }
+    freeNode(node);
+    return pid;
 }
