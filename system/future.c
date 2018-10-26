@@ -103,16 +103,10 @@ syscall future_set(future_t* f, int value){
         restore(mask);
         return SYSERR;
     } else if (f->mode == FUTURE_SHARED) {
-        if (f->state == FUTURE_EMPTY) {
+        if (f->state != FUTURE_READY) {
             f->value = value;
             f->state = FUTURE_READY;
-            restore(mask);
-            return OK;
-        }
-        if (f->state == FUTURE_WAITING) {
-            f->value = value;
-            f->state = FUTURE_READY;
-            // resume all processes in get_queue
+            // resume all processes in get_queue if exist
             while (is_empty(f->get_queue) == 0) {
                 pid32 pid = fdequeue(f->get_queue);
                 resume(pid);
