@@ -56,6 +56,7 @@ syscall future_get(future_t *f, int *value){
             suspend(pid); // suspend the process
         }
         *value = f->value; // get value when the process get resumed
+        printf("process %d resumed, get value: %d\n", pid, *value);
         if (is_empty(f->get_queue) == 1) {
             f->state = FUTURE_EMPTY;
         }
