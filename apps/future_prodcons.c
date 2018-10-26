@@ -6,9 +6,9 @@
 
 uint future_prod(future_t *fut, int n) {
     printf("Produced %d\n", n);
-    printf("before future_set, head: %d\n", fut->get_queue->head);
+    printf("before future_set, tail: %d\n", fut->get_queue->tail);
     future_set(fut, n);
-    printf("after future_set, head: %d\n", fut->get_queue->head);
+    printf("after future_set, tail: %d\n", fut->get_queue->tail);
     return OK;
 }
 
