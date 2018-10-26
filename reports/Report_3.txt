@@ -1,23 +1,29 @@
 The Futures Interface
 
-1. future_t* future_alloc(future_mode_t mode) - Allocates a new future (in the FUTURE_EMPTY state) with the given mode. We will use the getmem() call to allocate space to new future.
-   Parameters:
-      future_mode_t mode - The mode this future will operate in
-   Returns: future_t - NULL or a pointer to a valid future
+1. implementation of FUTURE_EXCLUSIVE
 
-2. syscall future_free(future_t* f) - Frees the allocated future. Use the freemem() system call to free the space.
-   Parameters:
-      future_t* f - future to free
-   Returns: syscall - SYSERR or OK
+Only allow one future_set process and one future_get process. 
+I use FUTURE_EMPTY, FUTURE_WAITING, and FUTURE_READY to indicate status, initialized as FUTURE_EMPTY. 
+FUTURE_EMPTY means the future is empty, allowing future_set to set the value. In this status, future_get will save the pid in the future and then suspend itself. 
+FUTURE_WAITING (set by the first future_get process) means there is one future_get process is waiting for the future value, also alowing future_set to set the future value. However, in this status, other future_get process is not allowed to wait the same future.
+FUTURE_READY (set by the first future_set process when set the value) means there is one future_set process has set the future value, allowing future_get to get the value. In this status, other future_set is not allowed to try to set the same future.
+In this way, the future acts in an exclusive way.
 
-3. syscall future_get(future_t* f, int* value) - Get the value of a future set by an operation and may change the state of future.
-   Parameters:
-      future_t* f - Future on which to wait for and obtain value
-      int* value - Address into which the future's value will be copied.
-   Returns: syscall - SYSERR or OK
+2. implementation of FUTURE_SHARED
 
-3. syscall future_set(future_t* f, int value) - Set a value in a future and may change the state of future.
-   Parameters:
-      future_t* f - Future in which to set the value
-      int value - Result of an operation to be set as value in the future
-   Returns: syscall - SYSERR or OK
+In this mode, it allows only one future_set process to set the future value, and multiple future_get processes to get the value from the future.
+I use FUTURE_EMPTY, FUTURE_WAITING, and FUTURE_READY to differentiate the status. And I implement a get_queue to store the pid of future_get processes, as to order the process as a FIFO manner.
+FUTURE_EMPTY, initialized by initial_queue(), means the future is empty. The future_get will set this status if the get_queue becomes empty.
+FUTURE_WAITING, set by future_get if the future is not ready, means there are processes waiting for the future.
+FUTURE_READY, set by the future_set after it set the value, means the future is set, and allowing future_get process to take the value.
+In future_set, if the status is not FUTURE_READY, it sets the value and changes the status as FUTURE_READY. Then dequeue all processes in get_queue and resume them. However, if the status is already FUTURE_READY, it is not allowed to future_set again, this throw an error.
+In future_get, if the status is not FUTURE_READY, it sets the status as FUTURE_WAITING, enqueue itself into get_queue and suspend itself. If the status is FUTURE_READY or the process gets resumed, it gets the value from the future, and if the get_queue is empty, then it sets the status to FUTURE_EMPTY. 
+In this way, the future acts as one-many relation, only one future_set with multiple future_get processes.
+
+3. implementation of FUTURE_QUEUE 
+
+In this mode, it allows multiple future_set and future_get processes.
+I implemented two queues -- set_queue and get_queue to make each group of processes to act as a FIFO manner.
+In future_set, if the get_queue is empty, enqueue itself into set_queue and suspend itself. If get_queue is not empty or it gets resumed, it sets the value into future and sets the status as FUTURE_READY. Then dequeues one process from get_queue and resume it.
+In future_get, if set_queue is not empty, it dequeues one process from set_queue and resume it. Then I use the status to differentiate two different situation. If the status is FUTURE_EMPTY, it means this process is a new process, it never enqueue into get_queue. Then I enqueue it into get_queue and suspend it. If the status is FUTURE_READY (not FUTURE_EMPTY), it means this process is just dequeued and resumed, it should not be enqueued again. And then it can get the value from the future and set the status as FUTURE_EMPTY.
+In this way, the future acts as a many-to-many manner, it means allowing multiple future_set and future_get processes to set and get the value from the future.
