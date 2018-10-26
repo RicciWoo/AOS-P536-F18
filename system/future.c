@@ -70,9 +70,9 @@ syscall future_get(future_t *f, int *value){
             fenqueue(f->get_queue, pid);
             suspend(pid);
         }
-        while (f->state != FUTURE_READY) {
-            continue; // wait until f->state == FUTURE_READY
-        }
+        // while (f->state != FUTURE_READY) {
+        //     continue; // wait until f->state == FUTURE_READY
+        // }
         *value = f->value;
         f->state = FUTURE_EMPTY;
         restore(mask);
