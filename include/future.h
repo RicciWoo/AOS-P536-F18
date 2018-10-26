@@ -4,10 +4,10 @@
 #define HPID -1
 #define TPID -2
 
-typedef struct {
+typedef struct qnode {
     pid32 pid;
-    qnode_t *next;
-    qnode_t *prev;
+    struct qnode *next;
+    struct qnode *prev;
 } qnode_t;
 
 typedef struct {
