@@ -49,21 +49,16 @@ syscall future_get(future_t *f, int *value){
         restore(mask);
         return SYSERR;
     } else if (f->mode == FUTURE_SHARED) {
-        if (f->state == FUTURE_READY) {
-            *value = f->value;
-            f->state = FUTURE_EMPTY;
-            restore(mask);
-            return OK;
+        if (f->state != FUTURE_READY) {
+            f->state = FUTURE_WAITING;
+            pid32 pid = getpid();
+            fenqueue(f->get_queue, pid); // enqueue the process
+            suspend(pid); // suspend the process
         }
-        // the state of the future is EMPTY or WAIT
-        f->state = FUTURE_WAITING;
-        pid32 pid = getpid();
-        fenqueue(f->get_queue, pid); // enqueue the process
-        suspend(pid); // suspend the process
         *value = f->value; // get value when the process get resumed
-        //if (is_empty(f->get_queue) == 1) {
+        if (is_empty(f->get_queue) == 1) {
             f->state = FUTURE_EMPTY;
-        //}
+        }
         restore(mask);
         return OK;
     } else if (f->mode == FUTURE_QUEUE) {
