@@ -16,6 +16,8 @@ shellcmd xsh_prodcons(int nargs, char *args[]) {
 	if (strncmp(args[2], "e", 20) == 0) {
 		// Test FUTURE_EXCLUSIVE
 		resume( create(future_cons, 1024, 20, "fcons1", 1, f_exclusive) );
+		resume( create(future_cons, 1024, 20, "fcons1", 1, f_exclusive) );
+		resume( create(future_prod, 1024, 20, "fprod1", 2, f_exclusive, 1) );
 		resume( create(future_prod, 1024, 20, "fprod1", 2, f_exclusive, 1) );
 		return 0;
 	} else if(strncmp(args[2], "s", 20) == 0){
@@ -24,6 +26,7 @@ shellcmd xsh_prodcons(int nargs, char *args[]) {
 		resume( create(future_cons, 1024, 20, "fcons3", 1, f_shared) );
 		resume( create(future_cons, 1024, 20, "fcons4", 1, f_shared) ); 
 		resume( create(future_cons, 1024, 20, "fcons5", 1, f_shared) );
+		resume( create(future_prod, 1024, 20, "fprod2", 2, f_shared, 2) );
 		resume( create(future_prod, 1024, 20, "fprod2", 2, f_shared, 2) );
 		return 0;
 	} else if(strncmp(args[2], "q", 20) == 0){
