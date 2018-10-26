@@ -65,9 +65,9 @@ void fenqueue(struct queue *q, pid32 pid) {
 }
 
 pid32 fdequeue(struct queue *q) {
-    pid32 pid = q->head->pid;
-    struct qnode *temp = q->head;
-    q->head = q->head->next;
+    struct qnode *node = q->head;
+    pid32 pid = node->pid;
+    q->head = node->next;
     if (q->head != NULL) {
         q->head->prev = NULL;
     }
