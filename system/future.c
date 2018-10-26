@@ -127,11 +127,13 @@ syscall future_set(future_t* f, int value){
         restore(mask);
         return SYSERR;
     } else if (f->mode == FUTURE_QUEUE) {
-        if (is_empty(f->set_queue) == 1) {
+        // enqueue itself if state is ready or set_queue is empty
+        if (f->state == FUTURE_READY || is_empty(f->set_queue) == 1) {
             pid32 pid = getpid();
             fenqueue(f->set_queue, pid);
             suspend(pid);
         }
+        // set_queue is not empty or resumed by get process
         f->value = value;
         pid32 pid = fdequeue(f->get_queue);
         resume(pid);
