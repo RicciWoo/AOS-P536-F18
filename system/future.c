@@ -8,7 +8,7 @@
 future_t *future_alloc(future_mode_t mode){
     intmask mask = disable();
     future_t *myfuture;
-    char *addr = getmem(sizeof(myfuture));
+    char *addr = getmem(sizeof(future_t));
     if (addr != (char *)SYSERR) {
         myfuture = (future_t *)addr;
         myfuture->state = FUTURE_EMPTY;

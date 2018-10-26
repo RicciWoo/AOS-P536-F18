@@ -69,9 +69,9 @@ void fenqueue(queue_t *q, pid32 pid) {
 }
 
 pid32 fdequeue(queue_t *q) {
-    printf("dequeue, pid: %d, head: %d, tail: %d\n", pid, q->head, q->tail);
     qnode_t *node = q->head;
     pid32 pid = node->pid;
+    printf("dequeue, pid: %d, head: %d, tail: %d\n", pid, q->head, q->tail);
     q->head = node->next;
     if (q->head != NULL) {
         qnode_t *temp = q->head;
