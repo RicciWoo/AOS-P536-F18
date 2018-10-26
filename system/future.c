@@ -61,9 +61,9 @@ syscall future_get(future_t *f, int *value){
         fenqueue(f->get_queue, pid); // enqueue the process
         suspend(pid); // suspend the process
         *value = f->value; // get value when the process get resumed
-        if (is_empty(f->get_queue) == 1) {
+        //if (is_empty(f->get_queue) == 1) {
             f->state = FUTURE_EMPTY;
-        }
+        //}
         restore(mask);
         return OK;
     } else if (f->mode == FUTURE_QUEUE) {
