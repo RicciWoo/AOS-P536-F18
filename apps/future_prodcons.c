@@ -8,7 +8,7 @@ uint future_prod(future_t *fut, int n) {
     printf("Produced %d\n", n);
     printf("before future_set, is_empty: %d\n", is_empty(fut->get_queue));
     future_set(fut, n);
-    printf("before future_set, is_empty: %d\n", is_empty(fut->get_queue));
+    printf("after future_set, is_empty: %d\n", is_empty(fut->get_queue));
     return OK;
 }
 
