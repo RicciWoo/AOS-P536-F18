@@ -58,7 +58,8 @@ void fenqueue(struct queue *q, pid32 pid) {
     node->next = NULL;
     node->prev = q->tail;
     if (q->tail != NULL) {
-        q->tail->next = node;
+        struct qnode *temp = q->tail;
+        temp->next = node;
     }
     q->tail = node;
     if (q->head == NULL) {
@@ -70,19 +71,16 @@ void fenqueue(struct queue *q, pid32 pid) {
 pid32 fdequeue(struct queue *q) {
     struct qnode *node = q->head;
     pid32 pid = node->pid;
-    printf("dequeue, pid: %d\n", pid);
-    printf("dequeue, head: %d\n", q->head);
-    printf("dequeue, tail: %d\n", q->tail);
+    printf("dequeue, pid: %d, head: %d, tail: %d\n", pid, q->head, q->tail);
     q->head = node->next;
     if (q->head != NULL) {
-        q->head->prev = NULL;
+        struct qnode *temp = q->head;
+        temp->prev = NULL;
     }
     if (q->head == NULL) {
         q->tail = NULL;
     }
     freeNode(node);
-    printf("dequeue, pid: %d\n", pid);
-    printf("dequeue, head: %d\n", q->head);
-    printf("dequeue, tail: %d\n", q->tail);
+    printf("dequeue, pid: %d, head: %d, tail: %d\n", pid, q->head, q->tail);
     return pid;
 }
