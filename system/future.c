@@ -129,7 +129,7 @@ syscall future_set(future_t* f, int value){
     } else if (f->mode == FUTURE_QUEUE) {
         if (is_empty(f->set_queue) == 1) {
             pid32 pid = getpid();
-            fenqueue(set_queue, pid);
+            fenqueue(f->set_queue, pid);
             suspend(pid);
         }
         f->value = value;
