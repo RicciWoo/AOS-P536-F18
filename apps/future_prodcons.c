@@ -26,7 +26,7 @@ uint future_cons(future_t *fut) {
 }
 
 qnode_t *newNode(pid32 pid) {
-    struct qnode *new_node = (struct qnode *)getmem(sizeof(qnode_t));
+    qnode_t *new_node = (qnode_t *)getmem(sizeof(qnode_t));
     new_node->pid = pid;
     new_node->next = NULL;
     new_node->prev = NULL;
