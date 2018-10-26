@@ -112,13 +112,13 @@ syscall future_set(future_t* f, int value){
             return OK;
         }
         if (f->state == FUTURE_WAITING) {
-            f->state = FUTURE_READY;
             f->value = value;
+            f->state = FUTURE_READY;
             // resume all processes in get_queue
             while (is_empty(f->get_queue) == 0) {
                 pid32 pid = fdequeue(f->get_queue);
-                resume(pid);
                 printf("resumed process %d\n", pid);
+                resume(pid);
             }
             restore(mask);
             return OK;
