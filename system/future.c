@@ -62,20 +62,21 @@ syscall future_get(future_t *f, int *value){
         restore(mask);
         return OK;
     } else if (f->mode == FUTURE_QUEUE) {
-        pid32 pid = getpid();
-        if (is_empty(f->set_queue) == 1) {
-            fenqueue(f->get_queue, pid);
-            printf("pid %d", pid);
-            suspend(pid);
-            *value = f->value;
-            restore(mask);
-            return OK;
-        } else {
-            pid = fdequeue(f->set_queue);
+        if (is_empty(f->set_queue) == 0) {
+            pid32 pid = fdequeue(f->set_queue);
             resume(pid);
-            restore(mask);
-            return OK;
+        } else {
+            pid32 pid = getpid();
+            fenqueue(f->get_queue, pid);
+            suspend(pid);
         }
+        while (f->state != FUTURE_READY) {
+            continue; // wait until f->state == FUTURE_READY
+        }
+        *value = f->value;
+        f->state = FUTURE_EMPTY;
+        restore(mask);
+        return OK;
     } else {    
         restore(mask);
         return SYSERR;
@@ -126,19 +127,17 @@ syscall future_set(future_t* f, int value){
         restore(mask);
         return SYSERR;
     } else if (f->mode == FUTURE_QUEUE) {
-        pid32 pid=getpid();
-        if (is_empty(f->get_queue) == 1) {
-            fenqueue(f->set_queue, pid);
+        if (is_empty(f->set_queue) == 1) {
+            pid32 pid = getpid();
+            fenqueue(set_queue, pid);
             suspend(pid);
-            f->value = value;
-            restore(mask);
-            return OK;
-        } else {
-            pid = fdequeue(f->get_queue);
-            resume(pid);
-            restore(mask);
-            return OK;
         }
+        f->value = value;
+        pid32 pid = fdequeue(f->get_queue);
+        resume(pid);
+        f->state = FUTURE_READY;
+        restore(mask);
+        return OK;
     } else {   
         restore(mask);
         return SYSERR;
