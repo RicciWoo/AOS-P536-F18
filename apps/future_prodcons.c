@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 uint future_prod(future_t *fut, int n) {
     // printf("Try Produce %d\n", n);
     printf("Produced %d\n", n);

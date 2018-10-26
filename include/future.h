@@ -1,9 +1,6 @@
 #ifndef _FUTURE_H_
 #define _FUTURE_H_  
 
-#define HPID -1
-#define TPID -2
-
 typedef struct qnode {
     pid32 pid;
     struct qnode *next;
@@ -41,13 +38,13 @@ future_t *future_alloc(future_mode_t mode);
 syscall future_free(future_t *);
 syscall future_get(future_t *, int *);
 syscall future_set(future_t *, int);
- 
-uint future_prod(future_t*, int);
-uint future_cons(future_t*);
 
 queue_t *initial_queue();
 int is_empty(queue_t *);
 void fenqueue(queue_t *, pid32);
 pid32 fdequeue(queue_t *);
+
+uint future_prod(future_t*, int);
+uint future_cons(future_t*);
 
 #endif /* _FUTURE_H_ */
