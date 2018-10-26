@@ -5,8 +5,14 @@
 
 
 uint future_prod(future_t *fut, int n) {
+    printf("Try Produce %d\n", n);
+    int status;
+    status = future_set(fut, n);
+    if (status == SYSERR) {
+        printf("future_set failed\n");
+        return SYSERR;
+    }
     printf("Produced %d\n", n);
-    future_set(fut, n);
     return OK;
 }
 
