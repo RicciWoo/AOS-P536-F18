@@ -52,6 +52,9 @@ void fenqueue(struct queue *q, pid32 pid) {
     node->prev = q->tail;
     q->tail->next = node;
     q->tail = node;
+    if (is_empty(q)) {
+        q->head = node;
+    }
 }
 
 pid32 fdequeue(struct queue *q) {
