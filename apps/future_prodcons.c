@@ -12,9 +12,9 @@ uint future_prod(future_t *fut, int n) {
 
 uint future_cons(future_t *fut) {
     int i, status;
-    printf("before future_get, is_empty: %d\n", is_empty(fut->get_queue));
+    printf("before future_get, head: %d\n", fut->get_queue->head);
     status = (int)future_get(fut, &i);
-    printf("after future_get, is_empty: %d\n", is_empty(fut->get_queue));
+    printf("after future_get, head: %d\n", fut->get_queue->head);
     if (status < 1) {
         printf("future_get failed\n");
         return -1;
