@@ -15,7 +15,7 @@ shellcmd xsh_prodcons(int nargs, char *args[]) {
 
 	if (strncmp(args[2], "e", 20) == 0) {
 		// Test FUTURE_EXCLUSIVE
-		resume( create(future_prod, 1024, 20, "fprod9", 2, f_exclusive, 9) );
+		// resume( create(future_prod, 1024, 20, "fprod9", 2, f_exclusive, 9) );
 		resume( create(future_cons, 1024, 20, "fcons1", 1, f_exclusive) );
 		// resume( create(future_cons, 1024, 20, "fcons0", 1, f_exclusive) );
 		resume( create(future_prod, 1024, 20, "fprod1", 2, f_exclusive, 1) );
@@ -23,7 +23,7 @@ shellcmd xsh_prodcons(int nargs, char *args[]) {
 		return 0;
 	} else if(strncmp(args[2], "s", 20) == 0){
 		// Test FUTURE_SHARED
-		resume( create(future_prod, 1024, 20, "fprod8", 2, f_shared, 8) );
+		// resume( create(future_prod, 1024, 20, "fprod8", 2, f_shared, 8) );
 		resume( create(future_cons, 1024, 20, "fcons2", 1, f_shared) );
 		resume( create(future_cons, 1024, 20, "fcons3", 1, f_shared) );
 		resume( create(future_cons, 1024, 20, "fcons4", 1, f_shared) ); 
@@ -33,7 +33,7 @@ shellcmd xsh_prodcons(int nargs, char *args[]) {
 		return 0;
 	} else if(strncmp(args[2], "q", 20) == 0){
 		// Test FUTURE_QUEUE
-		resume( create(future_prod, 1024, 20, "fprod7", 2, f_queue, 7) );
+		// resume( create(future_prod, 1024, 20, "fprod7", 2, f_queue, 7) );
 		resume( create(future_cons, 1024, 20, "fcons6", 1, f_queue) );
 		resume( create(future_cons, 1024, 20, "fcons7", 1, f_queue) );
 		resume( create(future_cons, 1024, 20, "fcons8", 1, f_queue) );
