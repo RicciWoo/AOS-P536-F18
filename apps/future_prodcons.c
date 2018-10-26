@@ -25,26 +25,26 @@ uint future_cons(future_t *fut) {
     return OK;
 }
 
-struct qnode *newNode(pid32 pid) {
-    struct qnode *new_node = (struct qnode *)getmem(sizeof(struct qnode));
+qnode_t *newNode(pid32 pid) {
+    struct qnode *new_node = (struct qnode *)getmem(sizeof(qnode_t));
     new_node->pid = pid;
     new_node->next = NULL;
     new_node->prev = NULL;
     return new_node;
 }
 
-void freeNode(struct qnode *node) {
-    freemem((char *)node, (uint32)sizeof(struct qnode));
+void freeNode(qnode_t *node) {
+    freemem((char *)node, (uint32)sizeof(qnode_t));
 }
 
-struct queue *initial_queue() {
-    struct queue *q = (struct queue *)getmem(sizeof(struct queue));
+queue_t *initial_queue() {
+    queue_t *q = (queue_t *)getmem(sizeof(queue_t));
     q->head = NULL;
     q->tail = NULL;
     return q;
 }
 
-int is_empty(struct queue *q) {
+int is_empty(queue_t *q) {
     if (q->head == NULL) {
         return 1;
     } else {
@@ -52,13 +52,13 @@ int is_empty(struct queue *q) {
     }
 }
 
-void fenqueue(struct queue *q, pid32 pid) {
+void fenqueue(queue_t *q, pid32 pid) {
     printf("enqueue, pid: %d, head: %d, tail: %d\n", pid, q->head, q->tail);
-    struct qnode *node = newNode(pid);
+    qnode_t *node = newNode(pid);
     node->next = NULL;
     node->prev = q->tail;
     if (q->tail != NULL) {
-        struct qnode *temp = q->tail;
+        qnode_t *temp = q->tail;
         temp->next = node;
     }
     q->tail = node;
@@ -68,13 +68,13 @@ void fenqueue(struct queue *q, pid32 pid) {
     printf("enqueue, pid: %d, head: %d, tail: %d\n", pid, q->head, q->tail);
 }
 
-pid32 fdequeue(struct queue *q) {
-    struct qnode *node = q->head;
+pid32 fdequeue(queue_t *q) {
+    qnode_t *node = q->head;
     pid32 pid = node->pid;
     printf("dequeue, pid: %d, head: %d, tail: %d\n", pid, q->head, q->tail);
     q->head = node->next;
     if (q->head != NULL) {
-        struct qnode *temp = q->head;
+        qnode_t *temp = q->head;
         temp->prev = NULL;
     }
     if (q->head == NULL) {
