@@ -59,8 +59,6 @@ syscall future_get(future_t *f, int *value){
         if (is_empty(f->get_queue) == 1) {
             f->state = FUTURE_EMPTY;
         }
-        // only allow one future_get process to wait for the future
-        // already exists one, not allows others wait for the same future
         restore(mask);
         return OK;
     } else if (f->mode == FUTURE_QUEUE) {
