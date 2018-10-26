@@ -70,6 +70,9 @@ pid32 fdequeue(struct queue *q) {
     if (q->head != NULL) {
         q->head->prev = NULL;
     }
+    if (q->head == NULL) {
+        q->tail = NULL;
+    }
     freeNode(temp);
     return pid;
 }
