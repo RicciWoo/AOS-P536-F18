@@ -118,6 +118,7 @@ syscall future_set(future_t* f, int value){
             while (is_empty(f->get_queue) == 0) {
                 pid32 pid = fdequeue(f->get_queue);
                 resume(pid);
+                printf("resumed process %d\n", pid);
             }
             restore(mask);
             return OK;
