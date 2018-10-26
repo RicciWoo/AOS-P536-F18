@@ -74,7 +74,7 @@ pid32 fdequeue(struct queue *q) {
     if (q->head == NULL) {
         q->tail = NULL;
     }
-    freeNode(temp);
+    freeNode(node);
     printf("dequeue, pid: %d, head: %d, tail: %d\n", pid, q->head, q->tail);
     return pid;
 }
