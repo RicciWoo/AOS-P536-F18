@@ -9,7 +9,7 @@ uint future_prod(future_t *fut, int n) {
     int status;
     status = future_set(fut, n);
     if (status == SYSERR) {
-        printf("future_set failed\n");
+        printf("future_set %d failed\n", n);
         return SYSERR;
     }
     printf("Produced %d\n", n);
