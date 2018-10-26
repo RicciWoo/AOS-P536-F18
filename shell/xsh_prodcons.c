@@ -18,7 +18,7 @@ shellcmd xsh_prodcons(int nargs, char *args[]) {
 		resume( create(future_cons, 1024, 20, "fcons1", 1, f_exclusive) );
 		resume( create(future_cons, 1024, 20, "fcons1", 1, f_exclusive) );
 		resume( create(future_prod, 1024, 20, "fprod1", 2, f_exclusive, 1) );
-		resume( create(future_prod, 1024, 20, "fprod1", 2, f_exclusive, 1) );
+		resume( create(future_prod, 1024, 20, "fprod1", 2, f_exclusive, 9) );
 		return 0;
 	} else if(strncmp(args[2], "s", 20) == 0){
 		// Test FUTURE_SHARED
