@@ -34,28 +34,36 @@ syscall future_get(future_t *f, int *value){
     intmask mask = disable();
     if (f->mode == FUTURE_EXCLUSIVE) {
         if (f->state == FUTURE_EMPTY) {
-            f->pid = getpid();
+            f->pid = getpid(); // save pid of the waiting process
             f->state = FUTURE_WAITING;
-            suspend(f->pid);
+            suspend(f->pid); // suspend the only one process
         }
+        if (f->state == FUTURE_READY) {
+            *value = f->value; // get value when the process get resumed
+            f->state = FUTURE_EMPTY;
+            restore(mask);
+            return OK;
+        }
+        // there exists one process waiting for the future
+        // do not allow other process to wait for the future
+        restore(mask);
+        return SYSERR;
+    } else if (f->mode == FUTURE_SHARED) {
         if (f->state == FUTURE_READY) {
             *value = f->value;
             f->state = FUTURE_EMPTY;
             restore(mask);
             return OK;
         }
-        restore(mask);
-        return SYSERR;
-    } else if (f->mode == FUTURE_SHARED) {
-        while (f->state != FUTURE_READY) {
-            f->state = FUTURE_WAITING;
-            f->pid = getpid();
-            fenqueue(f->get_queue, f->pid);
-            suspend(f->pid);
-            *value = f->value;
+        // the state of the future is EMPTY or WAIT
+        f->state = FUTURE_WAITING;
+        pid32 pid = getpid();
+        fenqueue(get_queue, pid); // enqueue the process
+        suspend(pid); // suspend the process
+        *value = f->value; // get value when the process get resumed
+        if (is_empty(get_queue) == 1) {
+            f->state = FUTURE_EMPTY;
         }
-        *value = f->value;
-        future_free(f);
         restore(mask);
         return OK;
     } else if (f->mode == FUTURE_QUEUE) {
@@ -92,21 +100,36 @@ syscall future_set(future_t* f, int value){
         if (f->state == FUTURE_WAITING) {
             f->state = FUTURE_READY;
             f->value = value;
-            resume(f->pid);
+            resume(f->pid); // resume the only one waiting process
             restore(mask);
             return OK;
         }
+        // the future is already set READY by some process
+        // do not allow other process to set value in the future
         restore(mask);
         return SYSERR;
     } else if (f->mode == FUTURE_SHARED) {
-        while (is_empty(f->get_queue) == 0) {
+        if (f->state == FUTURE_EMPTY) {
+            f->value = value;
+            f->state = FUTURE_READY;
+            restore(mask);
+            return OK;
+        }
+        if (f->state == FUTURE_WAITING) {
             f->state = FUTURE_READY;
             f->value = value;
-            pid32 pid = fdequeue(f->get_queue);
-            resume(pid);
+            // resume all processes in get_queue
+            while (is_empty(f->get_queue) == 0) {
+                pid32 pid = fdequeue(f->get_queue);
+                resume(pid);
+            }
+            restore(mask);
+            return OK;
         }
+        // the future is already set READY by some process
+        // do not allow other process to set value in the future
         restore(mask);
-        return OK;
+        return SYSERR;
     } else if (f->mode == FUTURE_QUEUE) {
         pid32 pid=getpid();
         if (is_empty(f->get_queue) == 1) {
