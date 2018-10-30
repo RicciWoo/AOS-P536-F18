@@ -3,11 +3,11 @@
 
 void xmalloc_init() {
 	printf("start of void xmalloc_init()\n");
-	intmask mask = disable();
+	//intmask mask = disable();
 	bpid32 poolid = mkbufpool(32, 10);
+	//restore(mask);
 	printf("ID of pool that is created: %d\n", poolid);
 	printf("end of void xmalloc_init()\n");
-
 }
 
 void *xmalloc(uint32 size) {
