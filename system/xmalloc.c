@@ -17,6 +17,6 @@ void xfree(void *ptr) {
 char *xheap_snapshot() {
 	printf("testing char *xheap_snapshot()\n");
 	char *str = (char *)getmem(20);
-	strncpy(str, "dummy return string", (uint32)sizeof(str));
+	strncpy(str, "dummy return string", 20);
 	return str;
 }
