@@ -12,7 +12,7 @@ void xmalloc_init() {
 
 void *xmalloc(uint32 size) {
 	printf("start of void *xmalloc(int)\n");
-
+	return NULL;
 	printf("end of void *xmalloc(int)\n");
 }
 
