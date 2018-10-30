@@ -1,5 +1,5 @@
 #include <xinu.h>
-#include <stdlib.h>
+#include <stdio.h>
 #include <xmalloc.h>
 
 void xmalloc_test() {
