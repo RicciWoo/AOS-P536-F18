@@ -6,7 +6,7 @@
 
 // declaration of functions
 void xmalloc_init();
-void *xmalloc(int);
+void *xmalloc(uint32);
 void xfree(void *);
 char *xheap_snapshot();
 

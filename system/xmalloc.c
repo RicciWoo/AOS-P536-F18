@@ -1,13 +1,20 @@
 #include <xinu.h>
-#include <stdio.h>
 #include <xmalloc.h>
+#include <bufpool.h>
 
 void xmalloc_init() {
-	printf("testing void xmalloc_init()\n");
+	printf("start of void xmalloc_init()\n");
+	intmask mask = disable();
+	bpid32 poolid = mkbufpool(32, 10);
+	printf("ID of pool that is created: %d\n", poolid);
+	printf("end of void xmalloc_init()\n");
+
 }
 
-void *xmalloc(int size) {
-	printf("testing void *xmalloc(int)\n");
+void *xmalloc(uint32 size) {
+	printf("start of void *xmalloc(int)\n");
+
+	printf("end of void *xmalloc(int)\n");
 }
 
 void xfree(void *ptr) {
