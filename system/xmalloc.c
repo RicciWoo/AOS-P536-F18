@@ -1,5 +1,6 @@
 #include <xinu.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <xmalloc.h>
 
 void xmalloc_init() {
@@ -18,6 +19,6 @@ char *xheap_snapshot() {
 	printf("testing char *xheap_snapshot()\n");
 	char cArr[20] = "dummy return string";
 	char *str = (char *)malloc(20);
-	strncpy(str, cArr, size(cArr));
+	strncpy(str, cArr, sizeof(cArr));
 	return str;
 }
