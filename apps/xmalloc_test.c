@@ -7,8 +7,7 @@ void xmalloc_test() {
 	xmalloc_init();
 	int *ptr = (int *)xmalloc(28);
 	xfree((void *)ptr);
-	char str[1024];
-	str = xheap_snapshot();
+	char *str = xheap_snapshot();
 	printf("the return string: %s\n", str);
 	printf("this is the end of testing.\n");
 }
