@@ -18,7 +18,7 @@ void xfree(void *ptr) {
 char *xheap_snapshot() {
 	printf("testing char *xheap_snapshot()\n");
 	char cArr[20] = "dummy return string";
-	char *str = (char *)malloc(20);
+	char *str = (char *)malloc(sizeof(cArr));
 	strncpy(str, cArr, sizeof(cArr));
 	return str;
 }
