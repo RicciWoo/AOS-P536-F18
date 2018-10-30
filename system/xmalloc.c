@@ -6,8 +6,8 @@ void xmalloc_init() {
 	printf("testing void xmalloc_init()\n");
 }
 
-void *xmalloc(size_t size) {
-	printf("testing void *xmalloc(size_t)\n");
+void *xmalloc(int size) {
+	printf("testing void *xmalloc(int)\n");
 }
 
 void xfree(void *ptr) {

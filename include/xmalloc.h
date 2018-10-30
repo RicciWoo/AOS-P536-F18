@@ -1,13 +1,12 @@
 #ifndef _XMALLOC_H_
 #define _XMALLOC_H_
 
-#include <stdio.h>
 
 
 
 // declaration of functions
 void xmalloc_init();
-void *xmalloc(size_t);
+void *xmalloc(int);
 void xfree(void *);
 char *xheap_snapshot();
 
