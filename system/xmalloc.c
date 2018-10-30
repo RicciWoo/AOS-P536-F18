@@ -1,6 +1,5 @@
 #include <xinu.h>
 #include <xmalloc.h>
-#include <bufpool.h>
 
 void xmalloc_init() {
 	printf("start of void xmalloc_init()\n");
