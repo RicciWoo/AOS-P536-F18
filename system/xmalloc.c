@@ -24,17 +24,21 @@ void xmalloc_init() {
 
 void *xmalloc(uint32 size) {
 	printf("start of void *xmalloc(int)\n");
-	return NULL;
+
 	printf("end of void *xmalloc(int)\n\n");
+	return NULL;
 }
 
 void xfree(void *ptr) {
-	printf("testing void xfree(void *)\n");
+	printf("start of void xfree(void *)\n");
+
+	printf("end of void xfree(void *)\n");
 }
 
 char *xheap_snapshot() {
-	printf("testing char *xheap_snapshot()\n");
+	printf("start of char *xheap_snapshot()\n");
 	char *str = (char *)getmem(20);
 	strncpy(str, "dummy return string", 20);
+	printf("end of char *xheap_snapshot()\n");
 	return str;
 }
