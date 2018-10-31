@@ -14,7 +14,7 @@ void xmalloc_init() {
 	int i = 0;
 	for (i = 0; i < poolnum; i++) {
 		bufsize[i] = minsize << i;
-		printf("bufsize #%d: %d/n", i, bufsize[i]);
+		printf("bufsize #%d: %d\n", i, bufsize[i]);
 	}
 	bpid32 poolid = mkbufpool(32, 10);
 	//restore(mask);
