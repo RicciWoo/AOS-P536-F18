@@ -11,7 +11,8 @@ void xmalloc_init() {
 	int poolnum = 11;
 	int minsize = 8;
 	int bufsize[11];
-	for (int i = 0; i < poolnum; i++) {
+	int i = 0;
+	for (i = 0; i < poolnum; i++) {
 		bufsize[i] = minsize << i;
 		printf("bufsize #%d: %d/n", i, bufsize[i]);
 	}
