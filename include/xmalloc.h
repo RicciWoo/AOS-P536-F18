@@ -1,7 +1,6 @@
 #ifndef _XMALLOC_H_
 #define _XMALLOC_H_
 
-extern int32 poolnum;
 extern int32 bufsize[];
 extern int32 bufnumb[];
 

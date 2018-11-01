@@ -13,7 +13,7 @@ void xmalloc_init() {
 		return;
 	}
 
-	int32 poolnum = 10;
+	int32 poolnum = 11;
 	int32 minsize = 8;
 	int32 maxnumb = 32;
 	int32 i = 0;
@@ -44,6 +44,20 @@ void xmalloc_init() {
 void *xmalloc(uint32 size) {
 	printf("start of void *xmalloc(int)\n");
 
+	// find the higer and closest buffer in size
+	bpid32 poolid = findClosestIndex(size);
+	if (index == SYSERR) {
+		printf("findClosestIndex failed, size: %d\n", size);
+		return;
+	}
+
+	// allocate the buffer with the index
+	struct bpentry *bpptr;
+	bpptr = &buftab[poolid];
+	printf("bpptr->bpnext before allocation: %d\n", bpptr->bpnext);
+	char *bufptr = getbuf(poolid);
+	printf("bpptr->bpnext after allocation: %d\n", bpptr->bpnext);
+
 	printf("end of void *xmalloc(int)\n\n");
 	return NULL;
 }
@@ -60,4 +74,33 @@ char *xheap_snapshot() {
 	strncpy(str, "dummy return string", 20);
 	printf("end of char *xheap_snapshot()\n");
 	return str;
+}
+
+bpid32 findClosestIndex(uint32 size) {
+	if (size > bufsize[nbpools - 1]) {
+		return (bpid32)SYSERR;
+	}
+	if (size <= bufsize[0]) {
+		return 0;
+	}
+
+	bpid32 start = 0, end = nbpools - 1;
+	while (start + 1 < end) {
+		bpid32 mid = start + (end - start) / 2;
+		if (bufsize[mid] == size) {
+			end = mid;
+		} else if (bufsize[mid] < size) {
+			start = mid;
+		} else {
+			end = mid;
+		}
+	}
+
+	if (bufsize[start] == size) {
+		return start;
+	}
+	if (bufsize[end] == size) {
+		return end;
+	}
+	return (bpid32)SYSERR;
 }
