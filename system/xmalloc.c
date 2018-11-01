@@ -77,7 +77,7 @@ void xfree(void *ptr) {
 	if (ptr == NULL) {
 		printf("Invalid address!\n");
 	}
-	syscall st = freebuf((char *ptr));
+	syscall st = freebuf((char *)ptr);
 	if (st == SYSERR) {
 		printf("freebuf failed, address: %d", ptr);
 	}
