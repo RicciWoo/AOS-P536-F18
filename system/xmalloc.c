@@ -3,22 +3,30 @@
 
 void xmalloc_init() {
 	printf("start of void xmalloc_init()\n");
+
 	int status = bufinit();
 	if (status == SYSERR) {
 		printf("bufinit failed\n");
 		return;
 	}
+
 	int poolnum = 11;
 	int minsize = 8;
-	int bufsize[11];
+	int maxnumb = 32;
+	int bufsize[10];
+	int bufnumb[10];
 	int i = 0;
 	for (i = 0; i < poolnum; i++) {
 		bufsize[i] = minsize << i;
+		bufnumb[i] = maxnumb >> (i / 2);
 		printf("bufsize #%d: %d\n", i, bufsize[i]);
+		printf("bufnumb #%d: %d\n", i, bufnumb[i]);
 	}
+
 	bpid32 poolid = mkbufpool(32, 10);
 	//restore(mask);
 	printf("ID of pool that is created: %d\n", poolid);
+
 	printf("end of void xmalloc_init()\n\n");
 }
 

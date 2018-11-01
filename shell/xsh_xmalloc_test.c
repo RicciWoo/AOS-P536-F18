@@ -1,5 +1,4 @@
 #include <xinu.h>
-#include <xmalloc.h>
 
 shellcmd xsh_xmalloc_test(int nargs, char *args[]) {
 
