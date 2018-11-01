@@ -8,7 +8,7 @@ void xmalloc_test() {
 	uint32 size;
 	for (size = BP_MINB; size <= BP_MAXB; size += 8) {
 		printf("=====================================================\n");
-		printf("test for buffer size of %d", size);
+		printf("test for buffer size of %d\n", size);
 		ptr = (int32 *)xmalloc(size);
 	}
 	xfree((void *)ptr);
