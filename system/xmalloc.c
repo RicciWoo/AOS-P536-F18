@@ -59,7 +59,7 @@ void *xmalloc(uint32 size) {
 	printf("bpptr->bpnext after allocation: %d\n", bpptr->bpnext);
 
 	printf("end of void *xmalloc(int)\n\n");
-	return NULL;
+	return (void *)bufptr;
 }
 
 void xfree(void *ptr) {
@@ -76,6 +76,7 @@ char *xheap_snapshot() {
 	return str;
 }
 
+// find first index of size greater or equals to size
 bpid32 findClosestIndex(uint32 size) {
 	if (size > bufsize[nbpools - 1]) {
 		return (bpid32)SYSERR;
@@ -87,19 +88,17 @@ bpid32 findClosestIndex(uint32 size) {
 	bpid32 start = 0, end = nbpools - 1;
 	while (start + 1 < end) {
 		bpid32 mid = start + (end - start) / 2;
-		if (bufsize[mid] == size) {
-			end = mid;
-		} else if (bufsize[mid] < size) {
+		if (bufsize[mid] < size) {
 			start = mid;
 		} else {
 			end = mid;
 		}
 	}
 
-	if (bufsize[start] == size) {
+	if (bufsize[start] >= size) {
 		return start;
 	}
-	if (bufsize[end] == size) {
+	if (bufsize[end] >= size) {
 		return end;
 	}
 	return (bpid32)SYSERR;
