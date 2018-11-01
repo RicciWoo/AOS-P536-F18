@@ -48,7 +48,7 @@ void *xmalloc(uint32 size) {
 	bpid32 poolid = findClosestIndex(size);
 	if (poolid == SYSERR) {
 		printf("findClosestIndex failed, size: %d\n", size);
-		return;
+		return NULL;
 	}
 
 	// allocate the buffer with the index
