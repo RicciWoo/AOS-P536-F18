@@ -19,7 +19,8 @@ void xmalloc_init() {
 	int32 i = 0;
 	for (i = 0; i < poolnum; i++) {
 		bufsize[i] = minsize << i;
-		bufnumb[i] = maxnumb >> (i / 2);
+		//bufnumb[i] = maxnumb >> (i / 2);
+		bufnumb[i] = maxnumb / 2;
 		// printf("bufsize #%d: %d, ", i, bufsize[i]);
 		// printf("bufnumb #%d: %d\n", i, bufnumb[i]);
 	}
