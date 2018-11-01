@@ -46,7 +46,7 @@ void *xmalloc(uint32 size) {
 
 	// find the higer and closest buffer in size
 	bpid32 poolid = findClosestIndex(size);
-	if (index == SYSERR) {
+	if (poolid == SYSERR) {
 		printf("findClosestIndex failed, size: %d\n", size);
 		return;
 	}
