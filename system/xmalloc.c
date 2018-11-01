@@ -73,7 +73,7 @@ void *xmalloc(uint32 size) {
 }
 
 void xfree(void *ptr) {
-	printf("start of void xfree(void *)\n");
+	// printf("start of void xfree(void *)\n");
 
 	if (ptr == NULL) {
 		printf("Invalid address!\n");
@@ -83,7 +83,8 @@ void xfree(void *ptr) {
 		printf("freebuf failed, address: %d", ptr);
 	}
 
-	printf("end of void xfree(void *)\n");
+	// printf("end of void xfree(void *)\n");
+	printf("freed buffer at address: %d\n", ptr);
 }
 
 char *xheap_snapshot() {
