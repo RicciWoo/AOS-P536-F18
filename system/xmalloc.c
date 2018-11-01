@@ -1,8 +1,11 @@
 #include <xinu.h>
 #include <xmalloc.h>
 
+int32 bufsize[NBPOOLS];
+int32 bufnumb[NBPOOLS];
+
 void xmalloc_init() {
-	printf("start of void xmalloc_init()\n");
+	// printf("start of void xmalloc_init()\n");
 
 	status st = bufinit();
 	if (st == SYSERR) {
@@ -10,17 +13,15 @@ void xmalloc_init() {
 		return;
 	}
 
-	int poolnum = 10;
-	int minsize = 8;
-	int maxnumb = 32;
-	int32 bufsize[10];
-	int32 bufnumb[10];
-	int i = 0;
+	int32 poolnum = 10;
+	int32 minsize = 8;
+	int32 maxnumb = 32;
+	int32 i = 0;
 	for (i = 0; i < poolnum; i++) {
 		bufsize[i] = minsize << i;
 		bufnumb[i] = maxnumb >> (i / 2);
-		//printf("bufsize #%d: %d, ", i, bufsize[i]);
-		//printf("bufnumb #%d: %d\n", i, bufnumb[i]);
+		// printf("bufsize #%d: %d, ", i, bufsize[i]);
+		// printf("bufnumb #%d: %d\n", i, bufnumb[i]);
 	}
 
 	bpid32 poolid;
@@ -31,13 +32,13 @@ void xmalloc_init() {
 			printf("mkbufpool #%d failed\n", i);
 			return;
 		}
-		bpptr = &buftab[poolid];
-		printf("poolid: %d, ", poolid);
-		printf("bpptr->bpnext: %d, ", bpptr->bpnext);
-		printf("bpptr->bpsize: %d\n", bpptr->bpsize);
+		// bpptr = &buftab[poolid];
+		// printf("poolid: %d, ", poolid);
+		// printf("bpptr->bpnext: %d, ", bpptr->bpnext);
+		// printf("bpptr->bpsize: %d\n", bpptr->bpsize);
 	}
 
-	printf("end of void xmalloc_init()\n\n");
+	// printf("end of void xmalloc_init()\n\n");
 }
 
 void *xmalloc(uint32 size) {
