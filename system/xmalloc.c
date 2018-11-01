@@ -9,7 +9,7 @@ void xmalloc_init() {
 
 	status st = bufinit();
 	if (st == SYSERR) {
-		printf("bufinit failed\n");
+		printf("bufinit failed!\n");
 		return;
 	}
 
@@ -28,7 +28,7 @@ void xmalloc_init() {
 	for (i = 0; i < poolnum; i++) {
 		poolid = mkbufpool(bufsize[i], bufnumb[i]);
 		if (poolid == SYSERR) {
-			printf("mkbufpool #%d failed\n", i);
+			printf("mkbufpool failed, bufsiz: %d, numbufs: %d\n", bufsize[i], bufnumb[i]);
 			return;
 		}
 		// struct bpentry *bpptr;
@@ -58,6 +58,10 @@ void *xmalloc(uint32 size) {
 	printf("the buffer size of selected pool: %d\n", bpptr->bpsize);
 	printf("bpptr->bpnext before allocation: %d\n", bpptr->bpnext);
 	char *bufptr = getbuf(poolid);
+	if (bufptr == SYSERR) {
+		printf("getbuf failed, poolid: %d\n", poolid);
+		return NULL;
+	}
 	printf("bpptr->bpnext after allocation: %d\n", bpptr->bpnext);
 
 	printf("end of void *xmalloc(int)\n\n");
