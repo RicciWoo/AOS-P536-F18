@@ -24,10 +24,9 @@ void xmalloc_init() {
 		// printf("bufnumb #%d: %d\n", i, bufnumb[i]);
 	}
 
-	bpid32 poolid;
 	for (i = 0; i < poolnum; i++) {
-		poolid = mkbufpool(bufsize[i], bufnumb[i]);
-		if (poolid == SYSERR) {
+		bpid32 poolid = mkbufpool(bufsize[i], bufnumb[i]);
+		if (poolid == (bpid32)SYSERR) {
 			printf("mkbufpool failed, bufsiz: %d, numbufs: %d\n", bufsize[i], bufnumb[i]);
 			return;
 		}
@@ -46,7 +45,7 @@ void *xmalloc(uint32 size) {
 
 	// find the higer and closest buffer in size
 	bpid32 poolid = findClosestIndex(size);
-	if (poolid == SYSERR) {
+	if (poolid == (bpid32)SYSERR) {
 		printf("findClosestIndex failed, size: %d\n", size);
 		return NULL;
 	}
@@ -58,11 +57,16 @@ void *xmalloc(uint32 size) {
 	printf("the buffer size of selected pool: %d\n", bpptr->bpsize);
 	printf("bpptr->bpnext before allocation: %d\n", bpptr->bpnext);
 	char *bufptr = getbuf(poolid);
-	if (bufptr == SYSERR) {
+	if (bufptr == (char *)SYSERR) {
 		printf("getbuf failed, poolid: %d\n", poolid);
 		return NULL;
 	}
-	printf("bpptr->bpnext after allocation: %d\n", bpptr->bpnext);
+	if (bufptr == NULL) {
+		printf("no buffer in the pool is available!\n");
+	} else {
+		printf("bpptr->bpnext after allocation: %d\n", bpptr->bpnext);
+	}
+	
 
 	printf("end of void *xmalloc(int)\n\n");
 	return (void *)bufptr;

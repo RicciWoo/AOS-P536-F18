@@ -9,6 +9,7 @@ void xmalloc_init();
 void *xmalloc(uint32);
 void xfree(void *);
 char *xheap_snapshot();
+bpid32 findClosestIndex(uint32);
 
 void xmalloc_test();
 
