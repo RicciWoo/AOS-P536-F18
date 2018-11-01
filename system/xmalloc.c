@@ -41,7 +41,7 @@ void xmalloc_init() {
 }
 
 void *xmalloc(uint32 size) {
-	printf("start of void *xmalloc(int)\n");
+	// printf("start of void *xmalloc(int)\n");
 
 	// find the higer and closest buffer in size
 	bpid32 poolid = findClosestIndex(size);
@@ -49,32 +49,38 @@ void *xmalloc(uint32 size) {
 		printf("findClosestIndex failed, size: %d\n", size);
 		return NULL;
 	}
-	printf("the selected poolid for size %d is %d\n", size, poolid);
+	// printf("the selected poolid for size %d is %d\n", size, poolid);
 
 	// allocate the buffer with the index
 	struct bpentry *bpptr;
 	bpptr = &buftab[poolid];
-	char *bufptr;
-	printf("the buffer size of selected pool: %d\n", bpptr->bpsize);
+	// printf("the buffer size of selected pool: %d\n", bpptr->bpsize);
 	if (bpptr->bpnext == NULL) {
 		printf("no buffer in the pool is available!\n");
 		return NULL;
-	} else {
-		printf("bpptr->bpnext before allocation: %d\n", bpptr->bpnext);
-		bufptr = getbuf(poolid);
-		if (bufptr == (char *)SYSERR) {
-			printf("getbuf failed, poolid: %d\n", poolid);
-			return NULL;
-		}
-		printf("bpptr->bpnext after allocation: %d\n", bpptr->bpnext);
 	}
+	// printf("bpptr->bpnext before allocation: %d\n", bpptr->bpnext);
+	char *bufptr = getbuf(poolid);
+	if (bufptr == (char *)SYSERR) {
+		printf("getbuf failed, poolid: %d\n", poolid);
+		return NULL;
+	}
+	// printf("bpptr->bpnext after allocation: %d\n", bpptr->bpnext);
 
-	printf("end of void *xmalloc(int)\n\n");
+	// printf("end of void *xmalloc(int)\n\n");
 	return (void *)bufptr;
 }
 
 void xfree(void *ptr) {
 	printf("start of void xfree(void *)\n");
+
+	if (ptr == NULL) {
+		printf("Invalid address!\n");
+	}
+	syscall st = freebuf((char *ptr));
+	if (st == SYSERR) {
+		printf("freebuf failed, address: %d", ptr);
+	}
 
 	printf("end of void xfree(void *)\n");
 }
