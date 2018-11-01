@@ -23,7 +23,7 @@ void xmalloc_test() {
 
 	for (i = 0; i < ntest; i++) {
 		printf("=====================================================\n");
-		printf("free #5d, address: %d\n", i, *(bufptr + sizeof(char *) * i));
+		printf("free #%d, address: %d\n", i, *(bufptr + sizeof(char *) * i));
 		char *ptr = *(bufptr + sizeof(char *) * i);
 		if (ptr == NULL) {
 			printf("buffer did not allocated!\n");

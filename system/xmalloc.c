@@ -68,6 +68,7 @@ void *xmalloc(uint32 size) {
 	// printf("bpptr->bpnext after allocation: %d\n", bpptr->bpnext);
 
 	// printf("end of void *xmalloc(int)\n\n");
+	printf("allocted buffer with size: %d\n", bpptr->bpsize);
 	return (void *)bufptr;
 }
 
