@@ -56,7 +56,7 @@ void *xmalloc(uint32 size) {
 	bpptr = &buftab[poolid];
 	// printf("the buffer size of selected pool: %d\n", bpptr->bpsize);
 	if (bpptr->bpnext == NULL) {
-		printf("no buffer in the pool is available!\n");
+		printf("no buffer with size %d is available!\n", bpptr->bpsize);
 		return NULL;
 	}
 	// printf("bpptr->bpnext before allocation: %d\n", bpptr->bpnext);
