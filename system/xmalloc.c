@@ -4,8 +4,8 @@
 void xmalloc_init() {
 	printf("start of void xmalloc_init()\n");
 
-	int status = bufinit();
-	if (status == SYSERR) {
+	status st = bufinit();
+	if (st == SYSERR) {
 		printf("bufinit failed\n");
 		return;
 	}
@@ -13,14 +13,28 @@ void xmalloc_init() {
 	int poolnum = 10;
 	int minsize = 8;
 	int maxnumb = 32;
-	int bufsize[10];
-	int bufnumb[10];
+	int32 bufsize[10];
+	int32 bufnumb[10];
 	int i = 0;
 	for (i = 0; i < poolnum; i++) {
 		bufsize[i] = minsize << i;
 		bufnumb[i] = maxnumb >> (i / 2);
-		printf("bufsize #%d: %d, ", i, bufsize[i]);
-		printf("bufnumb #%d: %d\n", i, bufnumb[i]);
+		//printf("bufsize #%d: %d, ", i, bufsize[i]);
+		//printf("bufnumb #%d: %d\n", i, bufnumb[i]);
+	}
+
+	bpid32 poolid;
+	struct bpentry *bpptr;
+	for (i = 0; i < poolnum; i++) {
+		poolid = mkbufpool(, 10);
+		if (poolid == SYSERR) {
+			printf("mkbufpool #%d failed\n", i);
+			return;
+		}
+		bpptr = &buftab[poolid];
+		printf("poolid: %d, ", poolid);
+		printf("bpptr->bpnext: %d, ", bpptr->bpnext);
+		printf("bpptr->bpsize: %d\n", bpptr->bpsize);
 	}
 
 	bpid32 poolid = mkbufpool(32, 10);
