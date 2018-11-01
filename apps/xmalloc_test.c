@@ -30,7 +30,6 @@ void xmalloc_test() {
 		}
 		xfree((void *)ptr);
 	}
-	xfree((void *)ptr);
 	char *str = xheap_snapshot();
 	printf("the return string: %s\n", str);
 	printf("this is the end of testing.\n");
