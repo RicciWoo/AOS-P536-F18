@@ -50,10 +50,12 @@ void *xmalloc(uint32 size) {
 		printf("findClosestIndex failed, size: %d\n", size);
 		return NULL;
 	}
+	printf("the selected poolid for size %d is %d\n", size, poolid);
 
 	// allocate the buffer with the index
 	struct bpentry *bpptr;
 	bpptr = &buftab[poolid];
+	printf("the buffer size of selected pool: %d\n", bpptr->bpsize);
 	printf("bpptr->bpnext before allocation: %d\n", bpptr->bpnext);
 	char *bufptr = getbuf(poolid);
 	printf("bpptr->bpnext after allocation: %d\n", bpptr->bpnext);
