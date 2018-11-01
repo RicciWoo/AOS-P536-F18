@@ -10,7 +10,7 @@ void xmalloc_init() {
 		return;
 	}
 
-	int poolnum = 11;
+	int poolnum = 10;
 	int minsize = 8;
 	int maxnumb = 32;
 	int bufsize[10];
