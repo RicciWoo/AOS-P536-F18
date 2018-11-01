@@ -26,7 +26,7 @@ void xmalloc_init() {
 	bpid32 poolid;
 	struct bpentry *bpptr;
 	for (i = 0; i < poolnum; i++) {
-		poolid = mkbufpool(, 10);
+		poolid = mkbufpool(bufsize[i], bufnumb[i]);
 		if (poolid == SYSERR) {
 			printf("mkbufpool #%d failed\n", i);
 			return;
@@ -36,10 +36,6 @@ void xmalloc_init() {
 		printf("bpptr->bpnext: %d, ", bpptr->bpnext);
 		printf("bpptr->bpsize: %d\n", bpptr->bpsize);
 	}
-
-	bpid32 poolid = mkbufpool(32, 10);
-	//restore(mask);
-	printf("ID of pool that is created: %d\n", poolid);
 
 	printf("end of void xmalloc_init()\n\n");
 }
