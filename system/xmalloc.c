@@ -54,12 +54,14 @@ void *xmalloc(uint32 size) {
 	// allocate the buffer with the index
 	struct bpentry *bpptr;
 	bpptr = &buftab[poolid];
+	char *bufptr;
 	printf("the buffer size of selected pool: %d\n", bpptr->bpsize);
 	if (bpptr->bpnext == NULL) {
 		printf("no buffer in the pool is available!\n");
+		return NULL;
 	} else {
 		printf("bpptr->bpnext before allocation: %d\n", bpptr->bpnext);
-		char *bufptr = getbuf(poolid);
+		bufptr = getbuf(poolid);
 		if (bufptr == (char *)SYSERR) {
 			printf("getbuf failed, poolid: %d\n", poolid);
 			return NULL;
