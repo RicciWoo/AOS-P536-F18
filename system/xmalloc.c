@@ -25,13 +25,13 @@ void xmalloc_init() {
 	}
 
 	bpid32 poolid;
-	struct bpentry *bpptr;
 	for (i = 0; i < poolnum; i++) {
 		poolid = mkbufpool(bufsize[i], bufnumb[i]);
 		if (poolid == SYSERR) {
 			printf("mkbufpool #%d failed\n", i);
 			return;
 		}
+		// struct bpentry *bpptr;
 		// bpptr = &buftab[poolid];
 		// printf("poolid: %d, ", poolid);
 		// printf("bpptr->bpnext: %d, ", bpptr->bpnext);
