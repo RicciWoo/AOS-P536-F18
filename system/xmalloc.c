@@ -55,18 +55,17 @@ void *xmalloc(uint32 size) {
 	struct bpentry *bpptr;
 	bpptr = &buftab[poolid];
 	printf("the buffer size of selected pool: %d\n", bpptr->bpsize);
-	printf("bpptr->bpnext before allocation: %d\n", bpptr->bpnext);
-	char *bufptr = getbuf(poolid);
-	if (bufptr == (char *)SYSERR) {
-		printf("getbuf failed, poolid: %d\n", poolid);
-		return NULL;
-	}
-	if (bufptr == NULL) {
+	if (bpptr->bpnext == NULL) {
 		printf("no buffer in the pool is available!\n");
 	} else {
+		printf("bpptr->bpnext before allocation: %d\n", bpptr->bpnext);
+		char *bufptr = getbuf(poolid);
+		if (bufptr == (char *)SYSERR) {
+			printf("getbuf failed, poolid: %d\n", poolid);
+			return NULL;
+		}
 		printf("bpptr->bpnext after allocation: %d\n", bpptr->bpnext);
 	}
-	
 
 	printf("end of void *xmalloc(int)\n\n");
 	return (void *)bufptr;
