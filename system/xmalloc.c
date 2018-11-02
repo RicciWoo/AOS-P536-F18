@@ -121,13 +121,13 @@ void xfree(void *bufaddr) {
 	// bufaddr += sizeof(bpid32) + bpptr->bpsize - sizeof(int32);
 	// int32 size = *((int32 *)bufaddr);
 
-	// update segmentation information
-	printf("free buffer with allocated size: %d\n", size);
+	// // update segmentation information
+	// printf("free buffer with allocated size: %d\n", size);
 	// allocBy[poolid] -= size;
 	// allocBf[poolid]--;
 	// fragmBy[poolid] = bufsize[poolid] * allocBf[poolid] - allocBy[poolid];
 
-	// printf("freed buffer at address: %d\n", addr);
+	printf("freed buffer at address: %d\n", addr);
 }
 
 char *xheap_snapshot() {
