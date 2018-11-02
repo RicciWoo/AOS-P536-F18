@@ -34,15 +34,21 @@ void xmalloc_test() {
 		}
 
 		// save the address
+		printf("the allocated address: %d\n", addr);
 		*(bufptr + sizeof(char *) * i) = addr;
 	}
 	printf("\n");
+
+	for (i = 0; i < ntest; i++) {
+		printf("the addresses in array: %d\n", *(bufptr + sizeof(char *) * i));
+	}
 
 	// show 
 	bpid32 poolid;
 	for (poolid = 0; poolid < nbpools; poolid++) {
 		printf("poolid: %d, bufsize: %d, bufnumb: %d\n", poolid, bufsize[poolid], bufnumb[poolid]);
 	}
+
 	// for (poolid = 0; poolid < nbpools; poolid++) {
 	// 	printf("poolid: %d, allocBy: %d, allocBf: %d, fragmBy: %d\n", poolid, allocBy[poolid], allocBf[poolid], fragmBy[poolid]);
 	// }
