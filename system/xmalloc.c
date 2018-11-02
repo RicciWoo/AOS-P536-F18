@@ -1,8 +1,12 @@
 #include <xinu.h>
 #include <xmalloc.h>
 
-int32 bufsize[NBPOOLS];
-int32 bufnumb[NBPOOLS];
+uint32 poolnum;
+uint32 bufsize[NBPOOLS];
+uint32 bufnumb[NBPOOLS];
+uint32 allocBy[NBPOOLS];
+uint32 allocBf[NBPOOLS];
+char   compStr[NBPOOLS * 128];
 
 void xmalloc_init() {
 	// printf("start of void xmalloc_init()\n");
@@ -13,17 +17,21 @@ void xmalloc_init() {
 		return;
 	}
 
-	int32 poolnum = 11;
-	int32 minsize = 8;
-	int32 maxnumb = 32;
-	int32 i = 0;
+	poolnum = 11;
+	uint32 minsize = 8;
+	uint32 maxnumb = 32;
+	uint32 i = 0;
 	for (i = 0; i < poolnum; i++) {
 		bufsize[i] = minsize << i;
 		//bufnumb[i] = maxnumb >> (i / 2);
 		bufnumb[i] = maxnumb / 2;
 		// printf("bufsize #%d: %d, ", i, bufsize[i]);
 		// printf("bufnumb #%d: %d\n", i, bufnumb[i]);
+		allocBy[i] = 0;
+		allocBf[i] = 0;
 	}
+
+	memset(compStr, '\0', sizeof(compStr));
 
 	for (i = 0; i < poolnum; i++) {
 		bpid32 poolid = mkbufpool(bufsize[i], bufnumb[i]);
@@ -70,6 +78,8 @@ void *xmalloc(uint32 size) {
 
 	// printf("end of void *xmalloc(int)\n\n");
 	printf("allocted buffer with size: %d\n", bpptr->bpsize);
+	allocBy[poolid] += size;
+	allocBu[poolid]++;
 	return (void *)bufptr;
 }
 
@@ -90,10 +100,15 @@ void xfree(void *ptr) {
 
 char *xheap_snapshot() {
 	printf("start of char *xheap_snapshot()\n");
-	char *str = (char *)getmem(20);
-	strncpy(str, "dummy return string", 20);
-	printf("end of char *xheap_snapshot()\n");
-	return str;
+
+	uint32 i = 0;
+	char *strptr = &compStr[0];
+	//for (i = 0; i < poolnum; i++) {
+		strncat(strptr, "pool_id=", 8);
+		strncat(strptr, itoa(i));
+	//}
+
+	return &compStr[0];
 }
 
 // find first index of size greater or equals to size

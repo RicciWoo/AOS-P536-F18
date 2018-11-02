@@ -1,8 +1,10 @@
 #ifndef _XMALLOC_H_
 #define _XMALLOC_H_
 
-extern int32 bufsize[];
-extern int32 bufnumb[];
+extern uint32 bufsize[];
+extern uint32 bufnumb[];
+extern uint32 allocBy[];
+extern uint32 allocBf[];
 
 extern void srand(unsigned long);
 extern unsigned long rand(void);
