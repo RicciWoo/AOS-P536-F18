@@ -105,7 +105,7 @@ char *xheap_snapshot() {
 	char *strptr = &compStr[0];
 	//for (i = 0; i < poolnum; i++) {
 		strncat(strptr, "pool_id=", 8);
-		strncat(strptr, itoa(i));
+		//strncat(strptr, itoa(i));
 	//}
 
 	return &compStr[0];
