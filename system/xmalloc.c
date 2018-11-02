@@ -42,11 +42,11 @@ void xmalloc_init() {
 								bufsize[poolid], bufnumb[poolid]);
 			return;
 		}
-		// struct bpentry *bpptr;
-		// bpptr = &buftab[poolid];
-		// printf("poolid: %d, ", poolid);
-		// printf("bpptr->bpnext: %d, ", bpptr->bpnext);
-		// printf("bpptr->bpsize: %d\n", bpptr->bpsize);
+		struct bpentry *bpptr;
+		bpptr = &buftab[poolid];
+		printf("poolid: %d, ", poolid);
+		printf("bpptr->bpnext: %d, ", bpptr->bpnext);
+		printf("bpptr->bpsize: %d\n", bpptr->bpsize);
 	}
 
 	// initialize fragmentation information string
@@ -65,7 +65,7 @@ void *xmalloc(int32 size) {
 	// allocate the buffer with the index
 	struct bpentry *bpptr;
 	bpptr = &buftab[poolid];
-	printf("the buffer size of selected pool: %d\n", bpptr->bpsize);
+	// printf("the buffer size of selected pool: %d\n", bpptr->bpsize);
 	if (bpptr->bpnext == NULL) {
 		printf("no buffer with size %d is available!\n", bpptr->bpsize);
 		return NULL;
