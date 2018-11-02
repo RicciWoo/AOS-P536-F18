@@ -6,17 +6,18 @@ uint32 bufsize[NBPOOLS];
 uint32 bufnumb[NBPOOLS];
 uint32 allocBy[NBPOOLS];
 uint32 allocBf[NBPOOLS];
-char   compStr[NBPOOLS * 128];
+uint32 fragmBy[NBPOOLS];
+char   fragStr[NBPOOLS * 128];
 
 void xmalloc_init() {
-	// printf("start of void xmalloc_init()\n");
-
+	// initialize buffer pools
 	status st = bufinit();
 	if (st == SYSERR) {
 		printf("bufinit failed!\n");
 		return;
 	}
 
+	// setup buffer pools parameters
 	poolnum = 11;
 	uint32 minsize = 8;
 	uint32 maxnumb = 32;
@@ -31,12 +32,12 @@ void xmalloc_init() {
 		allocBf[i] = 0;
 	}
 
-	memset(compStr, '\0', sizeof(compStr));
-
+	// make buffer pools
 	for (i = 0; i < poolnum; i++) {
 		bpid32 poolid = mkbufpool(bufsize[i], bufnumb[i]);
 		if (poolid == (bpid32)SYSERR) {
-			printf("mkbufpool failed, bufsiz: %d, numbufs: %d\n", bufsize[i], bufnumb[i]);
+			printf("mkbufpool failed, bufsiz: %d, numbufs: %d\n", 
+											bufsize[i], bufnumb[i]);
 			return;
 		}
 		// struct bpentry *bpptr;
@@ -46,12 +47,11 @@ void xmalloc_init() {
 		// printf("bpptr->bpsize: %d\n", bpptr->bpsize);
 	}
 
-	// printf("end of void xmalloc_init()\n\n");
+	// initialize fragmentation information string
+	memset(fragStr, '\0', sizeof(compStr));
 }
 
 void *xmalloc(uint32 size) {
-	// printf("start of void *xmalloc(int)\n");
-
 	// find the higer and closest buffer in size
 	bpid32 poolid = findClosestIndex(size);
 	if (poolid == (bpid32)SYSERR) {
@@ -76,10 +76,10 @@ void *xmalloc(uint32 size) {
 	}
 	// printf("bpptr->bpnext after allocation: %d\n", bpptr->bpnext);
 
-	// printf("end of void *xmalloc(int)\n\n");
 	printf("allocted buffer with size: %d\n", bpptr->bpsize);
 	allocBy[poolid] += size;
 	allocBf[poolid]++;
+	fragmBy[poolid] = bufsize[poolid] * allocBf[poolid] - allocBy[poolid];
 	return (void *)bufptr;
 }
 
@@ -99,10 +99,9 @@ void xfree(void *ptr) {
 }
 
 char *xheap_snapshot() {
-	printf("start of char *xheap_snapshot()\n");
-
+	// form the fragmentation information string
 	bpid32 poolid = 0;
-	char *strptr = &compStr[0];
+	char *strptr = &fragStr[0];
 	char temp[8];
 	char *temptr = &temp[0];
 	for (poolid = 0; poolid < nbpools; poolid++) {
@@ -133,13 +132,12 @@ char *xheap_snapshot() {
 		strncat(strptr, ", ", 2);
 		// fragmented_bytes=77 \n
 		strncat(strptr, "fragmented_bytes=", 17);
-		uint32 fragbytes = bufsize[poolid] * allocBf[poolid] - allocBy[poolid];
-		sprintf(temptr, "%d", fragbytes);
+		sprintf(temptr, "%d", fragmBy[poolid]);
 		strncat(strptr, temptr, 8);
 		strncat(strptr, " \n", 2);
 	}
 
-	return &compStr[0];
+	return &fragStr[0];
 }
 
 // find first index of size greater or equals to size

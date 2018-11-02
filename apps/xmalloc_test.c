@@ -33,6 +33,7 @@ void xmalloc_test() {
 		}
 		xfree((void *)ptr);
 	}
+	
 	char *str = xheap_snapshot();
 	printf("Information about the fragmentation in heap: \n");
 	printf("%s", str);
