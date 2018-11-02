@@ -9,7 +9,7 @@ void xmalloc_test() {
 	srand(97);
 	int32 ntest = 64 + 32 + 16;
 	// for holding all allocated addresses
-	addr_t *bufptr = (addr_t *)getmem(ntest * sizeof(addr_t));
+	addr_t bufptr[ntest];
 	int32 i;
 	printf("========================= Allocation =========================\n    ");
 	for (i = 0; i < ntest; i++) {
@@ -26,7 +26,7 @@ void xmalloc_test() {
 		// allocate the buffer
 		addr_t addr = NULL;
 		if (size > 0) {
-			addr = (char *)xmalloc(size);
+			addr = (addr_t)xmalloc(size);
 		}
 		printf("%3d=%4d, ", i, size);
 		if (i % 8 == 7) {
@@ -34,7 +34,7 @@ void xmalloc_test() {
 		}
 
 		// save the address
-		*(bufptr + sizeof(addr_t) * i) = addr;
+		bufptr[i] = addr;
 	}
 	printf("\n");
 
@@ -69,7 +69,7 @@ void xmalloc_test() {
 
 		// randomly choose one buffer
 		int32 index = (int32)(rand() % ntest);
-		addr_t ptr = *(bufptr + sizeof(char *) * index);
+		addr_t ptr = bufptr[index];
 
 		if (ptr == NULL) {
 			printf("    The buffer was not allocated, index: %d\n", index);
@@ -77,9 +77,9 @@ void xmalloc_test() {
 		}
 
 		// free the selected buffer
-		xfree(ptr);
+		xfree((void *)ptr);
 		printf("    free buffer with index: %d\n", index);
-		*(bufptr + sizeof(addr_t) * index) = NULL;
+		bufptr[index] = NULL;
 	}
 
 	// show fragmentation information at the end
@@ -92,6 +92,5 @@ void xmalloc_test() {
 	printf("\n============ Fragmentation information at the end ============\n");
 	printf("%s\n", str);
 
-	freemem((char *)bufptr, ntest * sizeof(addr_t));
 	freemem((char *)str, sizeof(fragStr));
 }
