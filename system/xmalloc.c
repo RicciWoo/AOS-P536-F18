@@ -112,27 +112,27 @@ char *xheap_snapshot() {
 		strncat(strptr, temptr, 8);
 		strncat(strptr, ", ", 2);
 		// buffer_size=32, 
-		strncat(strptr, "buffer_size=", 14);
+		strncat(strptr, "buffer_size=", 12);
 		sprintf(temptr, "%d", bufsize[poolid]);
 		strncat(strptr, temptr, 8);
 		strncat(strptr, ", ", 2);
 		// total_buffers=20, 
-		strncat(strptr, "total_buffers=");
+		strncat(strptr, "total_buffers=", 14);
 		sprintf(temptr, "%d", bufnumb[poolid]);
 		strncat(strptr, temptr, 8);
 		strncat(strptr, ", ", 2);
 		// allocated_bytes=243, 
-		strncat(strptr, "allocated_bytes=");
+		strncat(strptr, "allocated_bytes=", 16);
 		sprintf(temptr, "%d", allocBy[poolid]);
 		strncat(strptr, temptr, 8);
 		strncat(strptr, ", ", 2);
 		// allocated_buffers=10, 
-		strncat(strptr, "allocated_buffers=");
+		strncat(strptr, "allocated_buffers=", 18);
 		sprintf(temptr, "%d", allocBf[poolid]);
 		strncat(strptr, temptr, 8);
 		strncat(strptr, ", ", 2);
 		// fragmented_bytes=77 \n
-		strncat(strptr, "fragmented_bytes=");
+		strncat(strptr, "fragmented_bytes=", 17);
 		uint32 fragbytes = bufsize[poolid] * allocBf[poolid] - allocBy[poolid];
 		sprintf(temptr, "%d", fragbytes);
 		strncat(strptr, temptr, 8);
