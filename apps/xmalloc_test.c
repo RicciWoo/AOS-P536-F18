@@ -28,7 +28,7 @@ void xmalloc_test() {
 		if (addr == NULL) {
 			printf("\nxmalloc failed, size: %d\n", size);
 		} else {
-			printf("%4d, ", size);
+			printf("%3d=%4d, ", i, size);
 			if (i % 8 == 7) {
 				printf("\n    ");
 			}
@@ -71,7 +71,7 @@ void xmalloc_test() {
 		int32 index = (int32)(rand() % ntest);
 		char *ptr = *(bufptr + sizeof(char *) * index);
 		if (ptr == NULL) {
-			printf("    The buffer was not allocated!!!!\n");
+			printf("    The buffer was not allocated, index: %d\n", index);
 			continue;
 		}
 
