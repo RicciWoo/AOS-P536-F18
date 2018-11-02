@@ -34,6 +34,7 @@ void xmalloc_init() {
 
 	// make buffer pools
 	for (poolid = 0; poolid < poolnum; poolid++) {
+		// allocate additional space to store the actual size
 		int32 bufsiz = bufsize[poolid] + sizeof(int32);
 		bpid32 pid = mkbufpool(bufsiz, bufnumb[poolid]);
 		if (pid == (bpid32)SYSERR) {
@@ -59,12 +60,12 @@ void *xmalloc(int32 size) {
 		printf("findClosestIndex failed, size: %d\n", size);
 		return NULL;
 	}
-	// printf("the selected poolid for size %d is %d\n", size, poolid);
+	printf("the selected poolid for size %d is %d\n", size, poolid);
 
 	// allocate the buffer with the index
 	struct bpentry *bpptr;
 	bpptr = &buftab[poolid];
-	// printf("the buffer size of selected pool: %d\n", bpptr->bpsize);
+	printf("the buffer size of selected pool: %d\n", bpptr->bpsize);
 	if (bpptr->bpnext == NULL) {
 		printf("no buffer with size %d is available!\n", bpptr->bpsize);
 		return NULL;
