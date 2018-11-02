@@ -47,9 +47,6 @@ void xmalloc_init() {
 			return;
 		}
 	}
-
-	// initialize fragmentation information string
-	memset(fragStr, '\0', sizeof(fragStr));
 }
 
 void *xmalloc(int32 size) {
@@ -115,6 +112,9 @@ void xfree(void *bufaddr) {
 }
 
 char *xheap_snapshot() {
+	// initialize fragmentation information string
+	memset(fragStr, '\0', sizeof(fragStr));
+
 	// form the fragmentation information string
 	bpid32 poolid = 0;
 	char *strptr = &fragStr[0];
