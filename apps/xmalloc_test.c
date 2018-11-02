@@ -42,14 +42,14 @@ void xmalloc_test() {
 	// show fragmentation information after allocation
 	char *str = xheap_snapshot();
 	printf("========= Fragmentation information after allocation =========\n");
-	printf("%s", str);
+	printf("%s\n", str);
 
 	// randomly choose a buffer, then free it
 	// show fragmentation information every 16 steps
 	printf("========================= Random Free ========================\n");
 	for (i = 0; i < ntest; i++) {
 		// randomly choose one buffer
-		int32 index = (int32)(rand()) % ntest;
+		int32 index = (int32)(rand() % ntest);
 		char *ptr = *(bufptr + sizeof(char *) * index);
 		if (ptr == NULL) {
 			printf("    The buffer was not allocated!!!!\n");
@@ -65,7 +65,7 @@ void xmalloc_test() {
 		if (i % 16 == 15) {
 			str = xheap_snapshot();
 			printf("======== Fragmentation information after %d free steps ========\n", i);
-			printf("%s", str);
+			printf("%s\n", str);
 		}
 	}
 }
