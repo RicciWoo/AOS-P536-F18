@@ -40,7 +40,9 @@ void xmalloc_test() {
 	printf("\n");
 
 	// show fragmentation information after allocation
-	char *str = xheap_snapshot();
+	char *str = (char *)getmem(sizeof(fragStr));
+	char *retStr = xheap_snapshot();
+	memcpy(str, retStr, sizeof(fragStr)); // copy for output
 	printf("========= Fragmentation information after allocation =========\n");
 	printf("%s\n", str);
 
@@ -63,16 +65,13 @@ void xmalloc_test() {
 
 		// show fragmentation information every 16 steps
 		if (i % 16 == 15) {
-			str = xheap_snapshot();
+			retStr = xheap_snapshot();
+			memcpy(str, retStr, sizeof(fragStr)); // copy for output
 			printf("======== Fragmentation information after %d free steps ========\n", i);
 			printf("%s\n", str);
 		}
 	}
 
-	// // show fragmentation information 16 steps
-	// //if (i % 16 == 15) {
-	// 	str = xheap_snapshot();
-	// 	printf("======== Fragmentation information after 16 free steps ========\n");
-	// 	printf("%s\n", str);
-	// //}
+	freemem((char *)bufptr, ntest * sizeof(char *));
+	freemem((char *)str, sizeof(fragStr));
 }

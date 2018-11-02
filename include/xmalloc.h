@@ -5,6 +5,8 @@ extern int32 bufsize[];
 extern int32 bufnumb[];
 extern int32 allocBy[];
 extern int32 allocBf[];
+extern int32 fragmBy[];
+extern char  fragStr[];
 
 extern void srand(unsigned long);
 extern unsigned long rand(void);
