@@ -21,14 +21,14 @@ void xmalloc_test() {
 		} else {
 			bpmaxb = BP_MAXB - sizeof(int32);
 		}
-		int32 size = (int32)(rand() + BP_MINB) % bpmaxb;
+		int32 size = (int32)((rand() + BP_MINB) % bpmaxb);
 
 		// allocate the buffer
 		char *addr = (char *)xmalloc(size);
 		if (addr == NULL) {
 			printf("\nxmalloc failed, size: %d\n", size);
 		} else {
-			printf("%d, ", size);
+			printf("%4d, ", size);
 			if (i % 8 == 7) {
 				printf("\n    ");
 			}
