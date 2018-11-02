@@ -1,6 +1,8 @@
 #ifndef _XMALLOC_H_
 #define _XMALLOC_H_
 
+typedef	char *addr_t;
+
 int32 poolnum;
 int32 bufsize[NBPOOLS];
 int32 bufnumb[NBPOOLS];
