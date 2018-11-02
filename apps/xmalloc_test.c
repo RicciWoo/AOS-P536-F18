@@ -39,15 +39,28 @@ void xmalloc_test() {
 	}
 	printf("\n");
 
+	// show 
+	bpid32 poolid;
+	for (poolid = 0; poolid < nbpools; poolid++) {
+		printf("poolid: %d, bufsize: %d, bufnumb: %d\n", poolid, bufsize[poolid], bufnumb[poolid]);
+	}
+	for (poolid = 0; poolid < nbpools; poolid++) {
+		printf("poolid: %d, allocBy: %d, allocBf: %d, fragmBy: %d\n", poolid, allocBy[poolid], allocBf[poolid], fragmBy[poolid]);
+	}
+
 	// for holding the fragmentation information
 	char *str = (char *)getmem(sizeof(fragStr));
 
 	// randomly choose a buffer, then free it
 	// show fragmentation information every 16 steps
-	printf("========================= Random Free ========================\n");
+	printf("\n========================= Random Free ========================\n");
 	for (i = 0; i < ntest; i++) {
 		// show fragmentation information every 16 steps
 		if (i % 16 == 0) {
+			printf("\n");
+			for (poolid = 0; poolid < nbpools; poolid++) {
+				printf("poolid: %d, allocBy: %d, allocBf: %d, fragmBy: %d\n", poolid, allocBy[poolid], allocBf[poolid], fragmBy[poolid]);
+			}
 			char *retStr = xheap_snapshot();
 			memcpy(str, retStr, sizeof(fragStr)); // copy for output
 			printf("======== Fragmentation information after %d free steps ========\n", i);
@@ -69,9 +82,13 @@ void xmalloc_test() {
 	}
 
 	// show fragmentation information at the end
+	printf("\n");
+	for (poolid = 0; poolid < nbpools; poolid++) {
+		printf("poolid: %d, allocBy: %d, allocBf: %d, fragmBy: %d\n", poolid, allocBy[poolid], allocBf[poolid], fragmBy[poolid]);
+	}
 	char *retStr = xheap_snapshot();
 	memcpy(str, retStr, sizeof(fragStr)); // copy for output
-	printf("============ Fragmentation information at the end ============\n");
+	printf("\n============ Fragmentation information at the end ============\n");
 	printf("%s\n", str);
 
 	freemem((char *)bufptr, ntest * sizeof(char *));
