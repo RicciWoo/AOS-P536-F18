@@ -79,7 +79,7 @@ void *xmalloc(uint32 size) {
 	// printf("end of void *xmalloc(int)\n\n");
 	printf("allocted buffer with size: %d\n", bpptr->bpsize);
 	allocBy[poolid] += size;
-	allocBu[poolid]++;
+	allocBf[poolid]++;
 	return (void *)bufptr;
 }
 
