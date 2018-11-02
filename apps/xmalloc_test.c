@@ -47,7 +47,7 @@ void xmalloc_test() {
 	// randomly choose a buffer, then free it
 	// show fragmentation information every 16 steps
 	printf("========================= Random Free ========================\n");
-	for (i = 0; i < ntest; i++) {
+	for (i = 0; i < 16; i++) {
 		// randomly choose one buffer
 		int32 index = (int32)(rand() % ntest);
 		char *ptr = *(bufptr + sizeof(char *) * index);
@@ -61,11 +61,18 @@ void xmalloc_test() {
 		printf("    free buffer at address: %d\n", *(bufptr + sizeof(char *) * index));
 		*(bufptr + sizeof(char *) * index) = NULL;
 
-		// show fragmentation information every 16 steps
-		if (i % 16 == 15) {
-			str = xheap_snapshot();
-			printf("======== Fragmentation information after %d free steps ========\n", i);
-			printf("%s\n", str);
-		}
+		// // show fragmentation information every 16 steps
+		// if (i % 16 == 15) {
+		// 	str = xheap_snapshot();
+		// 	printf("======== Fragmentation information after %d free steps ========\n", i);
+		// 	printf("%s\n", str);
+		// }
 	}
+
+	// show fragmentation information 16 steps
+	//if (i % 16 == 15) {
+		str = xheap_snapshot();
+		printf("======== Fragmentation information after 16 free steps ========\n");
+		printf("%s\n", str);
+	//}
 }
