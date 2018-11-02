@@ -108,7 +108,7 @@ char *xheap_snapshot() {
 	for (poolid = 0; poolid < nbpools; poolid++) {
 		// pool_id=1, 
 		strncat(strptr, "pool_id=", 8);
-		sprintf(temptr, "%d", i);
+		sprintf(temptr, "%d", poolid);
 		strncat(strptr, temptr, 8);
 		strncat(strptr, ", ", 2);
 		// buffer_size=32, 
