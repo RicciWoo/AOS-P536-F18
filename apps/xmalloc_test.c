@@ -54,7 +54,6 @@ void xmalloc_test() {
 			printf("%s\n", str);
 		}
 
-		printf("index: %d\n", i);
 		// randomly choose one buffer
 		int32 index = (int32)(rand() % ntest);
 		char *ptr = *(bufptr + sizeof(char *) * index);
@@ -65,7 +64,7 @@ void xmalloc_test() {
 
 		// free the selected buffer
 		xfree((void *)ptr);
-		printf("    free buffer at address: %d\n", *(bufptr + sizeof(char *) * index));
+		printf("    free buffer with index: %d\n", index);
 		*(bufptr + sizeof(char *) * index) = NULL;
 	}
 
