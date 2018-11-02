@@ -2,14 +2,16 @@
 #include <xmalloc.h>
 
 void xmalloc_test() {
-	printf("start testing the xmalloc...\n");
+	// printf("start testing the xmalloc...\n");
+
+	// initialize segregated memory allocation
 	xmalloc_init();
 	
+	// allocate ramdon size of buffers
 	srand(97);
 	uint32 ntest = 32;
 	char **bufptr = (char **)getmem(ntest * sizeof(char *));
 	uint32 i;
-	// allocate ramdon size of buffers
 	for (i = 0; i < ntest; i++) {
 		uint32 size = (uint32)(rand() + BP_MINB) % BP_MAXB;
 		printf("=====================================================\n");
@@ -32,6 +34,8 @@ void xmalloc_test() {
 		xfree((void *)ptr);
 	}
 	char *str = xheap_snapshot();
-	printf("the return string: %s\n", str);
-	printf("this is the end of testing.\n");
+	printf("Information about the fragmentation in heap: \n");
+	printf("%s", str);
+	
+	// printf("this is the end of testing.\n");
 }

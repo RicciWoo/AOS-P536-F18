@@ -101,15 +101,43 @@ void xfree(void *ptr) {
 char *xheap_snapshot() {
 	printf("start of char *xheap_snapshot()\n");
 
-	uint32 i = 0;
+	bpid32 poolid = 0;
 	char *strptr = &compStr[0];
-	//for (i = 0; i < poolnum; i++) {
+	char temp[8];
+	char *temptr = &temp[0];
+	for (poolid = 0; poolid < nbpools; poolid++) {
+		// pool_id=1, 
 		strncat(strptr, "pool_id=", 8);
-		char temp[8];
-		char *tempptr = &temp[0];
-		sprintf(tempptr, "%d", i);
-		strncat(strptr, tempptr, 8);
-	//}
+		sprintf(temptr, "%d", i);
+		strncat(strptr, temptr, 8);
+		strncat(strptr, ", ", 2);
+		// buffer_size=32, 
+		strncat(strptr, "buffer_size=", 14);
+		sprintf(temptr, "%d", bufsize[poolid]);
+		strncat(strptr, temptr, 8);
+		strncat(strptr, ", ", 2);
+		// total_buffers=20, 
+		strncat(strptr, "total_buffers=");
+		sprintf(temptr, "%d", bufnumb[poolid]);
+		strncat(strptr, temptr, 8);
+		strncat(strptr, ", ", 2);
+		// allocated_bytes=243, 
+		strncat(strptr, "allocated_bytes=");
+		sprintf(temptr, "%d", allocBy[poolid]);
+		strncat(strptr, temptr, 8);
+		strncat(strptr, ", ", 2);
+		// allocated_buffers=10, 
+		strncat(strptr, "allocated_buffers=");
+		sprintf(temptr, "%d", allocBf[poolid]);
+		strncat(strptr, temptr, 8);
+		strncat(strptr, ", ", 2);
+		// fragmented_bytes=77 \n
+		strncat(strptr, "fragmented_bytes=");
+		uint32 fragbytes = bufsize[poolid] * allocBf[poolid] - allocBy[poolid];
+		sprintf(temptr, "%d", fragbytes);
+		strncat(strptr, temptr, 8);
+		strncat(strptr, " \n", 2);
+	}
 
 	return &compStr[0];
 }
