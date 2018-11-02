@@ -1,13 +1,13 @@
 #include <xinu.h>
 #include <xmalloc.h>
 
-uint32 poolnum;
-uint32 bufsize[NBPOOLS];
-uint32 bufnumb[NBPOOLS];
-uint32 allocBy[NBPOOLS];
-uint32 allocBf[NBPOOLS];
-uint32 fragmBy[NBPOOLS];
-char   fragStr[NBPOOLS * 128];
+int32 poolnum;
+int32 bufsize[NBPOOLS];
+int32 bufnumb[NBPOOLS];
+int32 allocBy[NBPOOLS];
+int32 allocBf[NBPOOLS];
+int32 fragmBy[NBPOOLS];
+char  fragStr[NBPOOLS * 128];
 
 void xmalloc_init() {
 	// initialize buffer pools
@@ -19,25 +19,26 @@ void xmalloc_init() {
 
 	// setup buffer pools parameters
 	poolnum = 10;
-	uint32 minsize = 16;
-	uint32 maxnumb = 32;
-	uint32 i = 0;
-	for (i = 0; i < poolnum; i++) {
-		bufsize[i] = minsize << i;
-		//bufnumb[i] = maxnumb >> (i / 2);
-		bufnumb[i] = maxnumb / 2;
-		// printf("bufsize #%d: %d, ", i, bufsize[i]);
-		// printf("bufnumb #%d: %d\n", i, bufnumb[i]);
-		allocBy[i] = 0;
-		allocBf[i] = 0;
+	int32 minsize = 16;
+	int32 maxnumb = 32;
+	bpid32	poolid;
+	for (poolid = 0; poolid < poolnum; poolid++) {
+		bufsize[poolid] = minsize << i;
+		//bufnumb[poolid] = maxnumb >> (poolid / 2);
+		bufnumb[poolid] = maxnumb / 2;
+		// printf("bufsize #%d: %d, ", poolid, bufsize[poolid]);
+		// printf("bufnumb #%d: %d\n", poolid, bufnumb[poolid]);
+		allocBy[poolid] = 0;
+		allocBf[poolid] = 0;
 	}
 
 	// make buffer pools
-	for (i = 0; i < poolnum; i++) {
-		bpid32 poolid = mkbufpool(bufsize[i], bufnumb[i]);
+	for (poolid = 0; poolid < poolnum; poolid++) {
+		int32 bufsiz = bufsize[poolid] + sizeof(int32);
+		bpid32 poolid = mkbufpool(bufsiz, bufnumb[poolid]);
 		if (poolid == (bpid32)SYSERR) {
 			printf("mkbufpool failed, bufsiz: %d, numbufs: %d\n", 
-											bufsize[i], bufnumb[i]);
+								bufsize[poolid], bufnumb[poolid]);
 			return;
 		}
 		// struct bpentry *bpptr;
@@ -51,7 +52,7 @@ void xmalloc_init() {
 	memset(fragStr, '\0', sizeof(fragStr));
 }
 
-void *xmalloc(uint32 size) {
+void *xmalloc(int32 size) {
 	// find the higer and closest buffer in size
 	bpid32 poolid = findClosestIndex(size);
 	if (poolid == (bpid32)SYSERR) {
@@ -141,7 +142,7 @@ char *xheap_snapshot() {
 }
 
 // find first index of size greater or equals to size
-bpid32 findClosestIndex(uint32 size) {
+bpid32 findClosestIndex(int32 size) {
 	if (size > bufsize[nbpools - 1]) {
 		return (bpid32)SYSERR;
 	}
