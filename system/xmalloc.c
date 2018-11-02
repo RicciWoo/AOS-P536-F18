@@ -76,6 +76,7 @@ void *xmalloc(int32 size) {
 void xfree(void *bufaddr) {
 	if (bufaddr == NULL) {
 		printf("Invalid address!\n");
+		return;
 	}
 
 	// get the poolid of the pool
@@ -100,6 +101,7 @@ void xfree(void *bufaddr) {
 	syscall st = freebuf((char *)bufaddr);
 	if (st == SYSERR) {
 		printf("freebuf failed, address: %d", bufaddr);
+		return;
 	}
 }
 

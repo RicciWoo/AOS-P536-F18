@@ -44,9 +44,9 @@ void xmalloc_test() {
 	for (poolid = 0; poolid < nbpools; poolid++) {
 		printf("poolid: %d, bufsize: %d, bufnumb: %d\n", poolid, bufsize[poolid], bufnumb[poolid]);
 	}
-	for (poolid = 0; poolid < nbpools; poolid++) {
-		printf("poolid: %d, allocBy: %d, allocBf: %d, fragmBy: %d\n", poolid, allocBy[poolid], allocBf[poolid], fragmBy[poolid]);
-	}
+	// for (poolid = 0; poolid < nbpools; poolid++) {
+	// 	printf("poolid: %d, allocBy: %d, allocBf: %d, fragmBy: %d\n", poolid, allocBy[poolid], allocBf[poolid], fragmBy[poolid]);
+	// }
 
 	// for holding the fragmentation information
 	char *str = (char *)getmem(sizeof(fragStr));
