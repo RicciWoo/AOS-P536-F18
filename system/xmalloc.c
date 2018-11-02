@@ -86,8 +86,8 @@ void *xmalloc(int32 size) {
 	// printf("bpptr->bpnext after allocation: %d\n", bpptr->bpnext);
 
 	// save the allocated size at the end of the buffer
-	bufptr += bpptr->bpsize - sizeof(int32);
-	*((int32 *)bufptr) = size;
+	char *addr = bufptr + bpptr->bpsize - sizeof(int32);
+	*((int32 *)addr) = size;
 
 	// update segmentation information
 	printf("  allocted buffer with buffer size: %d\n", bpptr->bpsize);
@@ -103,17 +103,19 @@ void xfree(void *bufaddr) {
 	}
 
 	// get the poolid of the pool
-	void *addr = bufaddr - sizeof(bpid32);
+	char *addr = bufaddr - sizeof(bpid32);
 	bpid32 poolid = *((bpid32 *)addr);
 	if (poolid < 0  ||  poolid >= nbpools) {
-		printf("Invalid pool id: %d\n", poolid);
+		printf("Invalid poolid: %d\n", poolid);
 		return;
 	}
+	printf("  the poolid is: %d\n", poolid);
 
 	// get the actual size that allocated before
 	struct bpentry *bpptr = &buftab[poolid];
 	addr += sizeof(bpid32) + bpptr->bpsize - sizeof(int32);
 	int32 size = *((int32 *)addr);
+	printf("  the actual size is: %d\n", size);
 
 	// update segmentation information
 	printf("  free, buffer size: %d, allocated size: %d\n", bpptr->bpsize, size);
