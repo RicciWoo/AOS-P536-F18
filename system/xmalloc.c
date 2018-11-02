@@ -127,7 +127,7 @@ void xfree(void *bufaddr) {
 	// allocBf[poolid]--;
 	// fragmBy[poolid] = bufsize[poolid] * allocBf[poolid] - allocBy[poolid];
 
-	printf("freed buffer at address: %d\n", addr);
+	printf("freed buffer at address: %d\n", bufaddr);
 }
 
 char *xheap_snapshot() {
