@@ -76,7 +76,7 @@ void xmalloc_test() {
 		}
 
 		// free the selected buffer
-		xfree((void *)ptr);
+		xfree(ptr);
 		printf("    free buffer with index: %d\n", index);
 		*(bufptr + sizeof(char *) * index) = NULL;
 	}
