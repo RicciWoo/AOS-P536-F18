@@ -23,7 +23,7 @@ void xmalloc_test() {
 		}
 		int32 size = (int32)(rand() + BP_MINB) % bpmaxb;
 		printf("=====================================================\n");
-		printf("allocation #%d, buffer size: %d\n", i, size);
+		printf("allocation #%d, actual size: %d\n", i, size);
 		char *addr = (char *)xmalloc(size);
 		if (addr == NULL) {
 			printf("xmalloc failed, size: %d\n", size);
