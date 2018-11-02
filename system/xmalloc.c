@@ -42,6 +42,10 @@ void xmalloc_init() {
 }
 
 void *xmalloc(int32 size) {
+	if (size <= 0 || size > bufsize[nbpools - 1]) {
+		return NULL;
+	}
+
 	// find the higer and closest buffer in size
 	bpid32 poolid = findClosestIndex(size);
 	if (poolid == (bpid32)SYSERR) {
@@ -152,9 +156,10 @@ char *xheap_snapshot() {
 
 // find first index of size greater or equals to size
 bpid32 findClosestIndex(int32 size) {
-	if (size > bufsize[nbpools - 1]) {
+	if (size <= 0 || size > bufsize[nbpools - 1]) {
 		return (bpid32)SYSERR;
 	}
+
 	if (size <= bufsize[0]) {
 		return 0;
 	}
