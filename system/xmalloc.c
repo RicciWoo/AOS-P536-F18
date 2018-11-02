@@ -113,7 +113,7 @@ void xfree(void *bufaddr) {
 	// get the actual size that allocated before
 	struct bpentry *bpptr = &buftab[poolid];
 	addr += sizeof(bpid32) + bpptr->bpsize - sizeof(int32);
-	int32 size = *((int32 *)bufaddr);
+	int32 size = *((int32 *)addr);
 
 	// update segmentation information
 	printf("  free, buffer size: %d, allocated size: %d\n", bpptr->bpsize, size);
