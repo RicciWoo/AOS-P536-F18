@@ -123,9 +123,9 @@ void xfree(void *bufaddr) {
 
 	// update segmentation information
 	printf("free buffer with allocated size: %d\n", size);
-	allocBy[poolid] -= size;
-	allocBf[poolid]--;
-	fragmBy[poolid] = bufsize[poolid] * allocBf[poolid] - allocBy[poolid];
+	// allocBy[poolid] -= size;
+	// allocBf[poolid]--;
+	// fragmBy[poolid] = bufsize[poolid] * allocBf[poolid] - allocBy[poolid];
 
 	// printf("freed buffer at address: %d\n", addr);
 }
