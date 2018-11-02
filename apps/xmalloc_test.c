@@ -47,7 +47,7 @@ void xmalloc_test() {
 	// randomly choose a buffer, then free it
 	// show fragmentation information every 16 steps
 	printf("========================= Random Free ========================\n");
-	for (i = 0; i < 16; i++) {
+	for (i = 0; i < ntest; i++) {
 		// randomly choose one buffer
 		int32 index = (int32)(rand() % ntest);
 		char *ptr = *(bufptr + sizeof(char *) * index);
