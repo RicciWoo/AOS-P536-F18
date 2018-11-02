@@ -24,14 +24,13 @@ void xmalloc_test() {
 		int32 size = (int32)((rand() + BP_MINB) % bpmaxb);
 
 		// allocate the buffer
-		char *addr = (char *)xmalloc(size);
-		if (addr == NULL) {
-			printf("\nxmalloc failed, size: %d\n", size);
-		} else {
-			printf("%3d=%4d, ", i, size);
-			if (i % 8 == 7) {
-				printf("\n    ");
-			}
+		char *addr == NULL;
+		if (size > 0) {
+			addr = (char *)xmalloc(size);
+		}
+		printf("%3d=%4d, ", i, size);
+		if (i % 8 == 7) {
+			printf("\n    ");
 		}
 
 		// save the address
