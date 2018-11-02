@@ -29,12 +29,13 @@ void xmalloc_test() {
 			printf("\nxmalloc failed, size: %d\n", size);
 		} else {
 			printf("%d, ", size);
-			if (i % 16 == 15) {
+			if (i % 8 == 7) {
 				printf("\n    ");
 			}
 		}
 		*(bufptr + sizeof(char *) * i) = addr;
 	}
+	printf("\n");
 
 	for (i = 0; i < ntest; i++) {
 		printf("=====================================================\n");
