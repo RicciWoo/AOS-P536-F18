@@ -59,30 +59,25 @@ void *xmalloc(int32 size) {
 		printf("findClosestIndex failed, size: %d\n", size);
 		return NULL;
 	}
-	// printf("  the selected poolid for size %d is %d\n", size, poolid);
 
 	// allocate the buffer with the index
 	struct bpentry *bpptr;
 	bpptr = &buftab[poolid];
-	// printf("the buffer size of selected pool: %d\n", bpptr->bpsize);
 	if (bpptr->bpnext == NULL) {
 		printf("no buffer with size %d is available!\n", bpptr->bpsize);
 		return NULL;
 	}
-	// printf("bpptr->bpnext before allocation: %d\n", bpptr->bpnext);
 	char *bufptr = getbuf(poolid);
 	if (bufptr == (char *)SYSERR) {
 		printf("getbuf failed, poolid: %d\n", poolid);
 		return NULL;
 	}
-	// printf("bpptr->bpnext after allocation: %d\n", bpptr->bpnext);
 
 	// save the allocated size at the end of the buffer
 	char *addr = bufptr + bpptr->bpsize - sizeof(int32);
 	*((int32 *)addr) = size;
 
 	// update segmentation information
-	// printf("  allocted buffer with buffer size: %d\n", bpptr->bpsize);
 	allocBy[poolid] += size;
 	allocBf[poolid]++;
 	fragmBy[poolid] = bufsize[poolid] * allocBf[poolid] - allocBy[poolid];
@@ -101,16 +96,13 @@ void xfree(void *bufaddr) {
 		printf("Invalid poolid: %d\n", poolid);
 		return;
 	}
-	// printf("  the poolid is: %d\n", poolid);
 
 	// get the actual size that allocated before
 	struct bpentry *bpptr = &buftab[poolid];
 	addr += sizeof(bpid32) + bpptr->bpsize - sizeof(int32);
 	int32 size = *((int32 *)addr);
-	// printf("  the actual size is: %d\n", size);
 
 	// update segmentation information
-	// printf("  free, buffer size: %d, allocated size: %d\n", bpptr->bpsize, size);
 	allocBy[poolid] -= size;
 	allocBf[poolid]--;
 	fragmBy[poolid] = bufsize[poolid] * allocBf[poolid] - allocBy[poolid];
@@ -120,8 +112,6 @@ void xfree(void *bufaddr) {
 	if (st == SYSERR) {
 		printf("freebuf failed, address: %d", bufaddr);
 	}
-
-	// printf("freed buffer at address: %d\n", bufaddr);
 }
 
 char *xheap_snapshot() {

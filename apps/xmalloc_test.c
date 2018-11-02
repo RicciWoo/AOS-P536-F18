@@ -12,6 +12,7 @@ void xmalloc_test() {
 	int32 ntest = 64 + 32 + 16;
 	char **bufptr = (char **)getmem(ntest * sizeof(char *));
 	int32 i;
+	printf("===================== Allocation =====================\n    ");
 	for (i = 0; i < ntest; i++) {
 		int32 bpmaxb;
 		if (i < 64) {
@@ -22,11 +23,15 @@ void xmalloc_test() {
 			bpmaxb = BP_MAXB - sizeof(int32);
 		}
 		int32 size = (int32)(rand() + BP_MINB) % bpmaxb;
-		printf("=====================================================\n");
-		printf("allocation #%d, actual size: %d\n", i, size);
+		// allocate the buffer
 		char *addr = (char *)xmalloc(size);
 		if (addr == NULL) {
-			printf("xmalloc failed, size: %d\n", size);
+			printf("\nxmalloc failed, size: %d\n", size);
+		} else {
+			printf("%d, ", size);
+			if (i % 16 == 15) {
+				printf("\n    ");
+			}
 		}
 		*(bufptr + sizeof(char *) * i) = addr;
 	}
