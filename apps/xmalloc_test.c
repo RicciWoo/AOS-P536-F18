@@ -63,7 +63,7 @@ void xmalloc_test() {
 			}
 			char *retStr = xheap_snapshot();
 			memcpy(str, retStr, sizeof(fragStr)); // copy for output
-			printf("======== Fragmentation information after %d free steps ========\n", i);
+			printf("\n======== Fragmentation information after %d free steps ========\n", i);
 			printf("%s\n", str);
 		}
 
