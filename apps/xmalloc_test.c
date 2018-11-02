@@ -24,7 +24,7 @@ void xmalloc_test() {
 		int32 size = (int32)((rand() + BP_MINB) % bpmaxb);
 
 		// allocate the buffer
-		char *addr == NULL;
+		char *addr = NULL;
 		if (size > 0) {
 			addr = (char *)xmalloc(size);
 		}
