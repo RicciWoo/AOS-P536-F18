@@ -102,30 +102,30 @@ void xfree(void *bufaddr) {
 		printf("Invalid address!\n");
 	}
 
+	// get the poolid of the pool
+	void *addr = bufaddr - sizeof(bpid32);
+	bpid32 poolid = *((bpid32 *)addr);
+	if (poolid < 0  ||  poolid >= nbpools) {
+		printf("Invalid pool id: %d\n", poolid);
+		return;
+	}
+
+	// get the actual size that allocated before
+	struct bpentry *bpptr = &buftab[poolid];
+	bufaddr += sizeof(bpid32) + bpptr->bpsize - sizeof(int32);
+	int32 size = *((int32 *)bufaddr);
+
+	// update segmentation information
+	printf("  free, buffer size: %d, allocated size: %d\n", bpptr->bpsize, size);
+	allocBy[poolid] -= size;
+	allocBf[poolid]--;
+	fragmBy[poolid] = bufsize[poolid] * allocBf[poolid] - allocBy[poolid];
+
 	// give the buffer back to the pool
 	syscall st = freebuf((char *)bufaddr);
 	if (st == SYSERR) {
 		printf("freebuf failed, address: %d", bufaddr);
 	}
-
-	// // get the poolid of the pool
-	// bufaddr -= sizeof(bpid32);
-	// bpid32 poolid = *(bpid32 *)bufaddr;
-	// if (poolid < 0  ||  poolid >= nbpools) {
-	// 	printf("Invalid pool id: %d\n", poolid);
-	// 	return;
-	// }
-
-	// // get the actual size that allocated before
-	// struct bpentry *bpptr = &buftab[poolid];
-	// bufaddr += sizeof(bpid32) + bpptr->bpsize - sizeof(int32);
-	// int32 size = *((int32 *)bufaddr);
-
-	// // update segmentation information
-	// printf("free buffer with allocated size: %d\n", size);
-	// allocBy[poolid] -= size;
-	// allocBf[poolid]--;
-	// fragmBy[poolid] = bufsize[poolid] * allocBf[poolid] - allocBy[poolid];
 
 	printf("freed buffer at address: %d\n", bufaddr);
 }
