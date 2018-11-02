@@ -92,17 +92,17 @@ void xfree(void *bufaddr) {
 	addr += sizeof(bpid32) + bpptr->bpsize - sizeof(int32);
 	int32 size = *((int32 *)addr);
 
-	// update segmentation information
-	allocBy[poolid] -= size;
-	allocBf[poolid]--;
-	fragmBy[poolid] = bufsize[poolid] * allocBf[poolid] - allocBy[poolid];
-
 	// give the buffer back to the pool
 	syscall st = freebuf((char *)bufaddr);
 	if (st == SYSERR) {
 		printf("freebuf failed, address: %d", bufaddr);
 		return;
 	}
+
+	// update segmentation information
+	allocBy[poolid] -= size;
+	allocBf[poolid]--;
+	fragmBy[poolid] = bufsize[poolid] * allocBf[poolid] - allocBy[poolid];
 }
 
 char *xheap_snapshot() {
