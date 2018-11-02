@@ -95,7 +95,7 @@ void xfree(void *bufaddr) {
 	struct bpentry *bpptr = &buftab[poolid];
 	addr += sizeof(bpid32) + bpptr->bpsize - sizeof(int32);
 	int32 size = *((int32 *)addr);
-	printf("    buffer size: %d, actual size: %d\n", bpptr->bpsize, size);
+	printf("    poolid: %d, buffer size: %d, actual size: %d\n", poolid, bpptr->bpsize, size);
 
 	// give the buffer back to the pool
 	syscall st = freebuf((char *)bufaddr);
