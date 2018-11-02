@@ -28,7 +28,7 @@ void xmalloc_test() {
 		if (size > 0) {
 			addr = (addr_t)xmalloc(size);
 		}
-		printf("%3d=%4d, ", i, size);
+		printf("%4d, ", size);
 		if (i % 8 == 7) {
 			printf("\n    ");
 		}
@@ -37,16 +37,6 @@ void xmalloc_test() {
 		bufptr[i] = addr;
 	}
 	printf("\n");
-
-	// show 
-	bpid32 poolid;
-	for (poolid = 0; poolid < nbpools; poolid++) {
-		printf("poolid: %d, bufsize: %d, bufnumb: %d\n", poolid, bufsize[poolid], bufnumb[poolid]);
-	}
-
-	// for (poolid = 0; poolid < nbpools; poolid++) {
-	// 	printf("poolid: %d, allocBy: %d, allocBf: %d, fragmBy: %d\n", poolid, allocBy[poolid], allocBf[poolid], fragmBy[poolid]);
-	// }
 
 	// for holding the fragmentation information
 	char *str = (char *)getmem(sizeof(fragStr));
@@ -57,10 +47,6 @@ void xmalloc_test() {
 	for (i = 0; i < ntest; i++) {
 		// show fragmentation information every 16 steps
 		if (i % 16 == 0) {
-			printf("\n");
-			for (poolid = 0; poolid < nbpools; poolid++) {
-				printf("poolid: %d, allocBy: %d, allocBf: %d, fragmBy: %d\n", poolid, allocBy[poolid], allocBf[poolid], fragmBy[poolid]);
-			}
 			char *retStr = xheap_snapshot();
 			memcpy(str, retStr, sizeof(fragStr)); // copy for output
 			printf("\n======== Fragmentation information after %d free steps ========\n", i);
@@ -83,10 +69,6 @@ void xmalloc_test() {
 	}
 
 	// show fragmentation information at the end
-	printf("\n");
-	for (poolid = 0; poolid < nbpools; poolid++) {
-		printf("poolid: %d, allocBy: %d, allocBf: %d, fragmBy: %d\n", poolid, allocBy[poolid], allocBf[poolid], fragmBy[poolid]);
-	}
 	char *retStr = xheap_snapshot();
 	memcpy(str, retStr, sizeof(fragStr)); // copy for output
 	printf("\n============ Fragmentation information at the end ============\n");

@@ -86,7 +86,6 @@ void xfree(void *bufaddr) {
 	// get the poolid of the pool
 	char *addr = (char *)bufaddr - sizeof(bpid32);
 	bpid32 poolid = *((bpid32 *)addr);
-	printf("bufaddr: %d, addr, %d, poolid: %d", bufaddr, addr, poolid);
 	if (poolid < 0 || poolid >= nbpools) {
 		printf("Invalid poolid: %d\n", poolid);
 		return;
@@ -96,7 +95,6 @@ void xfree(void *bufaddr) {
 	struct bpentry *bpptr = &buftab[poolid];
 	addr += sizeof(bpid32) + bpptr->bpsize - sizeof(int32);
 	int32 size = *((int32 *)addr);
-	printf("    poolid: %d, buffer size: %d, actual size: %d\n", poolid, bpptr->bpsize, size);
 
 	// give the buffer back to the pool
 	syscall st = freebuf((char *)bufaddr);
