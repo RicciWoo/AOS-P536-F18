@@ -9,11 +9,19 @@ void xmalloc_test() {
 	
 	// allocate ramdon size of buffers
 	srand(97);
-	uint32 ntest = 32;
+	int32 ntest = 64 + 32 + 16;
 	char **bufptr = (char **)getmem(ntest * sizeof(char *));
-	uint32 i;
+	int32 i;
 	for (i = 0; i < ntest; i++) {
-		uint32 size = (uint32)(rand() + BP_MINB) % BP_MAXB;
+		int32 bpmaxb;
+		if (i < 64) {
+			bpmaxb = 128 - sizeof(int32);
+		} else if (i < 96) {
+			bpmaxb = 1024 - sizeof(int32);
+		} else {
+			bpmaxb = BP_MAXB - sizeof(int32);
+		}
+		int32 size = (int32)(rand() + BP_MINB) % bpmaxb;
 		printf("=====================================================\n");
 		printf("allocation #%d, buffer size: %d\n", i, size);
 		char *addr = (char *)xmalloc(size);
@@ -33,7 +41,7 @@ void xmalloc_test() {
 		}
 		xfree((void *)ptr);
 	}
-	
+
 	char *str = xheap_snapshot();
 	printf("Information about the fragmentation in heap: \n");
 	printf("%s", str);

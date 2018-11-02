@@ -20,12 +20,19 @@ void xmalloc_init() {
 	// setup buffer pools parameters
 	poolnum = 10;
 	int32 minsize = 16;
-	int32 maxnumb = 32;
+	// int32 maxnumb = 20;
 	bpid32	poolid;
 	for (poolid = 0; poolid < poolnum; poolid++) {
-		bufsize[poolid] = minsize << poolid;
+		bufsize[poolid] = minsize << poolid - sizeof(int32);
 		//bufnumb[poolid] = maxnumb >> (poolid / 2);
-		bufnumb[poolid] = maxnumb / 2;
+		// bufnumb[poolid] = maxnumb;
+		if (bufsize[poolid] <= 128) {
+			bufnumb[poolid] = 64;
+		} else if (bufsize[poolid] <= 1024) {
+			bufnumb[poolid] = 32;
+		} else {
+			bufnumb[poolid] = 16;
+		}
 		// printf("bufsize #%d: %d, ", poolid, bufsize[poolid]);
 		// printf("bufnumb #%d: %d\n", poolid, bufnumb[poolid]);
 		allocBy[poolid] = 0;
@@ -78,26 +85,49 @@ void *xmalloc(int32 size) {
 	}
 	// printf("bpptr->bpnext after allocation: %d\n", bpptr->bpnext);
 
-	printf("allocted buffer with size: %d\n", bpptr->bpsize);
+	// save the allocated size at the end of the buffer
+	bufptr += bpptr->bpsize - sizeof(int32);
+	*((int32 *)bufptr) = size;
+
+	// update segmentation information
+	printf("allocted buffer with actual size: %d\n", size);
 	allocBy[poolid] += size;
 	allocBf[poolid]++;
 	fragmBy[poolid] = bufsize[poolid] * allocBf[poolid] - allocBy[poolid];
 	return (void *)bufptr;
 }
 
-void xfree(void *ptr) {
-	// printf("start of void xfree(void *)\n");
-
-	if (ptr == NULL) {
+void xfree(void *bufaddr) {
+	if (bufaddr == NULL) {
 		printf("Invalid address!\n");
 	}
-	syscall st = freebuf((char *)ptr);
+
+	// give the buffer back to the pool
+	syscall st = freebuf((char *)bufaddr);
 	if (st == SYSERR) {
-		printf("freebuf failed, address: %d", ptr);
+		printf("freebuf failed, address: %d", bufaddr);
 	}
 
-	// printf("end of void xfree(void *)\n");
-	printf("freed buffer at address: %d\n", ptr);
+	// get the poolid of the pool
+	bufaddr -= sizeof(bpid32);
+	bpid32 poolid = *(bpid32 *)bufaddr;
+	if (poolid < 0  ||  poolid >= nbpools) {
+		printf("Invalid pool id: %d\n", poolid);
+		return;
+	}
+
+	// get the actual size that allocated before
+	struct bpentry *bpptr = &buftab[poolid];
+	bufaddr += sizeof(bpid32) + bpptr->bpsize - sizeof(int32);
+	int32 size = *((int32 *)bufaddr);
+
+	// update segmentation information
+	printf("free buffer with allocated size: %d\n", size);
+	allocBy[poolid] -= size;
+	allocBf[poolid]--;
+	fragmBy[poolid] = bufsize[poolid] * allocBf[poolid] - allocBy[poolid];
+
+	// printf("freed buffer at address: %d\n", addr);
 }
 
 char *xheap_snapshot() {
