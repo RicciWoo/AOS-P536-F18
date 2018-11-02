@@ -84,7 +84,7 @@ void xfree(void *bufaddr) {
 	}
 
 	// get the poolid of the pool
-	char *addr = bufaddr - sizeof(bpid32);
+	char *addr = (char *)bufaddr - sizeof(bpid32);
 	bpid32 poolid = *((bpid32 *)addr);
 	if (poolid < 0  ||  poolid >= nbpools) {
 		printf("Invalid poolid: %d\n", poolid);
