@@ -48,7 +48,7 @@ void xmalloc_init() {
 	}
 
 	// initialize fragmentation information string
-	memset(fragStr, '\0', sizeof(compStr));
+	memset(fragStr, '\0', sizeof(fragStr));
 }
 
 void *xmalloc(uint32 size) {
