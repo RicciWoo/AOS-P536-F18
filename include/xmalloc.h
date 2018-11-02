@@ -1,12 +1,13 @@
 #ifndef _XMALLOC_H_
 #define _XMALLOC_H_
 
-extern int32 bufsize[];
-extern int32 bufnumb[];
-extern int32 allocBy[];
-extern int32 allocBf[];
-extern int32 fragmBy[];
-extern char  fragStr[];
+int32 poolnum;
+int32 bufsize[NBPOOLS];
+int32 bufnumb[NBPOOLS];
+int32 allocBy[NBPOOLS];
+int32 allocBf[NBPOOLS];
+int32 fragmBy[NBPOOLS];
+char  fragStr[NBPOOLS * 128];
 
 extern void srand(unsigned long);
 extern unsigned long rand(void);

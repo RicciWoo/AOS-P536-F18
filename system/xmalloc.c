@@ -1,14 +1,6 @@
 #include <xinu.h>
 #include <xmalloc.h>
 
-int32 poolnum;
-int32 bufsize[NBPOOLS];
-int32 bufnumb[NBPOOLS];
-int32 allocBy[NBPOOLS];
-int32 allocBf[NBPOOLS];
-int32 fragmBy[NBPOOLS];
-char  fragStr[NBPOOLS * 128];
-
 void xmalloc_init() {
 	// initialize buffer pools
 	status st = bufinit();
