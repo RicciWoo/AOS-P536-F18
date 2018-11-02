@@ -18,8 +18,8 @@ void xmalloc_init() {
 	}
 
 	// setup buffer pools parameters
-	poolnum = 11;
-	uint32 minsize = 8;
+	poolnum = 10;
+	uint32 minsize = 16;
 	uint32 maxnumb = 32;
 	uint32 i = 0;
 	for (i = 0; i < poolnum; i++) {
