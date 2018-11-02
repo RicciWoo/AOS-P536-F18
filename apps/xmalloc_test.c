@@ -34,14 +34,9 @@ void xmalloc_test() {
 		}
 
 		// save the address
-		printf("the allocated address: %d\n", addr);
 		*(bufptr + sizeof(char *) * i) = addr;
 	}
 	printf("\n");
-
-	for (i = 0; i < ntest; i++) {
-		printf("the addresses in array: %d\n", *(bufptr + sizeof(char *) * i));
-	}
 
 	// show 
 	bpid32 poolid;
