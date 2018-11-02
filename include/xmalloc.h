@@ -3,13 +3,13 @@
 
 typedef	char *addr_t;
 
-int32 poolnum;
-int32 bufsize[NBPOOLS];
-int32 bufnumb[NBPOOLS];
-int32 allocBy[NBPOOLS];
-int32 allocBf[NBPOOLS];
-int32 fragmBy[NBPOOLS];
-char  fragStr[NBPOOLS * 128];
+int32 poolnum;                // total number of buffer pools
+int32 bufsize[NBPOOLS];       // buffer size in each pool
+int32 bufnumb[NBPOOLS];       // number of buffers in each pool
+int32 allocBy[NBPOOLS];       // allocated bytes for each pool
+int32 allocBf[NBPOOLS];       // allocated buffers for each pool
+int32 fragmBy[NBPOOLS];       // fragmented bytes in each pool
+char  fragStr[NBPOOLS * 128]; // the fragmentation information string
 
 extern void srand(unsigned long);
 extern unsigned long rand(void);
