@@ -23,7 +23,7 @@ void xmalloc_init() {
 	// int32 maxnumb = 20;
 	bpid32	poolid;
 	for (poolid = 0; poolid < poolnum; poolid++) {
-		bufsize[poolid] = minsize << poolid - sizeof(int32);
+		bufsize[poolid] = (minsize << poolid) - sizeof(int32);
 		//bufnumb[poolid] = maxnumb >> (poolid / 2);
 		// bufnumb[poolid] = maxnumb;
 		if (bufsize[poolid] <= 128) {
