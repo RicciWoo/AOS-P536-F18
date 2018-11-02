@@ -1,0 +1,235 @@
+========================= Allocation =========================
+      39,   32,  120,   27,   18,  104,   89,   59, 
+      26,    6,   40,   82,  115,  112,   54,   68, 
+      83,   62,    5,   28,  113,   17,  118,   27, 
+      95,   26,   70,   40,   31,  112,   84,   53, 
+      89,  107,   57,   29,   34,   32,   74,  114, 
+      69,   81,   62,   61,  101,  106,    7,    8, 
+      82,   72,   28,   41,  111,   32,   36,   67, 
+      43,   19,   73,  117,   99,   11,   76,  113, 
+     855,  391,  273,  110,  582,  764,  178,  941, 
+     195,  518,  245,  449,  509,  485,  504,   15, 
+     637,  127,  916,  855,  329,  526,  500,  860, 
+     573,  622,  122,  261,  549,  504,    0,  200, 
+     173, 7459, 3510, 5528, 6980, 6051,  688, 3406, 
+    4063, 6738, 4521, 4709,  366, 2253, 2629, 3544, 
+    
+
+========================= Random Free ========================
+
+======== Fragmentation information after 0 free steps ========
+pool_id=0, buffer_size=12, total_buffers=64, allocated_bytes=37, allocated_buffers=5, fragmented_bytes=23 
+pool_id=1, buffer_size=28, total_buffers=64, allocated_bytes=231, allocated_buffers=10, fragmented_bytes=49 
+pool_id=2, buffer_size=60, total_buffers=64, allocated_bytes=652, allocated_buffers=16, fragmented_bytes=308 
+pool_id=3, buffer_size=124, total_buffers=64, allocated_bytes=3333, allocated_buffers=36, fragmented_bytes=1131 
+pool_id=4, buffer_size=252, total_buffers=32, allocated_bytes=1118, allocated_buffers=6, fragmented_bytes=394 
+pool_id=5, buffer_size=508, total_buffers=32, allocated_bytes=4062, allocated_buffers=10, fragmented_bytes=1018 
+pool_id=6, buffer_size=1020, total_buffers=32, allocated_bytes=10395, allocated_buffers=15, fragmented_bytes=4905 
+pool_id=7, buffer_size=2044, total_buffers=16, allocated_bytes=0, allocated_buffers=0, fragmented_bytes=0 
+pool_id=8, buffer_size=4092, total_buffers=16, allocated_bytes=19405, allocated_buffers=6, fragmented_bytes=5147 
+pool_id=9, buffer_size=8188, total_buffers=16, allocated_bytes=41986, allocated_buffers=7, fragmented_bytes=15330 
+
+    free buffer with index: 16
+    free buffer with index: 38
+    free buffer with index: 59
+    free buffer with index: 8
+    free buffer with index: 86
+    free buffer with index: 88
+    free buffer with index: 2
+    free buffer with index: 78
+    free buffer with index: 45
+    The buffer was not allocated, index: 45
+    free buffer with index: 1
+    free buffer with index: 22
+    free buffer with index: 11
+    free buffer with index: 79
+    free buffer with index: 10
+    The buffer was not allocated, index: 22
+
+======== Fragmentation information after 16 free steps ========
+pool_id=0, buffer_size=12, total_buffers=64, allocated_bytes=37, allocated_buffers=5, fragmented_bytes=23 
+pool_id=1, buffer_size=28, total_buffers=64, allocated_bytes=190, allocated_buffers=8, fragmented_bytes=34 
+pool_id=2, buffer_size=60, total_buffers=64, allocated_bytes=580, allocated_buffers=14, fragmented_bytes=260 
+pool_id=3, buffer_size=124, total_buffers=64, allocated_bytes=2633, allocated_buffers=29, fragmented_bytes=963 
+pool_id=4, buffer_size=252, total_buffers=32, allocated_bytes=1118, allocated_buffers=6, fragmented_bytes=394 
+pool_id=5, buffer_size=508, total_buffers=32, allocated_bytes=3058, allocated_buffers=8, fragmented_bytes=1006 
+pool_id=6, buffer_size=1020, total_buffers=32, allocated_bytes=9822, allocated_buffers=14, fragmented_bytes=4458 
+pool_id=7, buffer_size=2044, total_buffers=16, allocated_bytes=0, allocated_buffers=0, fragmented_bytes=0 
+pool_id=8, buffer_size=4092, total_buffers=16, allocated_bytes=19405, allocated_buffers=6, fragmented_bytes=5147 
+pool_id=9, buffer_size=8188, total_buffers=16, allocated_bytes=41986, allocated_buffers=7, fragmented_bytes=15330 
+
+    The buffer was not allocated, index: 59
+    The buffer was not allocated, index: 79
+    free buffer with index: 49
+    free buffer with index: 17
+    free buffer with index: 105
+    The buffer was not allocated, index: 49
+    free buffer with index: 109
+    free buffer with index: 95
+    free buffer with index: 13
+    free buffer with index: 37
+    free buffer with index: 108
+    free buffer with index: 96
+    free buffer with index: 104
+    free buffer with index: 19
+    free buffer with index: 100
+    free buffer with index: 97
+
+======== Fragmentation information after 32 free steps ========
+pool_id=0, buffer_size=12, total_buffers=64, allocated_bytes=37, allocated_buffers=5, fragmented_bytes=23 
+pool_id=1, buffer_size=28, total_buffers=64, allocated_bytes=162, allocated_buffers=7, fragmented_bytes=34 
+pool_id=2, buffer_size=60, total_buffers=64, allocated_bytes=548, allocated_buffers=13, fragmented_bytes=232 
+pool_id=3, buffer_size=124, total_buffers=64, allocated_bytes=2387, allocated_buffers=26, fragmented_bytes=837 
+pool_id=4, buffer_size=252, total_buffers=32, allocated_bytes=745, allocated_buffers=4, fragmented_bytes=263 
+pool_id=5, buffer_size=508, total_buffers=32, allocated_bytes=2692, allocated_buffers=7, fragmented_bytes=864 
+pool_id=6, buffer_size=1020, total_buffers=32, allocated_bytes=9822, allocated_buffers=14, fragmented_bytes=4458 
+pool_id=7, buffer_size=2044, total_buffers=16, allocated_bytes=0, allocated_buffers=0, fragmented_bytes=0 
+pool_id=8, buffer_size=4092, total_buffers=16, allocated_bytes=13089, allocated_buffers=4, fragmented_bytes=3279 
+pool_id=9, buffer_size=8188, total_buffers=16, allocated_bytes=20809, allocated_buffers=4, fragmented_bytes=11943 
+
+    The buffer was not allocated, index: 79
+    free buffer with index: 62
+    free buffer with index: 93
+    free buffer with index: 90
+    free buffer with index: 106
+    free buffer with index: 85
+    The buffer was not allocated, index: 96
+    The buffer was not allocated, index: 45
+    free buffer with index: 27
+    free buffer with index: 57
+    free buffer with index: 29
+    The buffer was not allocated, index: 79
+    free buffer with index: 31
+    free buffer with index: 99
+    free buffer with index: 47
+    free buffer with index: 35
+
+======== Fragmentation information after 48 free steps ========
+pool_id=0, buffer_size=12, total_buffers=64, allocated_bytes=29, allocated_buffers=4, fragmented_bytes=19 
+pool_id=1, buffer_size=28, total_buffers=64, allocated_bytes=143, allocated_buffers=6, fragmented_bytes=25 
+pool_id=2, buffer_size=60, total_buffers=64, allocated_bytes=426, allocated_buffers=10, fragmented_bytes=174 
+pool_id=3, buffer_size=124, total_buffers=64, allocated_bytes=2077, allocated_buffers=23, fragmented_bytes=775 
+pool_id=4, buffer_size=252, total_buffers=32, allocated_bytes=745, allocated_buffers=4, fragmented_bytes=263 
+pool_id=5, buffer_size=508, total_buffers=32, allocated_bytes=2188, allocated_buffers=6, fragmented_bytes=860 
+pool_id=6, buffer_size=1020, total_buffers=32, allocated_bytes=9296, allocated_buffers=13, fragmented_bytes=3964 
+pool_id=7, buffer_size=2044, total_buffers=16, allocated_bytes=0, allocated_buffers=0, fragmented_bytes=0 
+pool_id=8, buffer_size=4092, total_buffers=16, allocated_bytes=13089, allocated_buffers=4, fragmented_bytes=3279 
+pool_id=9, buffer_size=8188, total_buffers=16, allocated_bytes=10760, allocated_buffers=2, fragmented_bytes=5616 
+
+    The buffer was not allocated, index: 86
+    free buffer with index: 32
+    free buffer with index: 33
+    The buffer was not allocated, index: 11
+    free buffer with index: 98
+    free buffer with index: 67
+    The buffer was not allocated, index: 13
+    free buffer with index: 46
+    The buffer was not allocated, index: 49
+    The buffer was not allocated, index: 57
+    free buffer with index: 40
+    The buffer was not allocated, index: 104
+    The buffer was not allocated, index: 59
+    The buffer was not allocated, index: 27
+    The buffer was not allocated, index: 47
+    free buffer with index: 84
+
+======== Fragmentation information after 64 free steps ========
+pool_id=0, buffer_size=12, total_buffers=64, allocated_bytes=22, allocated_buffers=3, fragmented_bytes=14 
+pool_id=1, buffer_size=28, total_buffers=64, allocated_bytes=143, allocated_buffers=6, fragmented_bytes=25 
+pool_id=2, buffer_size=60, total_buffers=64, allocated_bytes=426, allocated_buffers=10, fragmented_bytes=174 
+pool_id=3, buffer_size=124, total_buffers=64, allocated_bytes=1702, allocated_buffers=19, fragmented_bytes=654 
+pool_id=4, buffer_size=252, total_buffers=32, allocated_bytes=745, allocated_buffers=4, fragmented_bytes=263 
+pool_id=5, buffer_size=508, total_buffers=32, allocated_bytes=1859, allocated_buffers=5, fragmented_bytes=681 
+pool_id=6, buffer_size=1020, total_buffers=32, allocated_bytes=9296, allocated_buffers=13, fragmented_bytes=3964 
+pool_id=7, buffer_size=2044, total_buffers=16, allocated_bytes=0, allocated_buffers=0, fragmented_bytes=0 
+pool_id=8, buffer_size=4092, total_buffers=16, allocated_bytes=9579, allocated_buffers=3, fragmented_bytes=2697 
+pool_id=9, buffer_size=8188, total_buffers=16, allocated_bytes=10760, allocated_buffers=2, fragmented_bytes=5616 
+
+    free buffer with index: 75
+    free buffer with index: 70
+    free buffer with index: 64
+    free buffer with index: 26
+    The buffer was not allocated, index: 93
+    free buffer with index: 74
+    The buffer was not allocated, index: 88
+    free buffer with index: 89
+    free buffer with index: 43
+    The buffer was not allocated, index: 84
+    free buffer with index: 111
+    free buffer with index: 3
+    free buffer with index: 72
+    The buffer was not allocated, index: 108
+    free buffer with index: 102
+    free buffer with index: 107
+
+======== Fragmentation information after 80 free steps ========
+pool_id=0, buffer_size=12, total_buffers=64, allocated_bytes=22, allocated_buffers=3, fragmented_bytes=14 
+pool_id=1, buffer_size=28, total_buffers=64, allocated_bytes=116, allocated_buffers=5, fragmented_bytes=24 
+pool_id=2, buffer_size=60, total_buffers=64, allocated_bytes=426, allocated_buffers=10, fragmented_bytes=174 
+pool_id=3, buffer_size=124, total_buffers=64, allocated_bytes=1571, allocated_buffers=17, fragmented_bytes=537 
+pool_id=4, buffer_size=252, total_buffers=32, allocated_bytes=127, allocated_buffers=1, fragmented_bytes=125 
+pool_id=5, buffer_size=508, total_buffers=32, allocated_bytes=1410, allocated_buffers=4, fragmented_bytes=622 
+pool_id=6, buffer_size=1020, total_buffers=32, allocated_bytes=7131, allocated_buffers=10, fragmented_bytes=3069 
+pool_id=7, buffer_size=2044, total_buffers=16, allocated_bytes=0, allocated_buffers=0, fragmented_bytes=0 
+pool_id=8, buffer_size=4092, total_buffers=16, allocated_bytes=6035, allocated_buffers=2, fragmented_bytes=2149 
+pool_id=9, buffer_size=8188, total_buffers=16, allocated_bytes=6051, allocated_buffers=1, fragmented_bytes=2137 
+
+    The buffer was not allocated, index: 89
+    The buffer was not allocated, index: 62
+    free buffer with index: 92
+    The buffer was not allocated, index: 79
+    free buffer with index: 6
+    free buffer with index: 41
+    The buffer was not allocated, index: 35
+    The buffer was not allocated, index: 37
+    free buffer with index: 36
+    The buffer was not allocated, index: 41
+    free buffer with index: 54
+    free buffer with index: 71
+    The buffer was not allocated, index: 31
+    free buffer with index: 52
+    free buffer with index: 7
+    The buffer was not allocated, index: 31
+
+======== Fragmentation information after 96 free steps ========
+pool_id=0, buffer_size=12, total_buffers=64, allocated_bytes=22, allocated_buffers=3, fragmented_bytes=14 
+pool_id=1, buffer_size=28, total_buffers=64, allocated_bytes=116, allocated_buffers=5, fragmented_bytes=24 
+pool_id=2, buffer_size=60, total_buffers=64, allocated_bytes=297, allocated_buffers=7, fragmented_bytes=123 
+pool_id=3, buffer_size=124, total_buffers=64, allocated_bytes=1290, allocated_buffers=14, fragmented_bytes=446 
+pool_id=4, buffer_size=252, total_buffers=32, allocated_bytes=127, allocated_buffers=1, fragmented_bytes=125 
+pool_id=5, buffer_size=508, total_buffers=32, allocated_bytes=1410, allocated_buffers=4, fragmented_bytes=622 
+pool_id=6, buffer_size=1020, total_buffers=32, allocated_bytes=5641, allocated_buffers=8, fragmented_bytes=2519 
+pool_id=7, buffer_size=2044, total_buffers=16, allocated_bytes=0, allocated_buffers=0, fragmented_bytes=0 
+pool_id=8, buffer_size=4092, total_buffers=16, allocated_bytes=6035, allocated_buffers=2, fragmented_bytes=2149 
+pool_id=9, buffer_size=8188, total_buffers=16, allocated_bytes=6051, allocated_buffers=1, fragmented_bytes=2137 
+
+    The buffer was not allocated, index: 26
+    free buffer with index: 103
+    The buffer was not allocated, index: 90
+    The buffer was not allocated, index: 1
+    The buffer was not allocated, index: 104
+    The buffer was not allocated, index: 62
+    free buffer with index: 50
+    free buffer with index: 42
+    The buffer was not allocated, index: 86
+    The buffer was not allocated, index: 22
+    The buffer was not allocated, index: 79
+    free buffer with index: 12
+    The buffer was not allocated, index: 78
+    free buffer with index: 66
+    free buffer with index: 69
+    The buffer was not allocated, index: 6
+
+============ Fragmentation information at the end ============
+pool_id=0, buffer_size=12, total_buffers=64, allocated_bytes=22, allocated_buffers=3, fragmented_bytes=14 
+pool_id=1, buffer_size=28, total_buffers=64, allocated_bytes=88, allocated_buffers=4, fragmented_bytes=24 
+pool_id=2, buffer_size=60, total_buffers=64, allocated_bytes=297, allocated_buffers=7, fragmented_bytes=123 
+pool_id=3, buffer_size=124, total_buffers=64, allocated_bytes=1113, allocated_buffers=12, fragmented_bytes=375 
+pool_id=4, buffer_size=252, total_buffers=32, allocated_bytes=127, allocated_buffers=1, fragmented_bytes=125 
+pool_id=5, buffer_size=508, total_buffers=32, allocated_bytes=1137, allocated_buffers=3, fragmented_bytes=387 
+pool_id=6, buffer_size=1020, total_buffers=32, allocated_bytes=4877, allocated_buffers=7, fragmented_bytes=2263 
+pool_id=7, buffer_size=2044, total_buffers=16, allocated_bytes=0, allocated_buffers=0, fragmented_bytes=0 
+pool_id=8, buffer_size=4092, total_buffers=16, allocated_bytes=2629, allocated_buffers=1, fragmented_bytes=1463 
+pool_id=9, buffer_size=8188, total_buffers=16, allocated_bytes=6051, allocated_buffers=1, fragmented_bytes=2137 
+
+

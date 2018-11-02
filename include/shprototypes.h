@@ -73,12 +73,6 @@ extern	shellcmd  xsh_uptime	(int32, char *[]);
 /* in file xsh_help.c */
 extern	shellcmd  xsh_help	(int32, char *[]);
 
-/* in file xsh_hello.c */
-extern 	shellcmd xsh_hello	(int32,	char *[]);
-
-/* in file xsh_prodcons.c */
-extern 	shellcmd xsh_prodcons	(int32,	char *[]);
-
 /* in file xsh_mmu.c */
 extern  shellcmd xsh_mmu	(int32, char *[]);
 
@@ -89,4 +83,11 @@ extern shellcmd xsh_message_example(int, char *[]);
 extern shellcmd xsh_arg_example(int, char*[]);
 extern shellcmd xsh_fstest(int nargs, char *args[]);
 
+/* in file shell/xsh_hello.c */
 extern shellcmd xsh_hello(int, char *[]);
+
+/* in file shell/xsh_prodcons.c */
+extern shellcmd xsh_prodcons(int, char *[]);
+
+/* in file shell/xsh_xmalloc_test.c */
+extern shellcmd xsh_xmalloc_test(int, char *[]);
