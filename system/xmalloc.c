@@ -35,8 +35,8 @@ void xmalloc_init() {
 	// make buffer pools
 	for (poolid = 0; poolid < poolnum; poolid++) {
 		int32 bufsiz = bufsize[poolid] + sizeof(int32);
-		bpid32 poolid = mkbufpool(bufsiz, bufnumb[poolid]);
-		if (poolid == (bpid32)SYSERR) {
+		bpid32 pid = mkbufpool(bufsiz, bufnumb[poolid]);
+		if (pid == (bpid32)SYSERR) {
 			printf("mkbufpool failed, bufsiz: %d, numbufs: %d\n", 
 								bufsize[poolid], bufnumb[poolid]);
 			return;
