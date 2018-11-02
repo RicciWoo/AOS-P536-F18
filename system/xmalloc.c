@@ -20,12 +20,10 @@ void xmalloc_init() {
 	// setup buffer pools parameters
 	poolnum = 10;
 	int32 minsize = 16;
-	// int32 maxnumb = 20;
 	bpid32	poolid;
 	for (poolid = 0; poolid < poolnum; poolid++) {
 		bufsize[poolid] = (minsize << poolid) - sizeof(int32);
-		//bufnumb[poolid] = maxnumb >> (poolid / 2);
-		// bufnumb[poolid] = maxnumb;
+		// set different buffer number for different size
 		if (bufsize[poolid] <= 128) {
 			bufnumb[poolid] = 64;
 		} else if (bufsize[poolid] <= 1024) {
@@ -33,8 +31,7 @@ void xmalloc_init() {
 		} else {
 			bufnumb[poolid] = 16;
 		}
-		// printf("bufsize #%d: %d, ", poolid, bufsize[poolid]);
-		// printf("bufnumb #%d: %d\n", poolid, bufnumb[poolid]);
+		// initialize allocated bytes and buffers
 		allocBy[poolid] = 0;
 		allocBf[poolid] = 0;
 	}
@@ -49,11 +46,6 @@ void xmalloc_init() {
 								bufsize[poolid], bufnumb[poolid]);
 			return;
 		}
-		struct bpentry *bpptr;
-		bpptr = &buftab[poolid];
-		printf("poolid: %d, ", poolid);
-		printf("bpptr->bpnext: %d, ", bpptr->bpnext);
-		printf("bpptr->bpsize: %d\n", bpptr->bpsize);
 	}
 
 	// initialize fragmentation information string
@@ -67,7 +59,7 @@ void *xmalloc(int32 size) {
 		printf("findClosestIndex failed, size: %d\n", size);
 		return NULL;
 	}
-	printf("  the selected poolid for size %d is %d\n", size, poolid);
+	// printf("  the selected poolid for size %d is %d\n", size, poolid);
 
 	// allocate the buffer with the index
 	struct bpentry *bpptr;
@@ -90,7 +82,7 @@ void *xmalloc(int32 size) {
 	*((int32 *)addr) = size;
 
 	// update segmentation information
-	printf("  allocted buffer with buffer size: %d\n", bpptr->bpsize);
+	// printf("  allocted buffer with buffer size: %d\n", bpptr->bpsize);
 	allocBy[poolid] += size;
 	allocBf[poolid]++;
 	fragmBy[poolid] = bufsize[poolid] * allocBf[poolid] - allocBy[poolid];
@@ -109,16 +101,16 @@ void xfree(void *bufaddr) {
 		printf("Invalid poolid: %d\n", poolid);
 		return;
 	}
-	printf("  the poolid is: %d\n", poolid);
+	// printf("  the poolid is: %d\n", poolid);
 
 	// get the actual size that allocated before
 	struct bpentry *bpptr = &buftab[poolid];
 	addr += sizeof(bpid32) + bpptr->bpsize - sizeof(int32);
 	int32 size = *((int32 *)addr);
-	printf("  the actual size is: %d\n", size);
+	// printf("  the actual size is: %d\n", size);
 
 	// update segmentation information
-	printf("  free, buffer size: %d, allocated size: %d\n", bpptr->bpsize, size);
+	// printf("  free, buffer size: %d, allocated size: %d\n", bpptr->bpsize, size);
 	allocBy[poolid] -= size;
 	allocBf[poolid]--;
 	fragmBy[poolid] = bufsize[poolid] * allocBf[poolid] - allocBy[poolid];
@@ -129,7 +121,7 @@ void xfree(void *bufaddr) {
 		printf("freebuf failed, address: %d", bufaddr);
 	}
 
-	printf("freed buffer at address: %d\n", bufaddr);
+	// printf("freed buffer at address: %d\n", bufaddr);
 }
 
 char *xheap_snapshot() {
