@@ -14,9 +14,9 @@ void kv_test() {
 	keyPtr = xmalloc(64);
 	strncat(keyPtr, "ctttjyhm", 8);
 
-	int hashedKey = hashFunc(keyPtr);
+	//int hashedKey = hashFunc(keyPtr);
 	//int hashedVal = hashFunc("rmxrodelucysiaytouifbtryfcdveypsjw");
 
-	printf("hash code for key: %d\n", hashedKey);
+	printf("hash code for key: %s\n", keyPtr);
 	//printf("hash code for val: %d\n", hashedVal);
 }
