@@ -1,4 +1,5 @@
 #include <xinu.h>
+#include <kv.h>
 
 shellcmd xsh_kv_test(int nargs, char *args[]) {
 
