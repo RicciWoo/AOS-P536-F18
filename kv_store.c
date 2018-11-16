@@ -2,7 +2,7 @@
 #include <kv.h>
 #include <xmalloc.h>
 
-int hashFunc(const char *key) {
+int hashFunc(char *key) {
 	if (key == NULL || *key == '\0') {
 		return -1;
 	}

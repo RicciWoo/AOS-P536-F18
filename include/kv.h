@@ -22,7 +22,7 @@ KVNode_t *hashTable[MAX_KEY_NUMB];
 LRUNode_t *lruCache[MAX_KEY_NUMB];
 
 // declaration of basic operations
-int hashFunc(const char *);         /* hash function */
+int hashFunc(char *);         /* hash function */
 char *kv_get(char *);         /* returns the value associated with the key. 
                                  If the key doesn't exist, returns NULL. */
 int kv_set(char *, char *);   /* Returns false on error if unable to store. 
