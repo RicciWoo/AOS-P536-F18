@@ -1,6 +1,7 @@
 #include <xinu.h>
-#include <kv.h>
 #include <xmalloc.h>
+#include <kv.h>
+
 
 void kv_test() {
 	// initialize segregated memory allocation

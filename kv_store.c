@@ -1,6 +1,7 @@
 #include <xinu.h>
-#include <kv.h>
 #include <xmalloc.h>
+#include <kv.h>
+
 
 int hashFunc(char *key) {
 	if (key == NULL || *key == '\0') {
