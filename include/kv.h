@@ -1,5 +1,5 @@
-#ifndef _KV_H_
-#define _KV_H_
+#ifndef _KV_H__
+#define _KV_H__
 
 
 #define MAX_KEY_SIZE   64     /* maximum key size */
