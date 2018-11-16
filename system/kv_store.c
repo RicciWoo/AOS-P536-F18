@@ -38,7 +38,7 @@ int kv_init() {
 
 int kv_set(char *key, char *val) {
 	printf("the key is: %s\n", key);
-	printf("the val is: %s\n", val)
+	printf("the val is: %s\n", val);
 
 	// get length of key and value
 	int keyLen = strlen(key);
