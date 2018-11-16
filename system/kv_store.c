@@ -41,8 +41,8 @@ int kv_set(char *key, char *val) {
 	printf("the val is: %s\n", val);
 
 	// get length of key and value
-	int keyLen = strlen(key);
-	int valLen = strlen(val);
+	int keyLen = strlen(key) + 1; // +1 to hold '\0' at the end
+	int valLen = strlen(val) + 1; // +1 to hold '\0' at the end
 	printf("length of key: %d\n", keyLen);
 	printf("length of val: %d\n", valLen);
 
@@ -55,6 +55,20 @@ int kv_set(char *key, char *val) {
 	// initialize memrory for key and value
 	memset((void *)keyPtr, 0, keyLen);
 	memset((void *)valPtr, 0, valLen);
+	printf("the initial key is: %s\n", keyPtr);
+	printf("the initial val is: %s\n", valPtr);
+
+	// save key and value to the memory
+	strncpy(keyPtr, key, keyLen);
+	strncpy(valPtr, val, valLen);
+	printf("the saved key is: %s\n", keyPtr);
+	printf("the saved val is: %s\n", valPtr);
+
+	// calculat hash code of the key
+	int hashCode = hashFunc(keyPtr);
+	printf("hash code of the key: %d\n", hashCode);
+
+
 
 	return 1;
 }
