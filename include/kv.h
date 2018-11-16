@@ -1,5 +1,5 @@
-#ifndef _KV_H__
-#define _KV_H__
+//#ifndef _KV_H_
+//#define _KV_H_
 
 
 #define MAX_KEY_SIZE   64     /* maximum key size */
@@ -52,4 +52,4 @@ int get_cache_info(char *);   /* for getting information about the cache perform
 char **most_popular_keys(int);/* Returns a sorted array of the k most popular keys. 
                                  Popularity depends on your cache eviction algorithm. */
 
-#endif /* _KV_H_ */
+//#endif /* _KV_H_ */
