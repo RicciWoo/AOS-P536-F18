@@ -49,4 +49,6 @@ int get_cache_info(char *);   /* for getting information about the cache perform
 char **most_popular_keys(int);/* Returns a sorted array of the k most popular keys. 
                                  Popularity depends on your cache eviction algorithm. */
 
+void kv_test();               /* test function for key-value store */
+
 #endif /* _KV_H_ */
