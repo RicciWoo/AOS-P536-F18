@@ -16,7 +16,7 @@ void kv_test() {
 
 	strncat(keyPtr, "ctttjyhm\0", 9);
 
-	int hashedKey = hashFunc(keyPtr);
+	hashFunc(keyPtr);
 	//int hashedVal = hashFunc("rmxrodelucysiaytouifbtryfcdveypsjw");
 
 	printf("hash code for key: %s\n", keyPtr);
