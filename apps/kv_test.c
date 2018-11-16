@@ -7,8 +7,8 @@ void kv_test() {
 	xmalloc_init();
 
 	// allocate memory for key and value
-	int keyLen = strlen(key);
-	int valLen = strlen(val);
+	//int keyLen = strlen(key);
+	//int valLen = strlen(val);
 
 	int hashedKey = hashFunc("ctttjyhm");
 	int hashedVal = hashFunc("rmxrodelucysiaytouifbtryfcdveypsjw");
