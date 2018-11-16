@@ -22,7 +22,7 @@ KVNode_t *hashTable[MAX_KEY_NUMB];
 LRUNode_t *lruCache[MAX_KEY_NUMB];
 
 // declaration of basic operations
-int hashFunc(char *);         /* hash function */
+int hashFunc(const char *);         /* hash function */
 char *kv_get(char *);         /* returns the value associated with the key. 
                                  If the key doesn't exist, returns NULL. */
 int kv_set(char *, char *);   /* Returns false on error if unable to store. 
@@ -49,6 +49,6 @@ int get_cache_info(char *);   /* for getting information about the cache perform
 char **most_popular_keys(int);/* Returns a sorted array of the k most popular keys. 
                                  Popularity depends on your cache eviction algorithm. */
 
-void kv_test();               /* test function for key-value store */
+extern void kv_test();               /* test function for key-value store */
 
 #endif /* _KV_H_ */

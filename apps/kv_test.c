@@ -10,6 +10,10 @@ void kv_test() {
 	//int keyLen = strlen(key);
 	//int valLen = strlen(val);
 
+	// char *keyPtr;
+	// keyPtr = xmalloc(64);
+	// strncat(keyPtr, "")
+
 	int hashedKey = hashFunc("ctttjyhm");
 	int hashedVal = hashFunc("rmxrodelucysiaytouifbtryfcdveypsjw");
 
