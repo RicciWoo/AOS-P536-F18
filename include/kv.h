@@ -25,7 +25,7 @@ LRUNode_t *lruCache[MAX_KEY_NUMB];
 extern void kv_test();        /* test function for key-value store */
 
 // declaration of basic operations
-int hashFunc(char *);         /* hash function */
+extern int hashFunc(char *);         /* hash function */
 char *kv_get(char *);         /* returns the value associated with the key. 
                                  If the key doesn't exist, returns NULL. */
 int kv_set(char *, char *);   /* Returns false on error if unable to store. 
