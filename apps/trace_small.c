@@ -1,4 +1,5 @@
-#include<kv.h> 
+#include <xinu.h>
+#include <kv.h> 
 
 void trace_small(){ 
     
