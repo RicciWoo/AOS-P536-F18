@@ -18,5 +18,5 @@ void kv_test() {
 	//int hashedVal = hashFunc("rmxrodelucysiaytouifbtryfcdveypsjw");
 
 	printf("hash code for key: %d\n", hashedKey);
-	printf("hash code for val: %d\n", hashedVal);
+	//printf("hash code for val: %d\n", hashedVal);
 }
