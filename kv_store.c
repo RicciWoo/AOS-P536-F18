@@ -3,23 +3,23 @@
 #include <kv.h>
 
 
-int hashFunc(char *key) {
-	if (key == NULL || *key == '\0') {
-		return -1;
-	}
+// int hashFunc(char *key) {
+// 	if (key == NULL || *key == '\0') {
+// 		return -1;
+// 	}
 
-	int hashCode = 0;
-	for (int i = 0; i < MAX_KEY_SIZE; i++) {
-		if (*key == '\0') {
-			break;
-		}
+// 	int hashCode = 0;
+// 	for (int i = 0; i < MAX_KEY_SIZE; i++) {
+// 		if (*key == '\0') {
+// 			break;
+// 		}
 
-		hoshCode = (hashCode * 31 + *key) % MAX_KEY_NUMB;
-		key++;
-	}
+// 		hoshCode = (hashCode * 31 + *key) % MAX_KEY_NUMB;
+// 		key++;
+// 	}
 
-	return hashCode;
-}
+// 	return hashCode;
+// }
 
 int kv_init() {
 	// initialize the hash map of key-value pairs
