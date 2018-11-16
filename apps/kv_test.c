@@ -13,10 +13,11 @@ void kv_test() {
 
 	char *keyPtr;
 	keyPtr = xmalloc(64);
+	memset((void *)keyPtr, 0, 64);
 
 	strncat(keyPtr, "ctttjyhm\0", 9);
 
-	hashFunc(keyPtr);
+	//hashFunc(keyPtr);
 	//int hashedVal = hashFunc("rmxrodelucysiaytouifbtryfcdveypsjw");
 
 	printf("hash code for key: %s\n", keyPtr);
