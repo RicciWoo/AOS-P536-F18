@@ -1,6 +1,5 @@
 #include <xinu.h>
 #include <xmalloc.h>
-#include <kv.h>
 
 
 int hashFunc(char *key) {
