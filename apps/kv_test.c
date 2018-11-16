@@ -20,4 +20,6 @@ void kv_test() {
 
 	printf("hash code for key: %s\n", keyPtr);
 	//printf("hash code for val: %d\n", hashedVal);
+
+	xfree((void *)keyPtr);
 }
