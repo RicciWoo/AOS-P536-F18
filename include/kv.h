@@ -1,9 +1,28 @@
 #ifndef _KV_H_
 #define _KV_H_
 
+#define MAX_KEY_SIZE   64     /* maximum key size */
+#define MAX_VAL_SIZE 1024     /* maximum value size */
+#define MAX_KEY_NUMB 2048     /* maximum number of keys */
+#define MAX_LRU_SIZE  256     /* maximum LRU cache size */
 
+typedef struct KVNode {
+    char *keyPtr;
+    char *valPtr;
+    struct KVNode *next;
+} KVNode_t;
+
+typedef struct LRUNode {
+    char *keyPtr;
+    char *valPtr;
+    struct LRUNode *prev;
+} LRUNode_t;
+
+KVNode_t *hashTable[MAX_KEY_NUMB];
+LRUNode_t *lruCache[MAX_KEY_NUMB];
 
 // declaration of basic operations
+int hashFunc(char *);         /* hash function */
 char *kv_get(char *);         /* returns the value associated with the key. 
                                  If the key doesn't exist, returns NULL. */
 bool kv_set(char *, char *);  /* Returns false on error if unable to store. 

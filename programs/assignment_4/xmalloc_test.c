@@ -8,7 +8,8 @@ void xmalloc_test() {
 	
 	// allocate ramdon size of buffers
 	srand(97);
-	int32 ntest = 64 + 32 + 16;
+	// int32 ntest = 64 + 32 + 16; // original
+	int32 ntest = 1024 + 1024 + 2; // changed for kv_test
 	// for holding all allocated addresses
 	addr_t bufptr[ntest];
 	int32 i;
