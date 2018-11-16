@@ -8,8 +8,8 @@ int hashFunc(char *key) {
 		return -1;
 	}
 
-	int hashCode = 0;
-	for (int i = 0; i < MAX_KEY_SIZE; i++) {
+	int i, hashCode = 0;
+	for (i = 0; i < MAX_KEY_SIZE; i++) {
 		if (*key == '\0') {
 			break;
 		}
