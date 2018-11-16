@@ -1,5 +1,5 @@
-//#ifndef _KV_H_
-//#define _KV_H_
+#ifndef _KV_H_
+#define _KV_H_
 
 
 #define MAX_KEY_SIZE   64     /* maximum key size */
@@ -21,8 +21,6 @@ typedef struct LRUNode {
 
 KVNode_t *hashTable[MAX_KEY_NUMB];
 LRUNode_t *lruCache[MAX_KEY_NUMB];
-
-extern void kv_test();        /* test function for key-value store */
 
 // declaration of basic operations
 int hashFunc(char *);         /* hash function */
@@ -52,4 +50,6 @@ int get_cache_info(char *);   /* for getting information about the cache perform
 char **most_popular_keys(int);/* Returns a sorted array of the k most popular keys. 
                                  Popularity depends on your cache eviction algorithm. */
 
-//#endif /* _KV_H_ */
+void kv_test();        /* test function for key-value store */
+
+#endif /* _KV_H_ */
