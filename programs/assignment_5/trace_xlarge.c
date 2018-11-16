@@ -1,6 +1,7 @@
-#include<kv.h> 
+#include <xinu.h>
+#include <kv.h> 
 
-int main(){ 
+void trace_xlarge(){ 
     
     int retval; 
     int set_errors = 0; 

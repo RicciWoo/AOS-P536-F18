@@ -1,6 +1,7 @@
-#include<kv.h> 
+#include <xinu.h>
+#include <kv.h> 
 
-int main(){ 
+void trace_long(){ 
 
     int retval; 
     int set_errors = 0; 
