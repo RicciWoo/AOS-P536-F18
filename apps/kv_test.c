@@ -13,7 +13,7 @@ void kv_test() {
 	char *keyPtr;
 	keyPtr = xmalloc(64);
 
-	strncat(keyPtr, "ctttjyhm", 9);
+	strncat(keyPtr, "ctttjyhm\0", 9);
 
 	//int hashedKey = hashFunc(keyPtr);
 	//int hashedVal = hashFunc("rmxrodelucysiaytouifbtryfcdveypsjw");
