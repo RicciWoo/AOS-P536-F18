@@ -4,24 +4,26 @@
 
 
 void kv_test() {
-	// initialize segregated memory allocation
-	xmalloc_init();
 
-	// allocate memory for key and value
-	//int keyLen = strlen(key);
-	//int valLen = strlen(val);
+	kv_init();
 
-	char *keyPtr;
-	keyPtr = xmalloc(64);
-	memset((void *)keyPtr, 0, 64);
+	kv_set("ctttjyhm", "rmxrodelucysiaytouifbtryfcdveypsjw");
 
-	strncat(keyPtr, "ctttjyhm\0", 9);
+	// // allocate memory for key and value
+	// //int keyLen = strlen(key);
+	// //int valLen = strlen(val);
 
-	int hashedKey = hashFunc(keyPtr);
-	//int hashedVal = hashFunc("rmxrodelucysiaytouifbtryfcdveypsjw");
+	// char *keyPtr;
+	// keyPtr = xmalloc(64);
+	// memset((void *)keyPtr, 0, 64);
 
-	printf("hash code for key: %d\n", hashedKey);
-	//printf("hash code for val: %d\n", hashedVal);
+	// strncat(keyPtr, "ctttjyhm\0", 9);
 
-	xfree((void *)keyPtr);
+	// int hashedKey = hashFunc(keyPtr);
+	// //int hashedVal = hashFunc("rmxrodelucysiaytouifbtryfcdveypsjw");
+
+	// printf("hash code for key: %d\n", hashedKey);
+	// //printf("hash code for val: %d\n", hashedVal);
+
+	// xfree((void *)keyPtr);
 }

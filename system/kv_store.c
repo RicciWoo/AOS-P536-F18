@@ -22,6 +22,9 @@ int hashFunc(char *key) {
 }
 
 int kv_init() {
+	// initialize segregated memory allocation
+	xmalloc_init();
+
 	// initialize the hash map of key-value pairs
 	KVNode_t *hashTablePtr = &hashTable[0];
 	memset((void *)hashTablePtr, 0, MAX_KEY_NUMB);
@@ -34,9 +37,24 @@ int kv_init() {
 }
 
 int kv_set(char *key, char *val) {
+	printf("the key is: %s\n", key);
+	printf("the val is: %s\n", val)
+
 	// get length of key and value
 	int keyLen = strlen(key);
 	int valLen = strlen(val);
+	printf("length of key: %d\n", keyLen);
+	printf("length of val: %d\n", valLen);
+
+	// allocation memory for key and value
+	char *keyPtr = xmalloc(keyLen);
+	char *valPtr = xmalloc(valLen);
+	printf("allocated key address: %d\n", keyPtr);
+	printf("allocated val address: %d\n", valPtr);
+
+	// initialize memrory for key and value
+	memset((void *)keyPtr, 0, keyLen);
+	memset((void *)valPtr, 0, valLen);
 
 	return 1;
 }
