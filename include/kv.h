@@ -25,10 +25,10 @@ LRUNode_t *lruCache[MAX_KEY_NUMB];
 int hashFunc(char *);         /* hash function */
 char *kv_get(char *);         /* returns the value associated with the key. 
                                  If the key doesn't exist, returns NULL. */
-bool kv_set(char *, char *);  /* Returns false on error if unable to store. 
+int kv_set(char *, char *);   /* Returns false on error if unable to store. 
                                  Set operations either store a new key-value pair, or 
                                  overwrite the previous value associated with the key. */
-bool kv_delete(char *);       /* Removes key from the cache. 
+int kv_delete(char *);        /* Removes key from the cache. 
                                  Returns false if key was not found, 
                                  and true for successful deletion. */
 void kv_reset();              /* Deletes everything and resets everything. */

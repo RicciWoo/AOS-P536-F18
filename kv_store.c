@@ -32,7 +32,7 @@ int kv_init() {
 	return 1;
 }
 
-bool kv_set(char *key, char *val) {
+int kv_set(char *key, char *val) {
 	// get length of key and value
 	int keyLen = strlen(key);
 	int valLen = strlen(val);
@@ -44,11 +44,7 @@ char *kv_get(char *key) {
 	return NULL;
 }
 
-bool kv_set(char *, char *) {
-	return 1;
-}
-
-bool kv_delete(char *key) {
+int kv_delete(char *key) {
 	return 1;
 }
 
