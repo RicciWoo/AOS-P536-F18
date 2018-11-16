@@ -14,7 +14,7 @@ int hashFunc(char *key) {
 			break;
 		}
 
-		hoshCode = (hashCode * 31 + *key) % MAX_KEY_NUMB;
+		hashCode = (hashCode * 31 + *key) % MAX_KEY_NUMB;
 		key++;
 	}
 
