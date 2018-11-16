@@ -20,7 +20,7 @@ void kv_test() {
 	int hashedKey = hashFunc(keyPtr);
 	//int hashedVal = hashFunc("rmxrodelucysiaytouifbtryfcdveypsjw");
 
-	printf("hash code for key: %s\n", hashedKey);
+	printf("hash code for key: %d\n", hashedKey);
 	//printf("hash code for val: %d\n", hashedVal);
 
 	xfree((void *)keyPtr);
