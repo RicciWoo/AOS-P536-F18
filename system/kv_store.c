@@ -55,7 +55,7 @@ int insertHT(KVNode_t *kvNode) {
 	KVNode_t *kvHead = hashTable[hashCode];
 
 	// get length of key
-	int keyLen = strlen(key) + 1; // +1 to hold '\0' at the end
+	int keyLen = strlen(keyPtr) + 1; // +1 to hold '\0' at the end
 
 	// check not exist, then insert at the end
 	while (kvHead->next != NULL) {
