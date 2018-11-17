@@ -83,7 +83,7 @@ char *getValHT(char *key) {
 	// check not exist, then insert at the end
 	while (kvHead->next != NULL) {
 		char *keyNode = kvHead->next->keyPtr;
-		if (strncmp(keyNode, keyPtr, keyLen) == 0) {
+		if (strncmp(keyNode, key, keyLen) == 0) {
 			return kvHead->next->valPtr;
 		}
 		kvHead = kvHead->next;
