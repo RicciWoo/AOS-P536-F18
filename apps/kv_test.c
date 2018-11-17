@@ -9,6 +9,10 @@ void kv_test() {
 
 	kv_set("ctttjyhm", "rmxrodelucysiaytouifbtryfcdveypsjw");
 
+	char *val = kv_get("ctttjyhm");
+
+	printf("the value with key \"ctttjyhm\" is: %s\n", val);
+
 	// // allocate memory for key and value
 	// //int keyLen = strlen(key);
 	// //int valLen = strlen(val);
