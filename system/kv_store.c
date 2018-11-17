@@ -37,38 +37,42 @@ int kv_init() {
 }
 
 int kv_set(char *key, char *val) {
-	printf("the key is: %s\n", key);
-	printf("the val is: %s\n", val);
-
 	// get length of key and value
 	int keyLen = strlen(key) + 1; // +1 to hold '\0' at the end
 	int valLen = strlen(val) + 1; // +1 to hold '\0' at the end
-	printf("length of key: %d\n", keyLen);
-	printf("length of val: %d\n", valLen);
 
 	// allocation memory for key and value
 	char *keyPtr = xmalloc(keyLen);
 	char *valPtr = xmalloc(valLen);
-	printf("allocated key address: %d\n", keyPtr);
-	printf("allocated val address: %d\n", valPtr);
 
 	// initialize memrory for key and value
 	memset((void *)keyPtr, 0, keyLen);
 	memset((void *)valPtr, 0, valLen);
-	printf("the initial key is: %s\n", keyPtr);
-	printf("the initial val is: %s\n", valPtr);
 
 	// save key and value to the memory
 	strncpy(keyPtr, key, keyLen);
 	strncpy(valPtr, val, valLen);
-	printf("the saved key is: %s\n", keyPtr);
-	printf("the saved val is: %s\n", valPtr);
 
 	// calculat hash code of the key
 	int hashCode = hashFunc(keyPtr);
-	printf("hash code of the key: %d\n", hashCode);
 
+	KVNode_t *kvNode = xmalloc(sizeof(KVNode_t));
+	kvNode->keyPtr = keyPtr;
+	kvNode->valPtr = valPtr;
+	kvNode->next = NULL;
 
+	KVNode_t *kvNodePtr = &hashTable[hashCode];
+	while (kvNodePtr != NULL) {
+		kvNodePtr = kvNodePtr->next;
+	}
+	*kvNodePtr = kvNode;
+
+	kvNodePtr = &hashTable[hashCode];
+	printf("check hash table: \n");
+	while (kvNodePtr != NULL) {
+		printf("key: %s, val: %s\n", kvNodePtr->keyPtr, kvNodePtr->valPtr);
+		kvNodePtr = kvNodePtr->next;
+	}
 
 	return 1;
 }
