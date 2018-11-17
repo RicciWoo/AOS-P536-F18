@@ -70,6 +70,28 @@ int insertHT(KVNode_t *kvNode) {
 	return 1;
 }
 
+char *getValHT(char *key) {
+	// calculat hash code of the key
+	int hashCode = hashFunc(key);
+
+	// get the head of the kv linked list
+	KVNode_t *kvHead = hashTable[hashCode];
+
+	// get length of key
+	int keyLen = strlen(key) + 1; // +1 to hold '\0' at the end
+
+	// check not exist, then insert at the end
+	while (kvHead->next != NULL) {
+		char *keyNode = kvHead->next->keyPtr;
+		if (strncmp(keyNode, keyPtr, keyLen) == 0) {
+			return kvHead->next->valPtr;
+		}
+		kvHead = kvHead->next;
+	}
+
+	return NULL;
+}
+
 int kv_set(char *key, char *val) {
 	// get length of key and value
 	int keyLen = strlen(key) + 1; // +1 to hold '\0' at the end
@@ -99,19 +121,15 @@ int kv_set(char *key, char *val) {
 		printf("error inserting node to hash table!\n");
 	}
 
-	int hashCode = hashFunc(keyPtr);
-	KVNode_t *kvHead = hashTable[hashCode];
-	printf("check hash table: \n");
-	while (kvHead->next != NULL) {
-		printf("key: %s, val: %s\n", kvHead->next->keyPtr, kvHead->next->valPtr);
-		kvHead = kvHead->next;
-	}
-
 	return 1;
 }
 
+
+
 char *kv_get(char *key) {
-	return NULL;
+	char *val = getValHT(key);
+
+	return val;
 }
 
 int kv_delete(char *key) {
