@@ -29,14 +29,14 @@ int kv_init() {
 	int i;
 	for (i = 0; i < MAX_KEY_NUMB; i++) {
 		// initialize the hash table of key-value pairs
-		KVNode_t * kvNode = xmalloc(sizeof(KVNode_t));
+		KVNode_t * kvNode = xmalloc(sizeof(KVNode_t) + 2);
 		kvNode->keyPtr = NULL;
 		kvNode->valPtr = NULL;
 		kvNode->next = NULL;
 		hashTable[i] = kvNode;
 
 		// initialize the hash table for LRU linked list
-		LRUNode_t * lruNode = xmalloc(sizeof(LRUNode_t));
+		LRUNode_t * lruNode = xmalloc(sizeof(LRUNode_t) + 2);
 		lruNode->keyPtr = NULL;
 		lruNode->valPtr = NULL;
 		lruNode->prev = NULL;
