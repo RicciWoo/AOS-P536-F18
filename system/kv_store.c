@@ -25,13 +25,44 @@ int kv_init() {
 	// initialize segregated memory allocation
 	xmalloc_init();
 
-	// initialize the hash map of key-value pairs
-	KVNode_t *hashTablePtr = &hashTable[0];
-	memset((void *)hashTablePtr, 0, MAX_KEY_NUMB);
+	// initialize hash table
+	int i;
+	for (i = 0; i < MAX_KEY_NUMB; i++) {
+		// initialize the hash table of key-value pairs
+		KVNode_t * kvNode = xmalloc(sizeof(KVNode_t));
+		kvNode->keyPtr = NULL;
+		kvNode->valPtr = NULL;
+		kvNode->next = NULL;
+		hashTable[i] = kvNode;
 
-	// initialize the hash map for LRU linked list
-	LRUNode_t *lruCachePtr = &lruCache[0];
-	memset((void *)lruCachePtr, 0, MAX_KEY_NUMB);
+		// initialize the hash table for LRU linked list
+		LRUNode_t * lruNode = xmalloc(sizeof(LRUNode_t));
+		lruNode->keyPtr = NULL;
+		lruNode->valPtr = NULL;
+		lruNode->prev = NULL;
+		lruCache[i] = NULL;
+	}
+
+	return 1;
+}
+
+int insertHT(KVNode_t *kvNode) {
+	// calculat hash code of the key
+	char *keyPtr = kvNode->keyPtr;
+	int hashCode = hashFunc(keyPtr);
+
+	// get the head of the kv linked list
+	KVNode_t *kvHead = hashTable[hashCode];
+
+	// check not exist, then insert at the end
+	while (kvHead->next != NULL) {
+		char *keyNode = kvHead->next->keyPtr;
+		if (strncmp(keyNode, keyPtr, keyLen) == 0) {
+			return 0;
+		}
+		kvHead = kvHead->next;
+	}
+	kvHead->next = kvNode;
 
 	return 1;
 }
@@ -53,25 +84,23 @@ int kv_set(char *key, char *val) {
 	strncpy(keyPtr, key, keyLen);
 	strncpy(valPtr, val, valLen);
 
-	// calculat hash code of the key
-	int hashCode = hashFunc(keyPtr);
-
-	KVNode_t *kvNode = xmalloc(sizeof(KVNode_t));
+	// save addresses to the kv node
+	KVNode_t *kvNode = (KVNode_t *)xmalloc(sizeof(KVNode_t));
 	kvNode->keyPtr = keyPtr;
 	kvNode->valPtr = valPtr;
 	kvNode->next = NULL;
 
-	KVNode_t *kvNodePtr = &hashTable[hashCode];
-	while (kvNodePtr != NULL) {
-		kvNodePtr = kvNodePtr->next;
+	// insert kv node to hash table linked list
+	int status = insertHT(kvNode);
+	if (status == 0) {
+		printf("error inserting node to hash table!\n");
 	}
-	*kvNodePtr = kvNode;
 
-	kvNodePtr = &hashTable[hashCode];
+	KVNode_t *kvHead = hashTable[hashCode];
 	printf("check hash table: \n");
-	while (kvNodePtr != NULL) {
-		printf("key: %s, val: %s\n", kvNodePtr->keyPtr, kvNodePtr->valPtr);
-		kvNodePtr = kvNodePtr->next;
+	while (kvHead->next != NULL) {
+		printf("key: %s, val: %s\n", kvHead->next->keyPtr, kvHead->next->valPtr);
+		kvHead = kvHead->next;
 	}
 
 	return 1;

@@ -19,6 +19,17 @@ typedef struct LRUNode {
     struct LRUNode *prev;
 } LRUNode_t;
 
+// typedef struct HashTable {
+//     KVNode_t *htHead;
+// } HashTable_t;
+
+// typedef struct LRUCache {
+//     LRUNode_t *lcHead;
+// } LRUCache_t;
+
+// HashTable_t hashTable[MAX_KEY_NUMB];
+// LRUCache_t lruCache[MAX_KEY_NUMB];
+
 KVNode_t *hashTable[MAX_KEY_NUMB];
 LRUNode_t *lruCache[MAX_KEY_NUMB];
 
