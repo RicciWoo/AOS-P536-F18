@@ -8,17 +8,17 @@ void xmalloc_test() {
 	// allocate ramdon size of buffers
 	srand(97);
 	// int32 ntest = 64 + 32 + 16; // original
-	int32 ntest = 1024 + 1024 + 2; // changed for kv_test
+	int32 ntest = 2048 + 1024 + 2; // changed for kv_test
 	// for holding all allocated addresses
 	addr_t bufptr[ntest];
 	int32 i;
 	printf("========================= Allocation =========================\n    ");
 	for (i = 0; i < ntest; i++) {
 		int32 bpmaxb;
-		if (i < 64) {
-			bpmaxb = 128 - sizeof(int32);
-		} else if (i < 96) {
-			bpmaxb = 1024 - sizeof(int32);
+		if (i < 2048) { // initially 64, changed for kv_test
+			bpmaxb = 32 - sizeof(int32); // initially 128, changed for kv_test
+		} else if (i < 3072) { // initially 96, changed for kv_test
+			bpmaxb = 2048 - sizeof(int32); // initially 1024, changed for kv_test
 		} else {
 			bpmaxb = BP_MAXB - sizeof(int32);
 		}

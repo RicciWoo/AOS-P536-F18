@@ -4,8 +4,8 @@
 
 #define MAX_KEY_SIZE   64     /* maximum key size */
 #define MAX_VAL_SIZE 1024     /* maximum value size */
-#define MAX_KEY_NUMB 2048     /* maximum number of keys */
-#define MAX_LRU_SIZE  512     /* maximum LRU cache size */
+#define MAX_KEY_NUMB  512     /* maximum number of keys */
+#define MAX_LRU_SIZE  128     /* maximum LRU cache size */
 
 typedef struct KVNode {
     char *keyPtr;
