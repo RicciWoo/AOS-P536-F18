@@ -41,9 +41,9 @@ int kv_init() {
 
 		// initialize the hash table for LRU linked list
 		LRUHash_t *lruNode = (LRUHash_t *)xmalloc(sizeof(LRUHash_t));
-		lruHash->key = NULL;
-		lruHash->prev = NULL;
-		lruHash->next = NULL;
+		lruNode->key = NULL;
+		lruNode->prev = NULL;
+		lruNode->next = NULL;
 		lruHash[i] = lruNode;
 	}
 
