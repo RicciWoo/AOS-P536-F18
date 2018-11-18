@@ -36,7 +36,7 @@ int kv_init() {
 		printf("error allocating memory for headLRU with size: %d\n", sizeof(LRUNode_t));
 		return 0;
 	}
-	railLRU = headLRU;
+	tailLRU = headLRU;
 
 	// initialize hash table
 	int i;
@@ -179,6 +179,8 @@ char *getValHT(char *key) {
 }
 
 char *kv_get(char *key) {
+	// 
+
 	char *val = getValHT(key);
 
 	return val;

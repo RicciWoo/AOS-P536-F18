@@ -27,7 +27,7 @@ typedef struct LRUHash {
 KVNode_t *hashTable[MAX_KEY_NUMB];
 
 int countLRU;
-LRUNode_t *headLRU, *railLRU;
+LRUNode_t *headLRU, *tailLRU;
 LRUHash_t *lruHash[MAX_KEY_NUMB];
 
 // declaration of basic operations
