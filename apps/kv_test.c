@@ -11,27 +11,44 @@ void kv_test() {
 		return;
 	}
 
-	kv_set("ctttjyhm", "rmxrodelucysiaytouifbtryfcdveypsjw");
+	int retval; 
+    int set_errors = 0; 
+    char* valtmp=NULL; 
+    int get_errors=0; 
+
+    retval=kv_set("ctttjyhm", "rmxrodelucysiaytouifbtryfcdveypsjw"); 
+     if(retval>0) set_errors++; 
+ 
+    retval=kv_set("odzuzdge", "txegveaskmlwxkpnrzmurhsbyrrxqudjgrpxom"); 
+     if(retval>0) set_errors++; 
+ 
+    retval=kv_set("kgjdzmou", "ysrmvfneqeyjllycbxqmtyryhrdibymzok"); 
+     if(retval>0) set_errors++; 
+ 
+    retval=kv_set("ijqoehjq", "gzirqtbalnhriihrbuusfuaqrpkopniecqsqdtzpxqdst"); 
+     if(retval>0) set_errors++; 
+ 
+    retval=kv_set("ynlqrbas", "gyyempdvkcdzonpilwvqfqmpsqpbmmrscawqgbuqpdagmazpvzehkocwuuyoxxrp"); 
+     if(retval>0) set_errors++; 
+ 
+    retval=kv_set("hakqxkkc", "yfcoxahjbzpcyallsgioezlyqnsbadvqxt"); 
+     if(retval>0) set_errors++; 
+ 
+    retval=kv_set("wkgftqxb", "dtpcbbnqzqjhuveyxehkebiawcemoolsl"); 
+     if(retval>0) set_errors++; 
+ 
+    retval=kv_set("mvgjjgrv", "yihhepvzdsrwqpummctenmuwszqwnarxz"); 
+     if(retval>0) set_errors++; 
+ 
+    retval=kv_set("rfhwuoip", "gawhpcruuirnunlpaqfznwiwcreaqirmm"); 
+     if(retval>0) set_errors++; 
+ 
+    retval=kv_set("nvyibnyx", "lkjjggxjzkbowapsrilfgfkdatrycrktrsxbmimueoobazvpacgjmsfvgrgxscpfopkowjzcjxq"); 
+     if(retval>0) set_errors++; 
 
 	char *val = kv_get("ctttjyhm");
 
 	printf("the value with key \"ctttjyhm\" is: %s\n", val);
 
-	// // allocate memory for key and value
-	// //int keyLen = strlen(key);
-	// //int valLen = strlen(val);
-
-	// char *keyPtr;
-	// keyPtr = xmalloc(64);
-	// memset((void *)keyPtr, 0, 64);
-
-	// strncat(keyPtr, "ctttjyhm\0", 9);
-
-	// int hashedKey = hashFunc(keyPtr);
-	// //int hashedVal = hashFunc("rmxrodelucysiaytouifbtryfcdveypsjw");
-
-	// printf("hash code for key: %d\n", hashedKey);
-	// //printf("hash code for val: %d\n", hashedVal);
-
-	// xfree((void *)keyPtr);
+	printf("%d, %d \n",set_errors, get_errors); 
 }
