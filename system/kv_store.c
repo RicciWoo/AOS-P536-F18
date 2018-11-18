@@ -112,32 +112,32 @@ int insertHT(KVNode_t *kvNode) {
 	return 1;
 }
 
-// insert kvNode into LRU cache
-int insertLC(KVNode_t *kvNode) {
-	// calculat hash code of the key
-	char *key = kvNode->key;
-	int hashCode = hashFunc(key);
+// // insert kvNode into LRU cache
+// int insertLC(KVNode_t *kvNode) {
+// 	// calculat hash code of the key
+// 	char *key = kvNode->key;
+// 	int hashCode = hashFunc(key);
 
-	// get the head of the LRU linked list
-	LRUNode_t *lruHead = lruCache[hashCode];
+// 	// get the head of the LRU linked list
+// 	LRUNode_t *lruHead = lruCache[hashCode];
 
-	// get length of key
-	int keyLen = strlen(key) + 1; // +1 to hold '\0' at the end
+// 	// get length of key
+// 	int keyLen = strlen(key) + 1; // +1 to hold '\0' at the end
 
-	// traverse the linked list, check if the key not exist
-	while (lruHead->next != NULL) {
-		char *keyCurr = kvHead->next->key;
-		if (strncmp(keyCurr, key, keyLen) == 0) {
-			return 0;
-		}
-		kvHead = kvHead->next;
-	}
+// 	// traverse the linked list, check if the key not exist
+// 	while (lruHead->next != NULL) {
+// 		char *keyCurr = kvHead->next->key;
+// 		if (strncmp(keyCurr, key, keyLen) == 0) {
+// 			return 0;
+// 		}
+// 		kvHead = kvHead->next;
+// 	}
 
-	// insert the kvNode at the end
-	kvHead->next = kvNode;
+// 	// insert the kvNode at the end
+// 	kvHead->next = kvNode;
 
-	return 1;
-}
+// 	return 1;
+// }
 
 // set key-value pair
 int kv_set(char *key, char *val) {
