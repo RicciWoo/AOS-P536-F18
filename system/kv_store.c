@@ -182,25 +182,25 @@ LRUNode_t *getPrevHash(char *key) {
 // function for creating lruHash node
 LRUHash_t *createLRUHash(char *key, LRUNode_t *prev) {
 	// allocate momory for lruHash node
-	LRUHash_t *lruHash = (LRUHash_t *)xmalloc(sizeof(LRUHash_t));
-	if (lruHash == NULL) {
+	LRUHash_t *lruHashNode = (LRUHash_t *)xmalloc(sizeof(LRUHash_t));
+	if (lruHashNode == NULL) {
 		printf("error allocating memory for lruHash with size: %d\n", 
 			   sizeof(LRUHash_t));
 		return NULL;
 	}
 
 	// set allocated lru node
-	lruHash->key = key;
-	lruHash->prev = prev;
-	lruHash->next = NULL;
+	lruHashNode->key = key;
+	lruHashNode->prev = prev;
+	lruHashNode->next = NULL;
 
-	return lruHash;
+	return lruHashNode;
 }
 
 // insert lruHash node into LRU hash table
-int insertLRUHash(LRUHash_t *lruHash) {
+int insertLRUHash(LRUHash_t *lruHashNode) {
 	// calculat hash code of the key
-	char *key = lruHash->key;
+	char *key = lruHashNode->key;
 	int hashCode = hashFunc(key);
 
 	// get the head of the LRU linked list
@@ -219,7 +219,7 @@ int insertLRUHash(LRUHash_t *lruHash) {
 	}
 
 	// insert the kvNode at the end
-	lruHead->next = lruHash;
+	lruHead->next = lruHashNode;
 
 	return 1;
 }
@@ -252,10 +252,10 @@ int insertLRU(KVNode_t *kvNode) {
 	tail->next = curr;
 
 	// create LRU hash table entry for the new key
-	LRUHash_t *lruHash = createLRUHash(key, tail);
+	LRUHash_t *lruHashNode = createLRUHash(key, tail);
 
 	// insert the entry to the hash table
-	int success = insertLRUHash(lruHash);
+	int success = insertLRUHash(lruHashNode);
 	if (success == 0) {
 		printf("error! the key already exists!\n");
 		return 0;
