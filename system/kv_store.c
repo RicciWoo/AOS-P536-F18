@@ -125,11 +125,11 @@ int insertHT(KVNode_t *kvNode) {
 
 	// traverse the linked list, check if the key not exist
 	while (kvHead->next != NULL) {
-		char *keyCurr = kvHead->next->key;
+		kvHead = kvHead->next;
+		char *keyCurr = kvHead->key;
 		if (strncmp(keyCurr, key, keyLen) == 0) {
 			return 0;
 		}
-		kvHead = kvHead->next;
 	}
 
 	// insert the kvNode at the end
@@ -155,6 +155,29 @@ int kv_set(char *key, char *val) {
 	return 1;
 }
 
+// get previous LRUNode pointer from Hash table
+LRUNode_t *getPrevHash(char *key) {
+	// calculat hash code of the key
+	int hashCode = hashFunc(key);
+
+	// get the head of the lru linked list
+	LRUHash_t *lruHead = lruHash[hashCode];
+
+	// get length of key
+	int keyLen = strlen(key) + 1; // +1 to hold '\0' at the end
+
+	// check exist, then retrieve the prev pointer
+	while (lruHead->next != NULL) {
+		lruHead = lruHead->next;
+		char *keyCurr = lruHead->key;
+		if (strncmp(keyCurr, key, keyLen) == 0) {
+			return lruHead->prev;
+		}
+	}
+
+	return NULL;
+}
+
 // get value with the key from hash table
 char *getValHT(char *key) {
 	// calculat hash code of the key
@@ -168,18 +191,18 @@ char *getValHT(char *key) {
 
 	// check not exist, then insert at the end
 	while (kvHead->next != NULL) {
-		char *keyCurr = kvHead->next->key;
-		if (strncmp(keyCurr, key, keyLen) == 0) {
-			return kvHead->next->val;
-		}
 		kvHead = kvHead->next;
+		char *keyCurr = kvHead->key;
+		if (strncmp(keyCurr, key, keyLen) == 0) {
+			return kvHead->val;
+		}
 	}
 
 	return NULL;
 }
 
 char *kv_get(char *key) {
-	// 
+	
 
 	char *val = getValHT(key);
 
