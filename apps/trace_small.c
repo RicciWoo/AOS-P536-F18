@@ -1,7 +1,7 @@
 #include <xinu.h>
 #include <kv.h> 
 
-void trace_small(){ 
+void trace_small() { 
     
     int retval; 
     int set_errors = 0; 

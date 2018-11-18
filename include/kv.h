@@ -60,5 +60,10 @@ char **most_popular_keys(int);/* Returns a sorted array of the k most popular ke
                                  Popularity depends on your cache eviction algorithm. */
 
 void kv_test();        /* test function for key-value store */
+void trace_small();
+void trace_big();
+void trace_long();
+void trace_large();
+void trace_xlarge();
 
 #endif /* _KV_H_ */
