@@ -3,6 +3,7 @@
 #include <xmalloc.h>
 
 
+// the hash function
 int hashFunc(char *key) {
 	if (key == NULL || *key == '\0') {
 		return -1;
@@ -21,55 +22,141 @@ int hashFunc(char *key) {
 	return hashCode;
 }
 
+// kv store initialization
 int kv_init() {
 	// initialize segregated memory allocation
 	xmalloc_init();
 
 	// initialize hash table
+	head = (LRUNode_t *)xmalloc(sizeof(LRUNode_t));
+	rail = (LRUNode_t *)xmalloc(sizeof(LRUNode_t));
 	int i;
 	for (i = 0; i < MAX_KEY_NUMB; i++) {
 		// initialize the hash table of key-value pairs
-		KVNode_t * kvNode = xmalloc(sizeof(KVNode_t));
-		kvNode->keyPtr = NULL;
-		kvNode->valPtr = NULL;
+		KVNode_t *kvNode = (KVNode_t *)xmalloc(sizeof(KVNode_t));
+		kvNode->key = NULL;
+		kvNode->val = NULL;
 		kvNode->next = NULL;
 		hashTable[i] = kvNode;
 
 		// initialize the hash table for LRU linked list
-		LRUNode_t * lruNode = xmalloc(sizeof(LRUNode_t));
-		lruNode->keyPtr = NULL;
-		lruNode->valPtr = NULL;
-		lruNode->prev = NULL;
-		lruCache[i] = NULL;
+		LRUHash_t *lruHash = (LRUHash_t *)xmalloc(sizeof(LRUHash_t));
+		lruHash->key = NULL;
+		lruHash->prev = NULL;
+		lruHash->next = NULL;
+		lruHash[i] = NULL;
 	}
 
 	return 1;
 }
 
+// function for creating kvNode
+KVNode_t *createKVNode(char *key, char *val) {
+	// get length of key and value
+	int keyLen = strlen(key) + 1; // +1 to hold '\0' at the end
+	int valLen = strlen(val) + 1; // +1 to hold '\0' at the end
+
+	// allocation memory for key and value
+	char *keyAlloc = (char *)xmalloc(keyLen);
+	if (keyAlloc == NULL) {
+		printf("error allocating memory with size: %d\n", keyLen);
+		return NULL;
+	}
+	char *valAlloc = (char *)xmalloc(valLen);
+	if (valAlloc == NULL) {
+		printf("error allocating memory with size: %d\n", valLen);
+		return NULL;
+	}
+
+	// initialize memrory for key and value
+	memset((void *)keyAlloc, 0, keyLen);
+	memset((void *)valAlloc, 0, valLen);
+
+	// save key and value to the memory
+	strncpy(keyAlloc, key, keyLen);
+	strncpy(valAlloc, val, valLen);
+
+	// create kv node to store key-value pair
+	KVNode_t *kvNode = (KVNode_t *)xmalloc(sizeof(KVNode_t));
+	kvNode->key = keyAlloc;
+	kvNode->val = valAlloc;
+	kvNode->next = NULL;
+
+	return kvNode;
+}
+
+// insert kvNode into hash table
 int insertHT(KVNode_t *kvNode) {
 	// calculat hash code of the key
-	char *keyPtr = kvNode->keyPtr;
-	int hashCode = hashFunc(keyPtr);
+	char *key = kvNode->key;
+	int hashCode = hashFunc(key);
 
 	// get the head of the kv linked list
 	KVNode_t *kvHead = hashTable[hashCode];
 
 	// get length of key
-	int keyLen = strlen(keyPtr) + 1; // +1 to hold '\0' at the end
+	int keyLen = strlen(key) + 1; // +1 to hold '\0' at the end
 
-	// check not exist, then insert at the end
+	// traverse the linked list, check if the key not exist
 	while (kvHead->next != NULL) {
-		char *keyNode = kvHead->next->keyPtr;
-		if (strncmp(keyNode, keyPtr, keyLen) == 0) {
+		char *keyCurr = kvHead->next->key;
+		if (strncmp(keyCurr, key, keyLen) == 0) {
 			return 0;
 		}
 		kvHead = kvHead->next;
 	}
+
+	// insert the kvNode at the end
 	kvHead->next = kvNode;
 
 	return 1;
 }
 
+// insert kvNode into LRU cache
+int insertLC(KVNode_t *kvNode) {
+	// calculat hash code of the key
+	char *key = kvNode->key;
+	int hashCode = hashFunc(key);
+
+	// get the head of the LRU linked list
+	LRUNode_t *lruHead = lruCache[hashCode];
+
+	// get length of key
+	int keyLen = strlen(key) + 1; // +1 to hold '\0' at the end
+
+	// traverse the linked list, check if the key not exist
+	while (lruHead->next != NULL) {
+		char *keyCurr = kvHead->next->key;
+		if (strncmp(keyCurr, key, keyLen) == 0) {
+			return 0;
+		}
+		kvHead = kvHead->next;
+	}
+
+	// insert the kvNode at the end
+	kvHead->next = kvNode;
+
+	return 1;
+}
+
+// set key-value pair
+int kv_set(char *key, char *val) {
+	//create kvNode
+	KVNode_t *kvNode = createKVNode(key, val);
+
+	// insert kvNode to hash table
+	int success = insertHT(kvNode);
+	if (success == 0) {
+		printf("error! the key already exist!\n");
+		return 0;
+	}
+
+	// insert kvNode to LRU Cache
+
+	return 1;
+}
+
+// get value with the key from hash table
 char *getValHT(char *key) {
 	// calculat hash code of the key
 	int hashCode = hashFunc(key);
@@ -82,49 +169,15 @@ char *getValHT(char *key) {
 
 	// check not exist, then insert at the end
 	while (kvHead->next != NULL) {
-		char *keyNode = kvHead->next->keyPtr;
-		if (strncmp(keyNode, key, keyLen) == 0) {
-			return kvHead->next->valPtr;
+		char *keyCurr = kvHead->next->key;
+		if (strncmp(keyCurr, key, keyLen) == 0) {
+			return kvHead->next->val;
 		}
 		kvHead = kvHead->next;
 	}
 
 	return NULL;
 }
-
-int kv_set(char *key, char *val) {
-	// get length of key and value
-	int keyLen = strlen(key) + 1; // +1 to hold '\0' at the end
-	int valLen = strlen(val) + 1; // +1 to hold '\0' at the end
-
-	// allocation memory for key and value
-	char *keyPtr = xmalloc(keyLen);
-	char *valPtr = xmalloc(valLen);
-
-	// initialize memrory for key and value
-	memset((void *)keyPtr, 0, keyLen);
-	memset((void *)valPtr, 0, valLen);
-
-	// save key and value to the memory
-	strncpy(keyPtr, key, keyLen);
-	strncpy(valPtr, val, valLen);
-
-	// save addresses to the kv node
-	KVNode_t *kvNode = (KVNode_t *)xmalloc(sizeof(KVNode_t));
-	kvNode->keyPtr = keyPtr;
-	kvNode->valPtr = valPtr;
-	kvNode->next = NULL;
-
-	// insert kv node to hash table linked list
-	int status = insertHT(kvNode);
-	if (status == 0) {
-		printf("error inserting node to hash table!\n");
-	}
-
-	return 1;
-}
-
-
 
 char *kv_get(char *key) {
 	char *val = getValHT(key);

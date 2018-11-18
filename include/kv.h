@@ -7,31 +7,26 @@
 #define MAX_KEY_NUMB  512     /* maximum number of keys */
 #define MAX_LRU_SIZE  128     /* maximum LRU cache size */
 
+typedef struct LRUNode {
+    char *val;
+    struct LRUNode *next;
+} LRUNode_t;
+
+typedef struct LRUHash {
+    char *key;
+    LRUNode_t *prev;
+    struct LRUHash *next;
+} LRUHash_t;
+
 typedef struct KVNode {
-    char *keyPtr;
-    char *valPtr;
+    char *key;
+    char *val;
     struct KVNode *next;
 } KVNode_t;
 
-typedef struct LRUNode {
-    char *keyPtr;
-    char *valPtr;
-    struct LRUNode *prev;
-} LRUNode_t;
-
-// typedef struct HashTable {
-//     KVNode_t *htHead;
-// } HashTable_t;
-
-// typedef struct LRUCache {
-//     LRUNode_t *lcHead;
-// } LRUCache_t;
-
-// HashTable_t hashTable[MAX_KEY_NUMB];
-// LRUCache_t lruCache[MAX_KEY_NUMB];
-
+LRUNode_t *head, *rail;
+LRUHash_t *lruHash[MAX_KEY_NUMB];
 KVNode_t *hashTable[MAX_KEY_NUMB];
-LRUNode_t *lruCache[MAX_KEY_NUMB];
 
 // declaration of basic operations
 int hashFunc(char *);         /* hash function */
