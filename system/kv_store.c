@@ -179,6 +179,28 @@ LRUNode_t *getPrevHash(char *key) {
 	return NULL;
 }
 
+LRUHash_t *getNodeHash(char *key) {
+	// calculat hash code of the key
+	int hashCode = hashFunc(key);
+
+	// get the head of the LRU linked list
+	LRUHash_t *lruHead = lruHash[hashCode];
+
+	// get length of key
+	int keyLen = strlen(key) + 1; // +1 to hold '\0' at the end
+
+	// check not exist, then insert at the end
+	while (lruHead->next != NULL) {
+		lruHead = lruHead->next;
+		char *keyCurr = lruHead->key;
+		if (strncmp(keyCurr, key, keyLen) == 0) {
+			return lruHead;
+		}
+	}
+
+	return NULL;
+}
+
 // function for creating lruHash node
 LRUHash_t *createLRUHash(char *key, LRUNode_t *prev) {
 	// allocate momory for lruHash node
@@ -316,28 +338,6 @@ int kv_set(char *key, char *val) {
 	}
 
 	return 1;
-}
-
-LRUHash_t *getNodeHash(char *key) {
-	// calculat hash code of the key
-	int hashCode = hashFunc(key);
-
-	// get the head of the LRU linked list
-	LRUHash_t *lruHead = lruHash[hashCode];
-
-	// get length of key
-	int keyLen = strlen(key) + 1; // +1 to hold '\0' at the end
-
-	// check not exist, then insert at the end
-	while (lruHead->next != NULL) {
-		lruHead = lruHead->next;
-		char *keyCurr = lruHead->key;
-		if (strncmp(keyCurr, key, keyLen) == 0) {
-			return lruHead;
-		}
-	}
-
-	return NULL;
 }
 
 // get value with the key from LRU
