@@ -224,6 +224,25 @@ int insertLRUHash(LRUHash_t *lruHashNode) {
 	return 1;
 }
 
+void moveToTail(LRUNode_t *prev) {
+	// get the pointer to current node
+	LRUNode_t *curr = prev->next;
+
+	// is the tail, no need to move
+	if (curr == tailLRU) {
+		return;
+	}
+
+	// move the node to the tail
+	prev->next = prev->next->next;
+	tailLRU->next = curr;
+	LRUHash_t *lruHashNode = getNodeHash(prev->next->key);
+	lruHashNode->prev = prev;
+	lruHashNode = getNodeHash(curr->key);
+	lruHashNode->prev = tailLRU;
+	tailLRU = curr;
+}
+
 // insert lruNode to LRU Cache
 int insertLRU(KVNode_t *kvNode) {
 	// get allocated key and value
@@ -241,18 +260,27 @@ int insertLRU(KVNode_t *kvNode) {
 
 	// if cache size reach maximum, update the tail node
 	if (countLRU >= MAX_LRU_SIZE) {
-		tail->key = key;
-		tail->val = val;
+		// update the less recent used node
+		LRUNode_t *lruHead = headLRU->next;
+		lruHead->key = key;
+		lruHead->val = val;
+
+		// update LRU hash table
+		LRUHash_t *lruHashNode = getNodeHash(key);
+		lruHashNode->prev = headLRU;
+
+		// move the new updated node to tail
+		moveToTail(headLRU);
 	}
 
 	// create lruNode
 	LRUNode_t *curr = createLRUNode(key, val);
 
 	// set the curr node to the tail
-	tail->next = curr;
+	tailLRU->next = curr;
 
 	// create LRU hash table entry for the new key
-	LRUHash_t *lruHashNode = createLRUHash(key, tail);
+	LRUHash_t *lruHashNode = createLRUHash(key, tailLRU);
 
 	// insert the entry to the hash table
 	int success = insertLRUHash(lruHashNode);
@@ -262,7 +290,10 @@ int insertLRU(KVNode_t *kvNode) {
 	}
 
 	// update the tail pointer
-	tail = curr;
+	tailLRU = curr;
+
+	// increase counter
+	countLRU++;
 }
 
 // set key-value pair
@@ -309,31 +340,12 @@ LRUHash_t *getNodeHash(char *key) {
 	return NULL;
 }
 
-void moveToTail(LRUNode_t *prev) {
-	// get the pointer to current node
-	LRUNode_t *curr = prev->next;
-
-	// is the tail, no need to move
-	if (curr == tailLRU) {
-		return;
-	}
-
-	// move the node to the tail
-	prev->next = prev->next->next;
-	tail->next = curr;
-	LRUHash_t *lruHash = getNodeHash(prev->next->key);
-	lruHash->prev = prev;
-	lruHash = getNodeHash(curr->key);
-	lruHash->prev = tail;
-	tail = curr;
-}
-
 // get value with the key from LRU
 char *getValLRU(LRUNode_t *prev) {
 	// move the node to the tail
 	moveToTail(prev);
 
-	return tail->val;
+	return tailLRU->val;
 }
 
 // get value with the key from hash table
