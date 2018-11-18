@@ -14,6 +14,7 @@ typedef struct KVNode {
 } KVNode_t;
 
 typedef struct LRUNode {
+    char *key;
     char *val;
     struct LRUNode *next;
 } LRUNode_t;
