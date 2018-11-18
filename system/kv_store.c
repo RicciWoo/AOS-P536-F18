@@ -27,13 +27,27 @@ int kv_init() {
 	// initialize segregated memory allocation
 	xmalloc_init();
 
+	// initialize the LRU counter
+	countLRU = 0;
+
+	// initialize head and tail pointer in LRU
+	headLRU = (LRUNode_t *)xmalloc(sizeof(LRUNode_t));
+	if (headLRU == NULL) {
+		printf("error allocating memory for headLRU with size: %d\n", sizeof(LRUNode_t));
+		return 0;
+	}
+	railLRU = headLRU;
+
 	// initialize hash table
-	head = (LRUNode_t *)xmalloc(sizeof(LRUNode_t));
-	rail = (LRUNode_t *)xmalloc(sizeof(LRUNode_t));
 	int i;
 	for (i = 0; i < MAX_KEY_NUMB; i++) {
 		// initialize the hash table of key-value pairs
 		KVNode_t *kvNode = (KVNode_t *)xmalloc(sizeof(KVNode_t));
+		if (kvNode == NULL) {
+			printf("error allocating memory for head linked list in hash table with size: %d\n", 
+				   sizeof(KVNode_t));
+			return 0;
+		}
 		kvNode->key = NULL;
 		kvNode->val = NULL;
 		kvNode->next = NULL;
@@ -41,6 +55,11 @@ int kv_init() {
 
 		// initialize the hash table for LRU linked list
 		LRUHash_t *lruNode = (LRUHash_t *)xmalloc(sizeof(LRUHash_t));
+		if (lruNode == NULL) {
+			printf("error allocating memory for head linked list in hash table with size: %d\n", 
+				   sizeof(KVNode_t));
+			return 0;
+		}
 		lruNode->key = NULL;
 		lruNode->prev = NULL;
 		lruNode->next = NULL;
@@ -59,12 +78,12 @@ KVNode_t *createKVNode(char *key, char *val) {
 	// allocation memory for key and value
 	char *keyAlloc = (char *)xmalloc(keyLen);
 	if (keyAlloc == NULL) {
-		printf("error allocating memory with size: %d\n", keyLen);
+		printf("error allocating memory for key with size: %d\n", keyLen);
 		return NULL;
 	}
 	char *valAlloc = (char *)xmalloc(valLen);
 	if (valAlloc == NULL) {
-		printf("error allocating memory with size: %d\n", valLen);
+		printf("error allocating memory for value with size: %d\n", valLen);
 		return NULL;
 	}
 
@@ -76,8 +95,15 @@ KVNode_t *createKVNode(char *key, char *val) {
 	strncpy(keyAlloc, key, keyLen);
 	strncpy(valAlloc, val, valLen);
 
-	// create kv node to store key-value pair
+	// allocate momory for kv node
 	KVNode_t *kvNode = (KVNode_t *)xmalloc(sizeof(KVNode_t));
+	if (kvNode == NULL) {
+		printf("error allocating memory for kvNode with size: %d\n", 
+			   sizeof(KVNode_t));
+		return NULL;
+	}
+
+	// set allocated kv node
 	kvNode->key = keyAlloc;
 	kvNode->val = valAlloc;
 	kvNode->next = NULL;
@@ -111,33 +137,6 @@ int insertHT(KVNode_t *kvNode) {
 
 	return 1;
 }
-
-// // insert kvNode into LRU cache
-// int insertLC(KVNode_t *kvNode) {
-// 	// calculat hash code of the key
-// 	char *key = kvNode->key;
-// 	int hashCode = hashFunc(key);
-
-// 	// get the head of the LRU linked list
-// 	LRUNode_t *lruHead = lruCache[hashCode];
-
-// 	// get length of key
-// 	int keyLen = strlen(key) + 1; // +1 to hold '\0' at the end
-
-// 	// traverse the linked list, check if the key not exist
-// 	while (lruHead->next != NULL) {
-// 		char *keyCurr = kvHead->next->key;
-// 		if (strncmp(keyCurr, key, keyLen) == 0) {
-// 			return 0;
-// 		}
-// 		kvHead = kvHead->next;
-// 	}
-
-// 	// insert the kvNode at the end
-// 	kvHead->next = kvNode;
-
-// 	return 1;
-// }
 
 // set key-value pair
 int kv_set(char *key, char *val) {

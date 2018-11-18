@@ -5,7 +5,11 @@
 
 void kv_test() {
 
-	kv_init();
+	int succ = kv_init();
+	if (succ == 0) {
+		printf("kv_init error!!\n");
+		return;
+	}
 
 	kv_set("ctttjyhm", "rmxrodelucysiaytouifbtryfcdveypsjw");
 
