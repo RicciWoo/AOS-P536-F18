@@ -6,7 +6,7 @@
 
 shellcmd xsh_xmalloc_test(int nargs, char *args[]) {
 
-	resume( create(trace_small, 1024, 20, "trace_small", 0) );
+	resume( create(xmalloc_test, 1024, 20, "xmalloc_test", 0) );
 	
 	return 1;
 }
