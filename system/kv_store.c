@@ -44,7 +44,7 @@ int kv_init() {
 		lruHash->key = NULL;
 		lruHash->prev = NULL;
 		lruHash->next = NULL;
-		lruHash[i] = NULL;
+		lruHash[i] = lruHash;
 	}
 
 	return 1;
