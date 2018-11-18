@@ -198,7 +198,7 @@ LRUHash_t *createLRUHash(char *key, LRUNode_t *prev) {
 }
 
 // insert lruHash node into LRU hash table
-int insertHT(LRUHash_t *lruHash) {
+int insertLRUHash(LRUHash_t *lruHash) {
 	// calculat hash code of the key
 	char *key = lruHash->key;
 	int hashCode = hashFunc(key);
@@ -255,7 +255,7 @@ int insertLRU(KVNode_t *kvNode) {
 	LRUHash_t *lruHash = createLRUHash(key, tail);
 
 	// insert the entry to the hash table
-	int success = insertHT(lruHash);
+	int success = insertLRUHash(lruHash);
 	if (success == 0) {
 		printf("error! the key already exists!\n");
 		return 0;
