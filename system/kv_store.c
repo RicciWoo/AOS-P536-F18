@@ -240,15 +240,15 @@ int delKVHashTab(char *key) {
 			// free memory of the node
 			freemem((char *)temp, sizeof(KVNode_t));
 
-			break;
+			// free memory of the key
+			freemem(key, keyLen);
+
+			return 0;
 		}
 
 		// traverse to the next node
 		kvHead = kvHead->next;
 	}
-
-	// free memory of the key
-	freemem(key, keyLen);
 
 	return 1;
 }

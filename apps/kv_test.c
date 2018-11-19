@@ -11,39 +11,62 @@ void kv_test() {
 	}
 
 	int retval = 0; 
+	KVNode_t *valtmp = NULL; 
     int set_errors = 0; 
-    KVNode_t *valtmp = NULL; 
     int get_errors = 0; 
+    int del_errors = 0;
 
     retval = setKVHashTab("ctttjyhm", "rmxrodelucysiaytouifbtryfcdveypsjw"); 
     if (retval > 0) set_errors++; 
+    else printf("set succeed!\n");
  
     retval = setKVHashTab("odzuzdge", "txegveaskmlwxkpnrzmurhsbyrrxqudjgrpxom"); 
     if (retval > 0) set_errors++; 
+    else printf("set succeed!\n");
  
     retval = setKVHashTab("kgjdzmou", "ysrmvfneqeyjllycbxqmtyryhrdibymzok"); 
     if (retval > 0) set_errors++; 
+    else printf("set succeed!\n");
  
     retval = setKVHashTab("ijqoehjq", "gzirqtbalnhriihrbuusfuaqrpkopniecqsqdtzpxqdst"); 
     if (retval > 0) set_errors++; 
+    else printf("set succeed!\n");
  
     retval = setKVHashTab("ynlqrbas", "gyyempdvkcdzonpilwvqfqmpsqpbmmrscawqgbuqpdagmazpvzehkocwuuyoxxrp"); 
     if (retval > 0) set_errors++; 
+    else printf("set succeed!\n");
  
     retval = setKVHashTab("hakqxkkc", "yfcoxahjbzpcyallsgioezlyqnsbadvqxt"); 
     if (retval > 0) set_errors++; 
+    else printf("set succeed!\n");
  
     retval = setKVHashTab("wkgftqxb", "dtpcbbnqzqjhuveyxehkebiawcemoolsl"); 
     if (retval > 0) set_errors++; 
+    else printf("set succeed!\n");
  
     retval = setKVHashTab("mvgjjgrv", "yihhepvzdsrwqpummctenmuwszqwnarxz"); 
     if (retval > 0) set_errors++; 
+    else printf("set succeed!\n");
  
     retval = setKVHashTab("rfhwuoip", "gawhpcruuirnunlpaqfznwiwcreaqirmm"); 
     if (retval > 0) set_errors++; 
+    else printf("set succeed!\n");
  
     retval = setKVHashTab("nvyibnyx", "lkjjggxjzkbowapsrilfgfkdatrycrktrsxbmimueoobazvpacgjmsfvgrgxscpfopkowjzcjxq"); 
     if (retval > 0) set_errors++; 
+    else printf("set succeed!\n");
+
+    retval = delKVHashTab("nvyibnyx");
+    if (retval > 0) del_errors++;
+    else printf("delete \"nvyibnyx\" succeed!\n");
+
+    retval = delKVHashTab("rfhwuoip"); 
+    if (retval > 0) del_errors++; 
+    else printf("delete \"rfhwuoip\" succeed!\n");
+
+    retval = delKVHashTab("mvgjjgrv"); 
+    if (retval > 0) set_errors++; 
+    else printf("delete \"mvgjjgrv\" succeed!\n");
 
     valtmp = getKVHashTab("ijqoehjq"); 
     if (valtmp == NULL) get_errors++; 
