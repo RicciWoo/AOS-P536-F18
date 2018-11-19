@@ -447,9 +447,9 @@ int setLRUCache(char *key, char *val) {
 	}
 
 	// if not reach maximum number of LRU Cache
-	if (counter < LRU_CACHE_SIZE) {
+	if (counterLRU < LRU_CACHE_SIZE) {
 		// increase the counter
-		counter++;
+		counterLRU++;
 
 		// create lruEntry
 		LRUEntry_t *curr = createLRUEntry(key, val);
@@ -542,17 +542,20 @@ char *kv_get(char *key) {
 	// try get value with the key from LRU Cache
 	LRUEntry_t *lruEntry = getLRUCache(key);
 
-	// the key doesn't exist in LRU Cache
-	// get the value directly from KV Hash Table
-	if (lruEntry == NULL) {
-		char *valKV = getKVHashTab(key)
-		return valKV;
+	// the key exists in LRU Cache, get the value
+	if (lruEntry != NULL) {
+		return lruEntry->val;
 	}
 
-	// get the value from LRU Entry
-	char *val = lruEntry->val;
+	// try get the value directly from KV Hash Table
+	KVNode_t *kvNode = getKVHashTab(key);
 
-	return val;
+	// the key exists in KV Hash table, get it
+	if (kvNode != NULL) {
+		return kvNode->val;
+	}
+
+	return NULL;
 }
 
 int kv_delete(char *key) {
