@@ -1,6 +1,5 @@
 #include <xinu.h>
 #include <kv.h>
-#include <xmalloc.h>
 
 
 void kv_test() {
@@ -13,7 +12,7 @@ void kv_test() {
 
 	int retval = 0; 
     int set_errors = 0; 
-    char *valtmp = NULL; 
+    KVNode_t *valtmp = NULL; 
     int get_errors = 0; 
 
     retval = setKVHashTab("ctttjyhm", "rmxrodelucysiaytouifbtryfcdveypsjw"); 
@@ -48,43 +47,43 @@ void kv_test() {
 
     valtmp = getKVHashTab("ijqoehjq"); 
     if (valtmp == NULL) get_errors++; 
-    else printf("key: \"ijqoehjq\" value: \"%s\"\n", valtmp);
+    else printf("key: \"ijqoehjq\" value: \"%s\"\n", valtmp->val);
 
     valtmp = getKVHashTab("odzuzdge"); 
     if (valtmp == NULL) get_errors++; 
-    else printf("key: \"odzuzdge\" value: \"%s\"\n", valtmp);
+    else printf("key: \"odzuzdge\" value: \"%s\"\n", valtmp->val);
 
     valtmp = getKVHashTab("ijqoehjq"); 
     if (valtmp == NULL) get_errors++; 
-    else printf("key: \"ijqoehjq\" value: \"%s\"\n", valtmp);
+    else printf("key: \"ijqoehjq\" value: \"%s\"\n", valtmp->val);
 
     valtmp = getKVHashTab("kgjdzmou"); 
     if (valtmp == NULL) get_errors++; 
-    else printf("key: \"kgjdzmou\" value: \"%s\"\n", valtmp);
+    else printf("key: \"kgjdzmou\" value: \"%s\"\n", valtmp->val);
 
     valtmp = getKVHashTab("ijqoehjq"); 
     if (valtmp == NULL) get_errors++; 
-    else printf("key: \"ijqoehjq\" value: \"%s\"\n", valtmp);
+    else printf("key: \"ijqoehjq\" value: \"%s\"\n", valtmp->val);
 
     valtmp = getKVHashTab("kgjdzmou"); 
     if (valtmp == NULL) get_errors++; 
-    else printf("key: \"kgjdzmou\" value: \"%s\"\n", valtmp);
+    else printf("key: \"kgjdzmou\" value: \"%s\"\n", valtmp->val);
 
     valtmp = getKVHashTab("rfhwuoip"); 
     if (valtmp == NULL) get_errors++; 
-    else printf("key: \"rfhwuoip\" value: \"%s\"\n", valtmp);
+    else printf("key: \"rfhwuoip\" value: \"%s\"\n", valtmp->val);
 
     valtmp = getKVHashTab("kgjdzmou"); 
     if (valtmp == NULL) get_errors++; 
-    else printf("key: \"kgjdzmou\" value: \"%s\"\n", valtmp);
+    else printf("key: \"kgjdzmou\" value: \"%s\"\n", valtmp->val);
 
     valtmp = getKVHashTab("hakqxkkc"); 
     if (valtmp == NULL) get_errors++; 
-    else printf("key: \"hakqxkkc\" value: \"%s\"\n", valtmp);
+    else printf("key: \"hakqxkkc\" value: \"%s\"\n", valtmp->val);
 
     valtmp = getKVHashTab("odzuzdge"); 
     if (valtmp == NULL) get_errors++; 
-    else printf("key: \"odzuzdge\" value: \"%s\"\n", valtmp);
+    else printf("key: \"odzuzdge\" value: \"%s\"\n", valtmp->val);
 
 	printf("set errors: %d, get errors: %d. \n", set_errors, get_errors); 
 }
