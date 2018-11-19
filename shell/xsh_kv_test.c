@@ -4,7 +4,12 @@
 
 shellcmd xsh_kv_test(int nargs, char *args[]) {
 
-	if (nargs >= 3 && strncmp(args[2], "small", 20) == 0) {
+	if (nargs >= 3 && strncmp(args[2], "test", 20) == 0) {
+
+		resume( create(kv_test, 1024, 20, "kv_test", 0) );
+		return 0;
+
+	} else if (nargs >= 3 && strncmp(args[2], "small", 20) == 0) {
 
 		resume( create(trace_small, 1024, 20, "trace_small", 0) );
 		return 0;
@@ -32,6 +37,6 @@ shellcmd xsh_kv_test(int nargs, char *args[]) {
 	}
 
 	fprintf(stderr, "%s: incorrect  arguments\n", args[0]);
-	fprintf(stderr, "Try '%s -f' with options small, big, long, large, xlarge\n",args[0]);
+	fprintf(stderr, "Try '%s -f' with options test, small, big, long, large, xlarge\n",args[0]);
 	return 1;
 }

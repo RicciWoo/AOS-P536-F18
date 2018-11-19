@@ -433,8 +433,8 @@ int delKVHashTab(char *key) {
 // 	countLRU++;
 // }
 
-// // set key-value pair
-// int kv_set(char *key, char *val) {
+// set key and value pair into key-value store
+int kv_set(char *key, char *val) {
 // 	//create kvNode
 // 	KVNode_t *kvNode = createKVNode(key, val);
 
@@ -452,8 +452,8 @@ int delKVHashTab(char *key) {
 // 		return 0;
 // 	}
 
-// 	return 1;
-// }
+	return 1;
+}
 
 // // get value with the key from LRU
 // char *getValLRU(LRUNode_t *prev) {
@@ -486,7 +486,8 @@ int delKVHashTab(char *key) {
 // 	return NULL;
 // }
 
-// char *kv_get(char *key) {
+// get value with the key from key-value store
+char *kv_get(char *key) {
 // 	// check if the key exists in LRU
 // 	LRUNode_t *prev = getPrevHash(key);
 
@@ -497,7 +498,8 @@ int delKVHashTab(char *key) {
 
 // 	// key doesn't exist in LRU, check if it in large Hash table
 // 	return getValHT(key);
-// }
+	return NULL;
+}
 
 // int kv_delete(char *key) {
 // 	return 1;
