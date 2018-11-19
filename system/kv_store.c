@@ -15,7 +15,7 @@ int hashFunc(char *key) {
 			break;
 		}
 
-		hashCode = (hashCode * 31 + *key) % MAX_KEY_NUMB;
+		hashCode = (hashCode * 31 + *key) % HASH_TAB_SIZE;
 		key++;
 	}
 
@@ -238,7 +238,7 @@ int delKVHashTab(char *key) {
 			kvHead->next = kvHead->next->next;
 
 			// free memory of the node
-			freemem(temp, sizeof(KVNode_t));
+			freemem((char *)temp, sizeof(KVNode_t));
 
 			break;
 		}
@@ -511,7 +511,7 @@ void kv_reset() {
 	while (headLRU != NULL) {
 		LRUEntry_t *currLRUEntry = headLRU;
 		headLRU = headLRU->next;
-		freemem(currLRUEntry, sizeof(LRUEntry_t));
+		freemem((char *)currLRUEntry, sizeof(LRUEntry_t));
 	}
 
 	// reset headLRU and tail pointers
@@ -522,7 +522,7 @@ void kv_reset() {
 	int i;
 	for (i = 0; i < HASH_TAB_SIZE; i++) {
 		// clear kvNodes
-		kvNode_t *kvHead = kvHashTab[i];
+		KVNode_t *kvHead = kvHashTab[i];
 		while (kvHead != NULL) {
 			KVNode_t *currKVNode = kvHead;
 			kvHead = kvHead->next;
@@ -541,7 +541,7 @@ void kv_reset() {
 			}
 
 			// free memory of this kvNode
-			freemem(currKVNode, sizeof(KVNode_t));
+			freemem((char *)currKVNode, sizeof(KVNode_t));
 		}
 
 		// reset kv hash table head
@@ -552,7 +552,7 @@ void kv_reset() {
 		while (lruHead != NULL) {
 			LRUNode_t *currLRUNode = lruHead;
 			lruHead = lruHead->next;
-			freemem(currLRUNode, sizeof(LRUNode_t));
+			freemem((char *)currLRUNode, sizeof(LRUNode_t));
 		}
 
 		// reset lru hash table head
