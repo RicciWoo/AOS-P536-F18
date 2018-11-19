@@ -168,7 +168,7 @@ KVNode_t *getKVHashTab(char *key) {
 }
 
 // insert kvNode into hash table, if exists overwrite
-int setKVHashTab(char *key, char *val) {
+KVNode_t *setKVHashTab(char *key, char *val) {
 	// check if the key exists
 	KVNode_t *kvNode = getKVHashTab(key);
 
@@ -183,7 +183,7 @@ int setKVHashTab(char *key, char *val) {
 		// update the key with new value;
 		updateKVNode(kvNode, val);
 
-		return 0;
+		return kvNode;
 	}
 
 	// create kvNode
@@ -204,7 +204,7 @@ int setKVHashTab(char *key, char *val) {
 	// insert the kvNode at the end
 	kvHead->next = kvNode;
 
-	return 0;
+	return kvNode;
 }
 
 // delete kvNode from hash table
@@ -372,257 +372,198 @@ int delLRUHashTab(char *key) {
 	return 1;
 }
 
-// // function for creating lruNode
-// LRUNode_t *createLRUNode(char *key, char *val) {
-// 	// allocate momory for kv node
-// 	LRUNode_t *lruNode = (LRUNode_t *)xmalloc(sizeof(LRUNode_t));
-// 	if (lruNode == NULL) {
-// 		printf("error allocating memory for lruNode with size: %d\n", 
-// 			   sizeof(LRUNode_t));
-// 		return NULL;
-// 	}
+/* ================= functions for LRU Cache ================= */
 
-// 	// set allocated lru node
-// 	lruNode->key = key;
-// 	lruNode->val = val;
-// 	lruNode->next = NULL;
+LRUEntry_t *createKVNode(char *key, char *val) {
+	// allocate momory for LRU Entry
+	LRUEntry_t *lruEntry = (LRUEntry_t *)getmem(sizeof(LRUEntry_t));
+	if (lruEntry == NULL) {
+		printf("error allocating memory for lruEntry, size: %d\n", sizeof(LRUEntry_t));
+		return NULL;
+	}
 
-// 	return lruNode;
-// }
+	// set allocated kv node
+	lruEntry->key = key;
+	lruEntry->val = val;
+	lruEntry->next = NULL;
 
-// // get previous LRUNode pointer from Hash table
-// LRUNode_t *getPrevHash(char *key) {
-// 	// calculat hash code of the key
-// 	int hashCode = hashFunc(key);
+	return lruEntry;
+}
 
-// 	// get the head of the lru linked list
-// 	LRUHash_t *lruHead = lruHash[hashCode];
+void movLRUCache(LRUEntry_t *prev) {
+	// get the curr node
+	LRUEntry_t *curr = prev->next;
 
-// 	// get length of key
-// 	int keyLen = strlen(key) + 1; // +1 to hold '\0' at the end
+	// check if the node already at tail
+	if (curr == tailLRU) {
+		return;
+	}
 
-// 	// check exist, then retrieve the prev pointer
-// 	while (lruHead->next != NULL) {
-// 		lruHead = lruHead->next;
-// 		char *keyCurr = lruHead->key;
-// 		if (strncmp(keyCurr, key, keyLen) == 0) {
-// 			return lruHead->prev;
-// 		}
-// 	}
+	// unlink the current node
+	prev->next = prev->next->next;
 
-// 	return NULL;
-// }
+	// add current node at the tail
+	tailLRU->next = curr;
 
-// LRUHash_t *getNodeHash(char *key) {
-// 	// calculat hash code of the key
-// 	int hashCode = hashFunc(key);
+	// update prev pointer of next node in LRU Hash Table
+	getLRUHashTab(prev->next->key)->prev = prev;
 
-// 	// get the head of the LRU linked list
-// 	LRUHash_t *lruHead = lruHash[hashCode];
+	// update prev pointer of curr node in LRU Hash Table
+	getLRUHashTab(curr->key)->prev = tailLRU;
 
-// 	// get length of key
-// 	int keyLen = strlen(key) + 1; // +1 to hold '\0' at the end
+	// set tail pointer to current node
+	tailLRU = curr;
+}
 
-// 	// check not exist, then insert at the end
-// 	while (lruHead->next != NULL) {
-// 		lruHead = lruHead->next;
-// 		char *keyCurr = lruHead->key;
-// 		if (strncmp(keyCurr, key, keyLen) == 0) {
-// 			return lruHead;
-// 		}
-// 	}
+// get val with the key from LRU Cache
+LRUEntry_t *getLRUCache(char *key) {
+	// check if the key exists
+	LRUNode_t *lruNode = getLRUHashTab(key);
 
-// 	return NULL;
-// }
+	// the key doesn't exist in LRU Cache
+	if (lruNode == NULL) {
+		return NULL;
+	}
 
-// // function for creating lruHash node
-// LRUHash_t *createLRUHash(char *key, LRUNode_t *prev) {
-// 	// allocate momory for lruHash node
-// 	LRUHash_t *lruHashNode = (LRUHash_t *)xmalloc(sizeof(LRUHash_t));
-// 	if (lruHashNode == NULL) {
-// 		printf("error allocating memory for lruHash with size: %d\n", 
-// 			   sizeof(LRUHash_t));
-// 		return NULL;
-// 	}
+	// get prev pointer and the value
+	LRUEntry_t *prev = lruNode->prev;
 
-// 	// set allocated lru node
-// 	lruHashNode->key = key;
-// 	lruHashNode->prev = prev;
-// 	lruHashNode->next = NULL;
+	// move the node to the tail of the linked list
+	movLRUCache(prev);
 
-// 	return lruHashNode;
-// }
+	return tailLRU;
+}
 
-// // insert lruHash node into LRU hash table
-// int insertLRUHash(LRUHash_t *lruHashNode) {
-// 	// calculat hash code of the key
-// 	char *key = lruHashNode->key;
-// 	int hashCode = hashFunc(key);
+// set lruEntry in LRU Cache
+int setLRUCache(char *key, char *val) {
+	// check if the key exists in LRU Cache
+	LRUEntry_t *curr = getLRUCache(key);
 
-// 	// get the head of the LRU linked list
-// 	LRUHash_t *lruHead = lruHash[hashCode];
+	// the key already exists in Cache
+	if (curr != NULL) {
+		// update the value with the key
+		curr->val = val;
+		return 0;
+	}
 
-// 	// get length of key
-// 	int keyLen = strlen(key) + 1; // +1 to hold '\0' at the end
+	// if not reach maximum number of LRU Cache
+	if (counter < LRU_CACHE_SIZE) {
+		// increase the counter
+		counter++;
 
-// 	// traverse the linked list, check if the key not exist
-// 	while (lruHead->next != NULL) {
-// 		lruHead = lruHead->next;
-// 		char *keyCurr = lruHead->key;
-// 		if (strncmp(keyCurr, key, keyLen) == 0) {
-// 			return 0;
-// 		}
-// 	}
+		// create lruEntry
+		LRUEntry_t *curr = createKVNode(key, val);
 
-// 	// insert the kvNode at the end
-// 	lruHead->next = lruHashNode;
+		// add curr node to the tail
+		tailLRU->next = curr;
 
-// 	return 1;
-// }
+		// set the key and prev pointer into LRU Hash table
+		setLRUHashTab(key, tailLRU);
 
-// void moveToTail(LRUNode_t *prev) {
-// 	// get the pointer to current node
-// 	LRUNode_t *curr = prev->next;
+		// move tail pointer to curr node
+		tailLRU = curr;
 
-// 	// is the tail, no need to move
-// 	if (curr == tailLRU) {
-// 		return;
-// 	}
+		return 0;
+	}
 
-// 	// move the node to the tail
-// 	prev->next = prev->next->next;
-// 	tailLRU->next = curr;
-// 	LRUHash_t *lruHashNode = getNodeHash(prev->next->key);
-// 	lruHashNode->prev = prev;
-// 	lruHashNode = getNodeHash(curr->key);
-// 	lruHashNode->prev = tailLRU;
-// 	tailLRU = curr;
-// }
+	// get the head of the LRU Cache
+	LRUEntry_t *head = headLRU->next;
 
-// // insert lruNode to LRU Cache
-// int insertLRU(KVNode_t *kvNode) {
-// 	// get allocated key and value
-// 	char *key = kvNode->key;
-// 	char *val = kvNode->val;
+	// delete the key from LRU Hash table
+	delLRUHashTab(head->key);
 
-// 	// check if the key exists in Cache
-// 	LRUNode_t *prev = getPrevHash(key);
+	// update the key and value
+	head->key = key;
+	head->val = val;
 
-// 	// the key exist, return 0
-// 	if (prev != NULL) {
-// 		printf("error! the key already exists!\n");
-// 		return 0;
-// 	}
+	// set key and prev pointer to LRU Hash Table
+	setLRUHashTab(key, headLRU);
 
-// 	// if cache size reach maximum, update the tail node
-// 	if (countLRU >= MAX_LRU_SIZE) {
-// 		// update the less recent used node
-// 		LRUNode_t *lruHead = headLRU->next;
-// 		lruHead->key = key;
-// 		lruHead->val = val;
+	// move curr node to the tail
+	movLRUCache(headLRU);
 
-// 		// update LRU hash table
-// 		LRUHash_t *lruHashNode = getNodeHash(key);
-// 		lruHashNode->prev = headLRU;
+	return 0;
+}
 
-// 		// move the new updated node to tail
-// 		moveToTail(headLRU);
-// 	}
+// delete the key in LRU Cache
+int delLRUCache(char *key) {
+	// check if the key exists
+	LRUNode_t *lruNode = getLRUHashTab(key);
 
-// 	// create lruNode
-// 	LRUNode_t *curr = createLRUNode(key, val);
+	// the key doesn't exist in LRU Cache
+	if (lruNode == NULL) {
+		return 1;
+	}
 
-// 	// set the curr node to the tail
-// 	tailLRU->next = curr;
+	// get prev and curr pointer
+	LRUEntry_t *prev = lruNode->prev;
+	LRUEntry_t *curr = prev->next;
 
-// 	// create LRU hash table entry for the new key
-// 	LRUHash_t *lruHashNode = createLRUHash(key, tailLRU);
+	// update
+	if (curr == tailLRU) {
+		// curr is the tail, update tail pointer
+		tailLRU = prev;
+	} else { // curr is not the tail, 
+		// update prev pointer of next key in LRU Hash Table
+		getLRUHashTab(curr->next->key)->prev = prev;
+	}
 
-// 	// insert the entry to the hash table
-// 	int success = insertLRUHash(lruHashNode);
-// 	if (success == 0) {
-// 		printf("error! the key already exists!\n");
-// 		return 0;
-// 	}
+	// delete curr key in LRU Hash table
+	delLRUHashTab(key);
 
-// 	// update the tail pointer
-// 	tailLRU = curr;
+	// unlink the curr node
+	prev->next = curr->next;
 
-// 	// increase counter
-// 	countLRU++;
-// }
+	// free memory of the curr node
+	freemem((char *)curr, sizeof(LRUEntry_t));
+
+	return 0;
+}
+
+/* ================= interfaces of KV Store ================= */
 
 // set key and value pair into key-value store
 int kv_set(char *key, char *val) {
-// 	//create kvNode
-// 	KVNode_t *kvNode = createKVNode(key, val);
+	// set key and val pair into KV Hash table
+	KVNode_t *kvNode = setKVHashTab(key, val);
 
-// 	// insert kvNode to hash table
-// 	int success = insertHT(kvNode);
-// 	if (success == 0) {
-// 		printf("error! the key already exist!\n");
-// 		return 0;
-// 	}
+	// get the allocated address of key and value
+	char *keyAlloc = kvNode->key;
+	char *valAlloc = kvNode->val;
 
-// 	// insert lruNode to LRU Cache
-// 	success = insertLRU(kvNode);
-// 	if (success == 0) {
-// 		printf("error! the key already exist!\n");
-// 		return 0;
-// 	}
+	// set key and val into LRU Cache
+	setLRUCache(keyAlloc, valAlloc);
 
-	return 1;
+	return 0;
 }
-
-// // get value with the key from LRU
-// char *getValLRU(LRUNode_t *prev) {
-// 	// move the node to the tail
-// 	moveToTail(prev);
-
-// 	return tailLRU->val;
-// }
-
-// // get value with the key from hash table
-// char *getValHT(char *key) {
-// 	// calculat hash code of the key
-// 	int hashCode = hashFunc(key);
-
-// 	// get the head of the kv linked list
-// 	KVNode_t *kvHead = hashTable[hashCode];
-
-// 	// get length of key
-// 	int keyLen = strlen(key) + 1; // +1 to hold '\0' at the end
-
-// 	// check not exist, then insert at the end
-// 	while (kvHead->next != NULL) {
-// 		kvHead = kvHead->next;
-// 		char *keyCurr = kvHead->key;
-// 		if (strncmp(keyCurr, key, keyLen) == 0) {
-// 			return kvHead->val;
-// 		}
-// 	}
-
-// 	return NULL;
-// }
 
 // get value with the key from key-value store
 char *kv_get(char *key) {
-// 	// check if the key exists in LRU
-// 	LRUNode_t *prev = getPrevHash(key);
+	// try get value with the key from LRU Cache
+	LRUEntry_t *lruEntry = getLRUCache(key);
 
-// 	// the key exists in LRU
-// 	if (prev != NULL) {
-// 		return getValLRU(prev);
-// 	}
+	// the key doesn't exist in LRU Cache
+	// get the value directly from KV Hash Table
+	if (lruEntry == NULL) {
+		char *valKV = getKVHashTab(key)
+		return valKV;
+	}
 
-// 	// key doesn't exist in LRU, check if it in large Hash table
-// 	return getValHT(key);
-	return NULL;
+	// get the value from LRU Entry
+	char *val = lruEntry->val;
+
+	return val;
 }
 
-// int kv_delete(char *key) {
-// 	return 1;
-// }
+int kv_delete(char *key) {
+	// delete the key in LRU Cache
+	delLRUCache(key);
+	
+	// delete the key in KV Hash Table
+	int success = delKVHashTab(key);
+
+	return success;
+}
 
 void kv_reset() {
 	// reset LRU counter
