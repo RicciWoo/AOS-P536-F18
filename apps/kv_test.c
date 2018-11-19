@@ -46,43 +46,43 @@ void kv_test() {
     retval = setKVHashTab("nvyibnyx", "lkjjggxjzkbowapsrilfgfkdatrycrktrsxbmimueoobazvpacgjmsfvgrgxscpfopkowjzcjxq"); 
     if (retval > 0) set_errors++; 
 
-    valtmp = kv_get("ijqoehjq"); 
+    valtmp = getKVHashTab("ijqoehjq"); 
     if (valtmp == NULL) get_errors++; 
     else printf("key: \"ijqoehjq\" value: \"%s\"\n", valtmp);
 
-    valtmp = kv_get("odzuzdge"); 
+    valtmp = getKVHashTab("odzuzdge"); 
     if (valtmp == NULL) get_errors++; 
     else printf("key: \"odzuzdge\" value: \"%s\"\n", valtmp);
 
-    valtmp = kv_get("ijqoehjq"); 
+    valtmp = getKVHashTab("ijqoehjq"); 
     if (valtmp == NULL) get_errors++; 
     else printf("key: \"ijqoehjq\" value: \"%s\"\n", valtmp);
 
-    valtmp = kv_get("kgjdzmou"); 
+    valtmp = getKVHashTab("kgjdzmou"); 
     if (valtmp == NULL) get_errors++; 
     else printf("key: \"kgjdzmou\" value: \"%s\"\n", valtmp);
 
-    valtmp = kv_get("ijqoehjq"); 
+    valtmp = getKVHashTab("ijqoehjq"); 
     if (valtmp == NULL) get_errors++; 
     else printf("key: \"ijqoehjq\" value: \"%s\"\n", valtmp);
 
-    valtmp = kv_get("kgjdzmou"); 
+    valtmp = getKVHashTab("kgjdzmou"); 
     if (valtmp == NULL) get_errors++; 
     else printf("key: \"kgjdzmou\" value: \"%s\"\n", valtmp);
 
-    valtmp = kv_get("rfhwuoip"); 
+    valtmp = getKVHashTab("rfhwuoip"); 
     if (valtmp == NULL) get_errors++; 
     else printf("key: \"rfhwuoip\" value: \"%s\"\n", valtmp);
 
-    valtmp = kv_get("kgjdzmou"); 
+    valtmp = getKVHashTab("kgjdzmou"); 
     if (valtmp == NULL) get_errors++; 
     else printf("key: \"kgjdzmou\" value: \"%s\"\n", valtmp);
 
-    valtmp = kv_get("hakqxkkc"); 
+    valtmp = getKVHashTab("hakqxkkc"); 
     if (valtmp == NULL) get_errors++; 
     else printf("key: \"hakqxkkc\" value: \"%s\"\n", valtmp);
 
-    valtmp = kv_get("odzuzdge"); 
+    valtmp = getKVHashTab("odzuzdge"); 
     if (valtmp == NULL) get_errors++; 
     else printf("key: \"odzuzdge\" value: \"%s\"\n", valtmp);
 
