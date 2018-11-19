@@ -390,7 +390,7 @@ int kv_delete(char *key) {
 
 void kv_reset() {
 	// clear hash table
-	for ()
+	// for ()
 }
 
 int get_cache_info(char *kind) {
