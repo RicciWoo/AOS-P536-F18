@@ -253,6 +253,125 @@ int delKVHashTab(char *key) {
 	return 1;
 }
 
+/* ================= functions for LRU Hash Table ================= */
+
+// function for creating lruNode
+LRUNode_t *createLRUNode(char *key, LRUEntry_t *prev) {
+	// allocate momory for kv node
+	LRUNode_t *lruNode = (LRUNode_t *)getmem(sizeof(LRUNode_t));
+	if (lruNode == NULL) {
+		printf("error allocating memory for lruNode, size: %d\n", sizeof(LRUNode_t));
+		return NULL;
+	}
+
+	// set allocated lru node
+	lruNode->key = key;
+	lruNode->prev = prev;
+	lruNode->next = NULL;
+
+	return lruNode;
+}
+
+// get lruNode with the key from LRU Hash Table
+LRUNode_t *getLRUHashTab(char *key) {
+	// calculat hash code of the key
+	int hashCode = hashFunc(key);
+
+	// get the head of the kv linked list
+	LRUNode_t *lruHead = lruHashTab[hashCode];
+
+	// get length of key
+	int keyLen = strlen(key) + 1; // +1 to hold '\0' at the end
+
+	// check if the key exists
+	while (lruHead->next != NULL) {
+		// traverse to the next node
+		lruHead = lruHead->next;
+
+		// get the key from current node
+		char *keyCurr = lruHead->key;
+
+		// check if the keys are the same
+		if (strncmp(keyCurr, key, keyLen) == 0) {
+			return lruHead;
+		}
+	}
+
+	// the key is not exist
+	return NULL;
+}
+
+// insert lruNode into hash table, if exists overwrite
+int setLRUHashTab(char *key, LRUEntry_t *prev) {
+	// check if the key exists
+	LRUNode_t *lruNode = getLRUHashTab(key);
+
+	// the key already exists, update the prev pointer
+	if (lruNode != NULL) {
+		// update the prev pointer
+		lruNode->prev = prev;
+
+		return 0;
+	}
+
+	// create lruNode
+	lruNode = createLRUNode(key, prev);
+
+	// calculat hash code of the key
+	int hashCode = hashFunc(key);
+
+	// get the head of the lru linked list
+	LRUNode_t *lruHead = lruHashTab[hashCode];
+
+	// traverse to the end of the linked list
+	while (lruHead->next != NULL) {
+		// traverse to the next node
+		lruHead = lruHead->next;
+	}
+
+	// insert the kvNode at the end
+	lruHead->next = lruNode;
+
+	return 0;
+}
+
+// delete lruNode from hash table
+int delLRUHashTab(char *key) {
+	// get the length of the key
+	int keyLen = strlen(key) + 1;
+
+	// calculat hash code of the key
+	int hashCode = hashFunc(key);
+
+	// get the head of the kv linked list
+	LRUNode_t *lruHead = lruHashTab[hashCode];
+
+	// traverse to the end of the linked list
+	while (lruHead->next != NULL) {
+		// get the key from the current node
+		char *keyCurr = lruHead->next->key;
+
+		// check the keys are the same
+		if (strncmp(keyCurr, key, keyLen) == 0) {
+			// save the address for deletion
+			LRUNode_t *temp = lruHead->next;
+
+			// unlink the node
+			lruHead->next = lruHead->next->next;
+
+			// free memory of the node
+			freemem((char *)temp, sizeof(LRUNode_t));
+
+			return 0;
+		}
+
+		// traverse to the next node
+		kvHead = kvHead->next;
+	}
+
+	return 1;
+}
+
 // // function for creating lruNode
 // LRUNode_t *createLRUNode(char *key, char *val) {
 // 	// allocate momory for kv node
