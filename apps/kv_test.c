@@ -50,7 +50,7 @@ void kv_test() {
  
     retval = setKVHashTab("rfhwuoip", "gawhpcruuirnunlpaqfznwiwcreaqirmm"); 
     if (retval > 0) set_errors++; 
-    else printf("set succeed!\n");
+    else printf("set \"rfhwuoip\" succeed!\n");
  
     retval = setKVHashTab("nvyibnyx", "lkjjggxjzkbowapsrilfgfkdatrycrktrsxbmimueoobazvpacgjmsfvgrgxscpfopkowjzcjxq"); 
     if (retval > 0) set_errors++; 
@@ -118,5 +118,6 @@ void kv_test() {
     if (valtmp == NULL) get_errors++; 
     else printf("key: \"odzuzdge\" value: \"%s\"\n", valtmp->val);
 
-	printf("set errors: %d, get errors: %d. \n", set_errors, get_errors); 
+	printf("set errors: %d, del errors: %d, get errors: %d. \n", 
+		   set_errors, del_errors, get_errors); 
 }
