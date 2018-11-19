@@ -374,7 +374,7 @@ int delLRUHashTab(char *key) {
 
 /* ================= functions for LRU Cache ================= */
 
-LRUEntry_t *createKVNode(char *key, char *val) {
+LRUEntry_t *createLRUNode(char *key, char *val) {
 	// allocate momory for LRU Entry
 	LRUEntry_t *lruEntry = (LRUEntry_t *)getmem(sizeof(LRUEntry_t));
 	if (lruEntry == NULL) {
@@ -452,7 +452,7 @@ int setLRUCache(char *key, char *val) {
 		counter++;
 
 		// create lruEntry
-		LRUEntry_t *curr = createKVNode(key, val);
+		LRUEntry_t *curr = createLRUNode(key, val);
 
 		// add curr node to the tail
 		tailLRU->next = curr;
