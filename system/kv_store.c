@@ -366,7 +366,7 @@ int delLRUHashTab(char *key) {
 		}
 
 		// traverse to the next node
-		kvHead = kvHead->next;
+		lruHead = lruHead->next;
 	}
 
 	return 1;
