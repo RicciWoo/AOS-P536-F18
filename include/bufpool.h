@@ -10,7 +10,7 @@
 
 #define	BP_MINB	8		/* Minimum buffer size in bytes		*/
 #ifndef	BP_MAXN
-#define	BP_MAXN	2048		/* Maximum number of buffers in a pool	*/
+#define	BP_MAXN	8192		/* Maximum number of buffers in a pool	*/
 #endif
 
 struct	bpentry	{		/* Description of a single buffer pool	*/

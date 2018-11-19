@@ -17,10 +17,10 @@ void xmalloc_init() {
 	for (poolid = 0; poolid < poolnum; poolid++) {
 		bufsize[poolid] = (minsize << poolid) - sizeof(int32);
 		// set different buffer number for different size
-		if (bufsize[poolid] <= 32) { // originally 128, changed for kv_test
-			bufnumb[poolid] = 2048; // originally 64, changed for kv_test
+		if (bufsize[poolid] <= 128) { // originally 128, changed for kv_test
+			bufnumb[poolid] = 8192; // originally 64, changed for kv_test
 		} else if (bufsize[poolid] <= 2048) {
-			bufnumb[poolid] = 1024; // originally 32, changed for kv_test
+			bufnumb[poolid] = 4096; // originally 32, changed for kv_test
 		} else {
 			bufnumb[poolid] = 2; // originally 16, changed for kv_test
 		}
