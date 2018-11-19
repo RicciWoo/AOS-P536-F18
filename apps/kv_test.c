@@ -6,7 +6,7 @@
 void kv_test() {
 
 	int succ = kv_init();
-	if (succ == 0) {
+	if (succ > 0) {
 		printf("kv_init error!!\n");
 		return;
 	}
