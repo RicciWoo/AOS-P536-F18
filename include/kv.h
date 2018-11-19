@@ -2,10 +2,10 @@
 #define _KV_H_
 
 
-#define MAX_KEY_SIZE   64     /* maximum key size */
-#define MAX_VAL_SIZE 1024     /* maximum value size */
-#define MAX_KEY_NUMB  512     /* maximum number of keys */
-#define MAX_LRU_SIZE  128     /* maximum LRU cache size */
+#define MAX_KEY_SIZE     64     /* maximum key size */
+#define MAX_VAL_SIZE   1024     /* maximum value size */
+#define HASH_TAB_SIZE   512     /* maximum number of keys */
+#define LRU_CACHE_SIZE  128     /* maximum LRU cache size */
 
 typedef struct KVNode {
     char *key;
@@ -13,23 +13,23 @@ typedef struct KVNode {
     struct KVNode *next;
 } KVNode_t;
 
-typedef struct LRUNode {
+typedef struct LRUEntry {
     char *key;
     char *val;
+    struct LRUEntry *next;
+} LRUEntry_t;
+
+typedef struct LRUNode {
+    char *key;
+    LRUEntry_t *prev;
     struct LRUNode *next;
 } LRUNode_t;
 
-typedef struct LRUHash {
-    char *key;
-    LRUNode_t *prev;
-    struct LRUHash *next;
-} LRUHash_t;
+KVNode_t *kvHashTab[HASH_TAB_SIZE];
 
-KVNode_t *hashTable[MAX_KEY_NUMB];
-
-int countLRU;
-LRUNode_t *headLRU, *tailLRU;
-LRUHash_t *lruHash[MAX_KEY_NUMB];
+int counterLRU;
+LRUEntry_t *headLRU, *tailLRU;
+LRUNode_t *lruHashTab[HASH_TAB_SIZE];
 
 // declaration of basic operations
 int hashFunc(char *);         /* hash function */
