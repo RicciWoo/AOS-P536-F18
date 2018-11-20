@@ -1,7 +1,10 @@
+// copy of apps/trace_small.c
 #include <xinu.h>
 #include <kv.h> 
+#include <xmalloc.h>
 
-void trace_small(){ 
+
+void trace_small() { 
     
     int retval; 
     int set_errors = 0; 
@@ -695,7 +698,16 @@ void trace_small(){
     valtmp = kv_get("mvgjjgrv"); 
      if(valtmp==NULL) get_errors++; 
 
-    printf("%d, %d \n",set_errors, get_errors); 
+    printf("set errors: %d, get errors: %d \n", set_errors, get_errors); 
+
+    printf("\n==================== info of Cache ====================\n");
+    printf("Total number of successful get requests:   %d\n", get_cache_info("total_hits"));
+    printf("Total # of get req (include cache misses): %d\n", get_cache_info("total_accesses"));
+    printf("Total number of successful set requests:   %d\n", get_cache_info("total_set_success"));
+    printf("LRU cache size:                            %d\n", get_cache_info("cache_size"));
+    printf("Number of keys stored in the cache:        %d\n", get_cache_info("num_keys"));
+    printf("Number of items evicted:                   %d\n", get_cache_info("total_evictions"));
 
     kv_reset(); 
+
 } 

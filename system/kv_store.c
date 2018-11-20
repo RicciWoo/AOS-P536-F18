@@ -57,6 +57,7 @@ int kv_init() {
 		// initialize the head kvNode
 		kvNode->key = NULL;
 		kvNode->val = NULL;
+		kvNode->count = 0;
 		kvNode->next = NULL;
 		kvHashTab[i] = kvNode;
 
@@ -115,6 +116,7 @@ KVNode_t *createKVNode(char *key, char *val) {
 	// set allocated kv node
 	kvNode->key = keyAlloc;
 	kvNode->val = valAlloc;
+	kvNode->count = 0;
 	kvNode->next = NULL;
 
 	return kvNode;

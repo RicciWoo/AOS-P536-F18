@@ -10,8 +10,11 @@
 typedef struct KVNode {
     char *key;
     char *val;
+    int count;
     struct KVNode *next;
 } KVNode_t;
+
+KVNode_t *kvHashTab[HASH_TAB_SIZE];
 
 typedef struct LRUEntry {
     char *key;
@@ -24,8 +27,6 @@ typedef struct LRUNode {
     LRUEntry_t *prev;
     struct LRUNode *next;
 } LRUNode_t;
-
-KVNode_t *kvHashTab[HASH_TAB_SIZE];
 
 int counterLRU;
 LRUEntry_t *headLRU, *tailLRU;
