@@ -709,12 +709,4 @@ void trace_small() {
 
     kv_reset(); 
 
-    printf("==================== after reset ====================\n");
-    printf("Total number of successful get requests:   %d\n", get_cache_info("total_hits"));
-    printf("Total # of get req (include cache misses): %d\n", get_cache_info("total_accesses"));
-    printf("Total number of successful set requests:   %d\n", get_cache_info("total_set_success"));
-    printf("LRU cache size:                            %d\n", get_cache_info("cache_size"));
-    printf("Number of keys stored in the cache:        %d\n", get_cache_info("num_keys"));
-    printf("Number of items evicted:                   %d\n", get_cache_info("total_evictions"));
-
 } 
