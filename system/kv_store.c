@@ -423,7 +423,8 @@ void movLRUCache(LRUEntry_t *prev) {
 
 // get val with the key from LRU Cache
 LRUEntry_t *getLRUCache(char *key) {
-
+	// increase total_hits
+	totalHits++;
 
 	// check if the key exists
 	LRUNode_t *lruNode = getLRUHashTab(key);
@@ -433,14 +434,14 @@ LRUEntry_t *getLRUCache(char *key) {
 		return NULL;
 	}
 
+	// increase total_accesses;
+	totalAccesses++;
+
 	// get prev pointer and the value
 	LRUEntry_t *prev = lruNode->prev;
 
 	// move the node to the tail of the linked list
 	movLRUCache(prev);
-
-	// increase total_accesses;
-	totalAccesses++;
 
 	return tailLRU;
 }
