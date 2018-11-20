@@ -22,6 +22,6 @@ void xfree(void *);
 char *xheap_snapshot();
 bpid32 findClosestIndex(int32);
 
-void xmalloc_test();
+extern void xmalloc_test();
 
 #endif /* _XMALLOC_H_ */

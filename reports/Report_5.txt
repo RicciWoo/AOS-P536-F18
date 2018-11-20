@@ -1,0 +1,80 @@
+[Design]
+
+I implement a key-val pair Hash Table to store all pairs.
+Then I implement a LRU Cache, including a Linked List and a Hash Table.
+In LRU Cache, Hash Table to hold the key and its prev pointer 
+points to the previous node in Cache Linked List.
+
+The size of the Hash Table is 512; The size of LRU Cache is 128.
+
+
+[Results]
+
+1. result of command "kv_test -f small":
+
+xsh $ set errors: 0, get errors: 0 
+
+==================== info of Cache ====================
+Total number of successful get requests:   100
+Total # of get req (include cache misses): 228
+Total number of successful set requests:   128
+LRU cache size:                            128
+Number of keys stored in the cache:        128
+Number of items evicted:                   0
+
+2. result of command "kv_test -f long":
+
+xsh $ set errors: 0, get errors: 0 
+
+==================== info of Cache ====================
+Total number of successful get requests:   100
+Total # of get req (include cache misses): 228
+Total number of successful set requests:   128
+LRU cache size:                            128
+Number of keys stored in the cache:        128
+Number of items evicted:                   0
+
+3. result of command "kv_test -f big":
+
+xsh $ set errors: 0, get errors: 0 
+
+==================== info of Cache ====================
+Total number of successful get requests:   0
+Total # of get req (include cache misses): 1124
+Total number of successful set requests:   1024
+LRU cache size:                            128
+Number of keys stored in the cache:        128
+Number of items evicted:                   896
+
+4. result of command "kv_test -f large":
+
+xsh $ set errors: 0, get errors: 0 
+
+==================== info of Cache ====================
+Total number of successful get requests:   0
+Total # of get req (include cache misses): 1124
+Total number of successful set requests:   1024
+LRU cache size:                            128
+Number of keys stored in the cache:        128
+Number of items evicted:                   896
+
+5. result of command "kv_test -f xlarge":
+
+xsh $ set errors: 0, get errors: 0 
+
+==================== info of Cache ====================
+Total number of successful get requests:   0
+Total # of get req (include cache misses): 2148
+Total number of successful set requests:   2048
+LRU cache size:                            128
+Number of keys stored in the cache:        128
+Number of items evicted:                   1920
+
+
+[Problems]
+
+1. In test cases of big, large, and xlarge, the number of keys are large. It looks like the get operation is correct, however, the info of Cache on number of successful did not show.
+
+2. I didn't freemem in kv_reset. Because if I tried to freemem, the second call to any test cases would crash.
+
+3. I didn't implement the function "most_popular_keys".

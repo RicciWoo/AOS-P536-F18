@@ -91,3 +91,6 @@ extern shellcmd xsh_prodcons(int, char *[]);
 
 /* in file shell/xsh_xmalloc_test.c */
 extern shellcmd xsh_xmalloc_test(int, char *[]);
+
+/* in file shell/xsh_kv_test.c */
+extern shellcmd xsh_kv_test(int, char *[]);
