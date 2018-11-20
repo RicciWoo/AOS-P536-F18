@@ -3389,15 +3389,4 @@ void trace_large() {
     
     kv_reset(); 
 
-    // for holding the fragmentation information
-    char *str = (char *)getmem(sizeof(fragStr));
-    memset((void *)str, 0, sizeof(fragStr));
-
-    // show fragmentation information
-    char *retStr = xheap_snapshot();
-    memcpy(str, retStr, sizeof(fragStr)); // copy for output
-    printf("\n============ Fragmentation information ============\n");
-    printf("%s\n", str);
-
-    freemem((char *)str, sizeof(fragStr));
 } 
