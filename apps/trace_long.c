@@ -701,7 +701,14 @@ void trace_long() {
     
     kv_reset(); 
     
+    // for holding the fragmentation information
+    char *str = (char *)getmem(sizeof(fragStr));
+
     // show fragmentation information
-    char *str = xheap_snapshot();
+    char *retStr = xheap_snapshot();
+    memcpy(str, retStr, sizeof(fragStr)); // copy for output
+    printf("\n============ Fragmentation information ============\n");
     printf("%s\n", str);
+
+    freemem((char *)str, sizeof(fragStr));
 }
