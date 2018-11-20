@@ -3391,6 +3391,7 @@ void trace_big() {
 
     // for holding the fragmentation information
     char *str = (char *)getmem(sizeof(fragStr));
+    memset((void *)str, 0, sizeof(fragStr));
 
     // show fragmentation information
     char *retStr = xheap_snapshot();
