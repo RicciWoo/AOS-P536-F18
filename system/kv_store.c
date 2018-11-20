@@ -600,7 +600,7 @@ void kv_reset() {
 	while (headLRU != NULL) {
 		LRUEntry_t *currLRUEntry = headLRU;
 		headLRU = headLRU->next;
-		//freemem((char *)currLRUEntry, sizeof(LRUEntry_t));
+		freemem((char *)currLRUEntry, sizeof(LRUEntry_t));
 	}
 
 	// reset headLRU and tail pointers
@@ -620,7 +620,7 @@ void kv_reset() {
 			char *key = currKVNode->key;
 			if (key != NULL) {
 				int keyLen = strlen(key) + 1;
-				//freemem(key, keyLen);
+				freemem(key, keyLen);
 			}
 
 			// free memory of the value
@@ -630,7 +630,7 @@ void kv_reset() {
 			}
 
 			// free memory of this kvNode
-			//freemem((char *)currKVNode, sizeof(KVNode_t));
+			freemem((char *)currKVNode, sizeof(KVNode_t));
 		}
 
 		// reset kv hash table head
@@ -641,7 +641,7 @@ void kv_reset() {
 		while (lruHead != NULL) {
 			LRUNode_t *currLRUNode = lruHead;
 			lruHead = lruHead->next;
-			//freemem((char *)currLRUNode, sizeof(LRUNode_t));
+			freemem((char *)currLRUNode, sizeof(LRUNode_t));
 		}
 
 		// reset lru hash table head
