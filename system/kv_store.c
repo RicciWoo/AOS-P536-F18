@@ -29,6 +29,12 @@ int kv_init() {
 
 	// initialize the LRU counter
 	counterLRU = 0;
+	totalHits = 0;            /* Total number of successful get requests */
+	totalAccesses = 0;        /* Total number of get requests (including cache misses) */
+	totalSetSuccess = 0;      /* Total number of successful set requests */
+    // LRU_CACHE_SIZE         /* Total memory footprint of your key-value store */
+    // counterLRU             /* Number of keys stored in the cache */
+	totalEvictions = 0;       /* Number of items evicted */
 
 	// initialize head and tail pointer in LRU
 	headLRU = (LRUEntry_t *)getmem(sizeof(LRUEntry_t));
@@ -634,7 +640,39 @@ int get_cache_info(char *kind) {
         // "num_keys"          - Number of keys stored in the cache
         // "total_evictions"   - Number of items evicted
 
-	return 1;
+	if (strncmp(kind, "total_hits", 20) == 0) {
+
+		// Total number of successful get requests
+		return totalHits;
+
+	} else if (strncmp(kind, "total_accesses", 20) == 0) {
+
+		// Total number of get requests (including cache misses, etc.)
+		return totalAccesses;
+
+	} else if (strncmp(kind, "total_set_success", 20) == 0) {
+
+		// Total number of successful set requests
+		return totalSetSuccess;
+
+	} else if (strncmp(kind, "cache_size", 20) == 0) {
+
+		// Total memory footprint of your key-value store
+		return LRU_CACHE_SIZE;
+
+	} else if (strncmp(kind, "num_keys", 20) == 0) {
+
+		// Number of keys stored in the cache
+		return counterLRU;
+
+	} else if (strncmp(kind, "total_evictions", 20) == 0) {
+
+		// Number of items evicted
+		return totalEvictions;
+
+	}
+
+	return -1;
 }
 
 char **most_popular_keys(int k) {

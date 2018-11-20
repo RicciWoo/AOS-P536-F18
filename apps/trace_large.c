@@ -1,5 +1,7 @@
 #include <xinu.h>
 #include <kv.h> 
+#include <xmalloc.h>
+
 
 void trace_large() { 
     
@@ -3386,4 +3388,8 @@ void trace_large() {
     printf("%d, %d \n",set_errors, get_errors); 
     
     kv_reset(); 
+
+    // show fragmentation information
+    char *str = xheap_snapshot();
+    printf("%s\n", str);
 } 
