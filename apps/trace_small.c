@@ -697,7 +697,7 @@ void trace_small() {
     valtmp = kv_get("mvgjjgrv"); 
      if(valtmp==NULL) get_errors++; 
 
-    printf("%d, %d \n",set_errors, get_errors); 
+    printf("set errors: %d, get errors: %d \n", set_errors, get_errors); 
 
     printf("\n==================== info of Cache ====================\n");
     printf("Total number of successful get requests:   %d\n", get_cache_info("total_hits"));

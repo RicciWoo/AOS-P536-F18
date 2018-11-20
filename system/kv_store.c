@@ -244,10 +244,10 @@ int delKVHashTab(char *key) {
 			kvHead->next = kvHead->next->next;
 
 			// free memory of the node
-			freemem((char *)temp, sizeof(KVNode_t));
+			//freemem((char *)temp, sizeof(KVNode_t));
 
 			// free memory of the key
-			freemem(key, keyLen);
+			//freemem(key, keyLen);
 
 			return 0;
 		}
@@ -366,7 +366,7 @@ int delLRUHashTab(char *key) {
 			lruHead->next = lruHead->next->next;
 
 			// free memory of the node
-			freemem((char *)temp, sizeof(LRUNode_t));
+			//freemem((char *)temp, sizeof(LRUNode_t));
 
 			return 0;
 		}
@@ -533,7 +533,7 @@ int delLRUCache(char *key) {
 	prev->next = curr->next;
 
 	// free memory of the curr node
-	freemem((char *)curr, sizeof(LRUEntry_t));
+	//freemem((char *)curr, sizeof(LRUEntry_t));
 
 	return 0;
 }
