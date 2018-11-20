@@ -49,7 +49,7 @@ int get_cache_info(char *);   /* for getting information about the cache perform
                                  The function returns an output based on 
                                  the kind input string as follows: */
 int totalHits;                /* Total number of successful get requests */
-int totalAccesses;            /* Total number of get requests (including cache misses) */
+int totalAccess;              /* Total number of get requests (including cache misses) */
 int totalSetSuccess;          /* Total number of successful set requests */
     // LRU_CACHE_SIZE         /* Total memory footprint of your key-value store */
     // counterLRU             /* Number of keys stored in the cache */
