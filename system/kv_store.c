@@ -587,14 +587,14 @@ int kv_delete(char *key) {
 }
 
 void kv_reset() {
-	// // reset LRU counter
-	// counterLRU = 0;
-	// totalHits = 0;            /* Total number of successful get requests */
-	// totalAccesses = 0;        /* Total number of get requests (including cache misses) */
-	// totalSetSuccess = 0;      /* Total number of successful set requests */
- //    // LRU_CACHE_SIZE         /* Total memory footprint of your key-value store */
- //    // counterLRU             /* Number of keys stored in the cache */
-	// totalEvictions = 0;       /* Number of items evicted */
+	// reset LRU counter
+	counterLRU = 0;
+	totalHits = 0;            /* Total number of successful get requests */
+	totalAccesses = 0;        /* Total number of get requests (including cache misses) */
+	totalSetSuccess = 0;      /* Total number of successful set requests */
+    // LRU_CACHE_SIZE         /* Total memory footprint of your key-value store */
+    // counterLRU             /* Number of keys stored in the cache */
+	totalEvictions = 0;       /* Number of items evicted */
 
 	// clear LRU cache
 	while (headLRU != NULL) {

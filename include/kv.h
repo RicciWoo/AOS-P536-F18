@@ -48,12 +48,12 @@ int kv_init();                /* Can be used for initializing your kv store.
 int get_cache_info(char *);   /* for getting information about the cache performance. 
                                  The function returns an output based on 
                                  the kind input string as follows: */
-int totalHits;                /* Total number of successful get requests */
-int totalAccesses;            /* Total number of get requests (including cache misses) */
-int totalSetSuccess;          /* Total number of successful set requests */
+int32 totalHits;                /* Total number of successful get requests */
+int32 totalAccesses;            /* Total number of get requests (including cache misses) */
+int32 totalSetSuccess;          /* Total number of successful set requests */
     // LRU_CACHE_SIZE         /* Total memory footprint of your key-value store */
     // counterLRU             /* Number of keys stored in the cache */
-int totalEvictions;           /* Number of items evicted */
+int32 totalEvictions;           /* Number of items evicted */
 
 char **most_popular_keys(int);/* Returns a sorted array of the k most popular keys. 
                                  Popularity depends on your cache eviction algorithm. */
