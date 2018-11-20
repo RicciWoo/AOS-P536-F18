@@ -3387,7 +3387,7 @@ void trace_big() {
 
     printf("%d, %d \n",set_errors, get_errors); 
     
-    printf("==================== before reset ====================\n");
+    printf("\n==================== info of Cache ====================\n");
     printf("Total number of successful get requests:   %d\n", get_cache_info("total_hits"));
     printf("Total # of get req (include cache misses): %d\n", get_cache_info("total_accesses"));
     printf("Total number of successful set requests:   %d\n", get_cache_info("total_set_success"));
