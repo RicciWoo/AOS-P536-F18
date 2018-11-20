@@ -30,7 +30,7 @@ int kv_init() {
 	// initialize the LRU counter
 	counterLRU = 0;
 	totalHits = 0;            /* Total number of successful get requests */
-	totalAccess = 0;        /* Total number of get requests (including cache misses) */
+	totalAccesses = 0;        /* Total number of get requests (including cache misses) */
 	totalSetSuccess = 0;      /* Total number of successful set requests */
     // LRU_CACHE_SIZE         /* Total memory footprint of your key-value store */
     // counterLRU             /* Number of keys stored in the cache */
@@ -435,7 +435,7 @@ LRUEntry_t *getLRUCache(char *key) {
 	}
 
 	// increase total_accesses;
-	totalAccess++;
+	totalAccesses++;
 
 	// get prev pointer and the value
 	LRUEntry_t *prev = lruNode->prev;
@@ -590,7 +590,7 @@ void kv_reset() {
 	// reset LRU counter
 	counterLRU = 0;
 	totalHits = 0;            /* Total number of successful get requests */
-	totalAccess = 0;          /* Total number of get requests (including cache misses) */
+	totalAccesses = 0;          /* Total number of get requests (including cache misses) */
 	totalSetSuccess = 0;      /* Total number of successful set requests */
     // LRU_CACHE_SIZE         /* Total memory footprint of your key-value store */
     // counterLRU             /* Number of keys stored in the cache */
@@ -666,7 +666,7 @@ int get_cache_info(char *kind) {
 	} else if (strncmp(kind, "total_accesses", 20) == 0) {
 
 		// Total number of get requests (including cache misses, etc.)
-		return totalAccess;
+		return totalAccesses;
 
 	} else if (strncmp(kind, "total_set_success", 20) == 0) {
 
