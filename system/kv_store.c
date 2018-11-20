@@ -423,6 +423,9 @@ void movLRUCache(LRUEntry_t *prev) {
 
 // get val with the key from LRU Cache
 LRUEntry_t *getLRUCache(char *key) {
+	// increase total_hits
+	totalHits++;
+
 	// check if the key exists
 	LRUNode_t *lruNode = getLRUHashTab(key);
 
@@ -437,11 +440,17 @@ LRUEntry_t *getLRUCache(char *key) {
 	// move the node to the tail of the linked list
 	movLRUCache(prev);
 
+	// increase total_accesses;
+	totalAccesses++;
+
 	return tailLRU;
 }
 
 // set lruEntry in LRU Cache
 int setLRUCache(char *key, char *val) {
+	// increase totalSetSuccess
+	totalSetSuccess++;
+
 	// check if the key exists in LRU Cache
 	LRUEntry_t *curr = getLRUCache(key);
 
@@ -487,6 +496,9 @@ int setLRUCache(char *key, char *val) {
 
 	// move curr node to the tail
 	movLRUCache(headLRU);
+
+	// increase totalEvictions
+	totalEvictions++;
 
 	return 0;
 }
@@ -577,6 +589,12 @@ int kv_delete(char *key) {
 void kv_reset() {
 	// reset LRU counter
 	counterLRU = 0;
+	totalHits = 0;            /* Total number of successful get requests */
+	totalAccesses = 0;        /* Total number of get requests (including cache misses) */
+	totalSetSuccess = 0;      /* Total number of successful set requests */
+    // LRU_CACHE_SIZE         /* Total memory footprint of your key-value store */
+    // counterLRU             /* Number of keys stored in the cache */
+	totalEvictions = 0;       /* Number of items evicted */
 
 	// clear LRU cache
 	while (headLRU != NULL) {
