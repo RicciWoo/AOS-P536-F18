@@ -184,7 +184,7 @@ KVNode_t *setKVHashTab(char *key, char *val) {
 		char *valOld = kvNode->val;
 
 		// free memory of old value
-		xfree((void *)valOld);
+		//xfree((void *)valOld);
 
 		// update the key with new value;
 		updateKVNode(kvNode, val);
@@ -235,7 +235,7 @@ int delKVHashTab(char *key) {
 			char *val = kvHead->next->val;
 
 			// free memory of the value
-			xfree((void *)val);
+			//xfree((void *)val);
 			
 			// save the address for deletion
 			KVNode_t *temp = kvHead->next;
@@ -626,7 +626,7 @@ void kv_reset() {
 			// free memory of the value
 			char *val = currKVNode->val;
 			if (val != NULL) {
-				xfree((void *)val);
+				//xfree((void *)val);
 			}
 
 			// free memory of this kvNode
