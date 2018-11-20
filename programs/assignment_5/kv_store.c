@@ -1,3 +1,4 @@
+// copy of system/kv_store.c
 #include <xinu.h>
 #include <kv.h>
 #include <xmalloc.h>
@@ -57,7 +58,6 @@ int kv_init() {
 		// initialize the head kvNode
 		kvNode->key = NULL;
 		kvNode->val = NULL;
-		kvNode->count = 0;
 		kvNode->next = NULL;
 		kvHashTab[i] = kvNode;
 
@@ -116,7 +116,6 @@ KVNode_t *createKVNode(char *key, char *val) {
 	// set allocated kv node
 	kvNode->key = keyAlloc;
 	kvNode->val = valAlloc;
-	kvNode->count = 0;
 	kvNode->next = NULL;
 
 	return kvNode;
@@ -428,12 +427,6 @@ LRUEntry_t *getLRUCache(char *key) {
 	// increase total_accesses;
 	totalAccesses++;
 
-	// increase counter in kvNode
-	KVNode_t *kvNode = getKVHashTab(key);
-	if (kvNode != NULL) {
-		kvNode->count++;
-	}
-
 	// check if the key exists
 	LRUNode_t *lruNode = getLRUHashTab(key);
 
@@ -702,34 +695,6 @@ int get_cache_info(char *kind) {
 }
 
 char **most_popular_keys(int k) {
-
-	// // traverse the KV Hash table
-	// int i;
-	// for (i = 0; i < HASH_TAB_SIZE; i++) {
-	// 	// clear kvNodes
-	// 	KVNode_t *kvHead = kvHashTab[i];
-	// 	while (kvHead != NULL) {
-	// 		KVNode_t *currKVNode = kvHead;
-	// 		kvHead = kvHead->next;
-
-	// 		// free memory of the key
-	// 		char *key = currKVNode->key;
-	// 		if (key != NULL) {
-	// 			int keyLen = strlen(key) + 1;
-	// 			//freemem(key, keyLen);
-	// 		}
-
-	// 		// free memory of the value
-	// 		char *val = currKVNode->val;
-	// 		if (val != NULL) {
-	// 			xfree((void *)val);
-	// 		}
-
-	// 		// free memory of this kvNode
-	// 		//freemem((char *)currKVNode, sizeof(KVNode_t));
-	// 	}
-	// }
-
 	char *temp = NULL;
 	char **result = &temp;
 	return result;
