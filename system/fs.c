@@ -241,4 +241,8 @@ int fs_write(int fd, void *buf, int nbytes) {
   return SYSERR;
 }
 
+int fs_mount(int dev) {
+  return SYSERR;
+}
+
 #endif /* FS */
