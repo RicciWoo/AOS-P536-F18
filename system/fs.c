@@ -226,6 +226,7 @@ int fs_close(int fd) {
 }
 
 int fs_create(char *filename, int mode) {
+  
   return SYSERR;
 }
 
@@ -238,10 +239,6 @@ int fs_read(int fd, void *buf, int nbytes) {
 }
 
 int fs_write(int fd, void *buf, int nbytes) {
-  return SYSERR;
-}
-
-int fs_mount(int dev) {
   return SYSERR;
 }
 

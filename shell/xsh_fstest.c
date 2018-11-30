@@ -53,6 +53,8 @@ shellcmd xsh_fstest(int nargs, char *args[]) {
     bs_mkdev(0, MDEV_BLOCK_SIZE, MDEV_NUM_BLOCKS); /* device "0" and default blocksize (=0) and count */
     fs_mkfs(0,DEFAULT_NUM_INODES); /* bsdev 0*/
     fs_testbitmask();
+
+    fs_print_fsd();
     
     buf1 = getmem(SIZE*sizeof(char));
     buf2 = getmem(SIZE*sizeof(char));
