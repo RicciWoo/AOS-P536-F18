@@ -259,7 +259,7 @@ int fs_create(char *filename, int mode) {
   fileInode->size = 0;
 
   // get inode and fill it
-  int rval = fs_get_inode_by_num(id);
+  int rval = fs_get_inode_by_num(dev0, id, fileInode);
   if (rval == (int)SYSERR) {
     printf("fs get indode by num failed!\n");
     return SYSERR;
@@ -269,6 +269,7 @@ int fs_create(char *filename, int mode) {
   struct directory *rootDir = &fsd.root_dir;
   int numEntr = rootDir->numentries;
   struct dirent *entrPtr;
+  char *namePtr;
   int i;
   for (i = 0; i < numEntr; i++) {
     entrPtr = &rootDir->entry[i];
@@ -290,7 +291,7 @@ int fs_create(char *filename, int mode) {
 
   // set data in directory entry
   dirEntry->inode_num = id;
-  char *namePtr = &direntry->name[0];
+  namePtr = &direntry->name[0];
   strncpy(namePtr, filename, len);
 
   // set directory entry to root_dir
