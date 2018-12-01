@@ -164,7 +164,7 @@ fs_print_fsd(void) {
 
   printf("sizeof(struct dirent):   %d\n", sizeof(struct dirent));
   printf("sizeof(struct director): %d\n", sizeof(struct directory));
-  printf("sizeof(struct fsystem):  %d\n", sizeof(struct fsystem));
+  printf("sizeof(struct fsystem):  %d\n\n", sizeof(struct fsystem));
 }
 
 /* specify the block number to be set in the mask */
@@ -230,6 +230,8 @@ int fs_close(int fd) {
 }
 
 int fs_create(char *filename, int mode) {
+  printf("========== start of fs_create ==========\n");
+
   // get length of filename
   int len = strlen(filename) + 1;
   if (len > FILENAMELEN) {
@@ -245,7 +247,7 @@ int fs_create(char *filename, int mode) {
   // create inode
   struct inode *fileInode;
   fileInode = (struct inode *)getmem(sizeof(struct inode));
-  if (fileInode) {
+  if (fileInode == (void *)SYSERR) {
     printf("inode getmem fialed!\n");
     return SYSERR;
   }
@@ -281,6 +283,12 @@ int fs_create(char *filename, int mode) {
     }
   }
 
+  // check number of directory entries
+  if (numEntr >= DIRECTORY_SIZE) {
+    printf("number of dir entries exceeds maximum!\n");
+    return SYSERR;
+  }
+
   // create directory entry
   struct dirent *dirEntry;
   dirEntry = (struct dirent *)getmem(sizeof(struct dirent));
@@ -297,7 +305,9 @@ int fs_create(char *filename, int mode) {
   // set directory entry to root_dir
   entrPtr = &rootDir->entry[numEntr];
   memcpy(entrPtr, dirEntry, sizeof(struct dirent));
+  rootDir->numentries++;
 
+  printf("========== end of fs_create ==========");
   return OK;
 }
 
