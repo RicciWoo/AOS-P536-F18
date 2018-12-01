@@ -224,28 +224,28 @@ void fs_printfreemask(void) {
 int fs_open(char *filename, int flags) {
   printf("========== start of fs_open ==========");
 
-  // check file name in directory
-  struct directory *rootDir = &fsd.root_dir;
-  int numEntr = rootDir->numentries;
-  struct dirent *entrPtr;
-  char *namePtr;
-  int i;
-  for (i = 0; i < numEntr; i++) {
-    entrPtr = &rootDir->entry[i];
-    namePtr = &entrPtr->name[0];
-    rval = strncmp(namePtr, filename, len);
-    if (rval == 0) {
-      break;
-    }
-  }
+  // // check file name in directory
+  // struct directory *rootDir = &fsd.root_dir;
+  // int numEntr = rootDir->numentries;
+  // struct dirent *entrPtr;
+  // char *namePtr;
+  // int i;
+  // for (i = 0; i < numEntr; i++) {
+  //   entrPtr = &rootDir->entry[i];
+  //   namePtr = &entrPtr->name[0];
+  //   rval = strncmp(namePtr, filename, len);
+  //   if (rval == 0) {
+  //     break;
+  //   }
+  // }
 
-  // file not exists
-  if (i == numEntr) {
-    printf("file not exists: %s\n", filename);
-    return SYSERR;
-  }
+  // // file not exists
+  // if (i == numEntr) {
+  //   printf("file not exists: %s\n", filename);
+  //   return SYSERR;
+  // }
 
-  // get inode
+  // // get inode
 
 
   printf("========== end of fs_open ==========");
@@ -266,29 +266,6 @@ int fs_create(char *filename, int mode) {
 
   if (mode != O_CREAT) {
     printf("Unsupported mode!\n");
-    return SYSERR;
-  }
-
-  // create inode
-  struct inode *fileInode;
-  fileInode = (struct inode *)getmem(sizeof(struct inode));
-  if (fileInode == (void *)SYSERR) {
-    printf("inode getmem fialed!\n");
-    return SYSERR;
-  }
-  
-  // set inode data
-  int id = fsd.inodes_used;
-  fsd.inodes_used++;
-  fileInode->id = id;
-  fileInode->type = INODE_TYPE_FILE;
-  fileInode->device = dev0;
-  fileInode->size = 0;
-
-  // get inode and fill it
-  int rval = fs_put_inode_by_num(dev0, id, fileInode);
-  if (rval == (int)SYSERR) {
-    printf("fs put indode by num failed!\n");
     return SYSERR;
   }
 
@@ -331,6 +308,29 @@ int fs_create(char *filename, int mode) {
   entrPtr = &rootDir->entry[numEntr];
   memcpy(entrPtr, dirEntry, sizeof(struct dirent));
   rootDir->numentries++;
+
+  // create inode
+  struct inode *fileInode;
+  fileInode = (struct inode *)getmem(sizeof(struct inode));
+  if (fileInode == (void *)SYSERR) {
+    printf("inode getmem fialed!\n");
+    return SYSERR;
+  }
+  
+  // set inode data
+  int id = fsd.inodes_used;
+  fsd.inodes_used++;
+  fileInode->id = id;
+  fileInode->type = INODE_TYPE_FILE;
+  fileInode->device = dev0;
+  fileInode->size = 0;
+
+  // get inode and fill it
+  int rval = fs_put_inode_by_num(dev0, id, fileInode);
+  if (rval == (int)SYSERR) {
+    printf("fs put indode by num failed!\n");
+    return SYSERR;
+  }
 
   // open the created file
   rval = fs_open(filename, FSTATE_OPEN);
