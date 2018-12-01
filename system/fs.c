@@ -161,6 +161,10 @@ fs_print_fsd(void) {
   printf("sizeof(struct inode): %d\n", sizeof(struct inode));
   printf("INODES_PER_BLOCK: %d\n", INODES_PER_BLOCK);
   printf("NUM_INODE_BLOCKS: %d\n", NUM_INODE_BLOCKS);
+
+  printf("sizeof(struct dirent):   %d\n", sizeof(struct dirent));
+  printf("sizeof(struct director): %s\n", sizeof(struct directory));
+  printf("sizeof(struct fsystem):  %d\n", sizeof(struct fsystem));
 }
 
 /* specify the block number to be set in the mask */
@@ -226,6 +230,48 @@ int fs_close(int fd) {
 }
 
 int fs_create(char *filename, int mode) {
+  if (mode != O_CREAT) {
+    printf("Unsupported mode!\n");
+    return SYSERR;
+  }
+
+  // get a free block
+  int i = FIRST_INODE_BLOCK + NUM_INODE_BLOCKS;
+  for (; i < fsd.nblocks; i++) {
+    rval = fs_getmaskbit(i);
+    if (rval == 0) {
+      break;
+    }
+  }
+
+  // set the bitmask
+  fs_setmaskbit(i);
+
+  // create directory entry
+  struct dirent *dirEntry = getmem(sizeof(struct dirent));
+  if (dirEntry == (void *)SYSERR) {
+    printf("dirent getmem failed!\n");
+    return SYSERR;
+  }
+
+  // get
+
+  // set data in directory entry
+  //&direntry->name[0]
+
+  // create inode
+  struct inode *fileInode = getmem(sizeof(struct inode));
+  if (fileInode) {
+    printf("inode getmem fialed!\n");
+    return SYSERR;
+  }
+  //fileInode->
+
+  // get inode and fill it
+  fs_get_inode_by_num(dev0, i, fileInode);
+
+
+
   return SYSERR;
 }
 
