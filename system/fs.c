@@ -238,7 +238,7 @@ int fs_create(char *filename, int mode) {
   // get a free block
   int i = FIRST_INODE_BLOCK + NUM_INODE_BLOCKS;
   for (; i < fsd.nblocks; i++) {
-    rval = fs_getmaskbit(i);
+    int rval = fs_getmaskbit(i);
     if (rval == 0) {
       break;
     }
@@ -248,7 +248,7 @@ int fs_create(char *filename, int mode) {
   fs_setmaskbit(i);
 
   // create directory entry
-  struct dirent *dirEntry = getmem(sizeof(struct dirent));
+  struct dirent *dirEntry = (struct dirent *)getmem(sizeof(struct dirent));
   if (dirEntry == (void *)SYSERR) {
     printf("dirent getmem failed!\n");
     return SYSERR;
@@ -260,7 +260,7 @@ int fs_create(char *filename, int mode) {
   //&direntry->name[0]
 
   // create inode
-  struct inode *fileInode = getmem(sizeof(struct inode));
+  struct inode *fileInode = (struct inode *)getmem(sizeof(struct inode));
   if (fileInode) {
     printf("inode getmem fialed!\n");
     return SYSERR;
