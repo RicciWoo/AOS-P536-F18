@@ -163,7 +163,7 @@ fs_print_fsd(void) {
   printf("NUM_INODE_BLOCKS: %d\n", NUM_INODE_BLOCKS);
 
   printf("sizeof(struct dirent):   %d\n", sizeof(struct dirent));
-  printf("sizeof(struct director): %s\n", sizeof(struct directory));
+  printf("sizeof(struct director): %d\n", sizeof(struct directory));
   printf("sizeof(struct fsystem):  %d\n", sizeof(struct fsystem));
 }
 
