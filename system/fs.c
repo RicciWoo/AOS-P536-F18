@@ -273,7 +273,7 @@ int fs_create(char *filename, int mode) {
   int i;
   for (i = 0; i < numEntr; i++) {
     entrPtr = &rootDir->entry[i];
-    namePtr = &entryPtr->name[0];
+    namePtr = &entrPtr->name[0];
     rval = strncmp(namePtr, filename, len);
     if (rval == 0) {
       printf("filename already exists!\n");
@@ -291,7 +291,7 @@ int fs_create(char *filename, int mode) {
 
   // set data in directory entry
   dirEntry->inode_num = id;
-  namePtr = &direntry->name[0];
+  namePtr = &dirEntry->name[0];
   strncpy(namePtr, filename, len);
 
   // set directory entry to root_dir
