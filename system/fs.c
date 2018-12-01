@@ -222,33 +222,48 @@ void fs_printfreemask(void) {
 
 
 int fs_open(char *filename, int flags) {
-  printf("========== start of fs_open ==========");
+  printf("========== start of fs_open ==========\n");
 
-  // // check file name in directory
-  // struct directory *rootDir = &fsd.root_dir;
-  // int numEntr = rootDir->numentries;
-  // struct dirent *entrPtr;
-  // char *namePtr;
-  // int i;
-  // for (i = 0; i < numEntr; i++) {
-  //   entrPtr = &rootDir->entry[i];
-  //   namePtr = &entrPtr->name[0];
-  //   rval = strncmp(namePtr, filename, len);
-  //   if (rval == 0) {
-  //     break;
-  //   }
-  // }
+  // get length of filename
+  int len = strlen(filename) + 1;
 
-  // // file not exists
-  // if (i == numEntr) {
-  //   printf("file not exists: %s\n", filename);
-  //   return SYSERR;
-  // }
+  // check file name in directory
+  struct directory *rootDir = &fsd.root_dir;
+  int numEntr = rootDir->numentries;
+  struct dirent *entrPtr;
+  char *namePtr;
+  int i;
+  for (i = 0; i < numEntr; i++) {
+    entrPtr = &rootDir->entry[i];
+    namePtr = &entrPtr->name[0];
+    rval = strncmp(namePtr, filename, len);
+    if (rval == 0) {
+      break;
+    }
+  }
 
-  // // get inode
+  // file not exists
+  if (i == numEntr) {
+    printf("file not exists: %s\n", filename);
+    return SYSERR;
+  }
 
+  // get inode number
+  entrPtr = &rootDir->entry[i];
+  int inodeNum = &entrPtr->inode_num;
 
-  printf("========== end of fs_open ==========");
+  // get inode
+  struct inode *inodePtr;
+  int rval = fs_get_inode_by_num(dev0, inodeNum, inodePtr);
+  if (rval == (int)SYSERR) {
+    printf("fs_get_indode_by_num failed!\n");
+    return SYSERR;
+  }
+
+  printf("inode->id: %d\n", inodePtr->id);
+  printf("inode->size: %d\n", inodePtr->size);
+
+  printf("========== end of fs_open ==========\n");
   return SYSERR;
 }
 
@@ -311,7 +326,7 @@ int fs_create(char *filename, int mode) {
   // get inode and fill it
   rval = fs_put_inode_by_num(dev0, id, fileInode);
   if (rval == (int)SYSERR) {
-    printf("fs put indode by num failed!\n");
+    printf("fs_put_indode_by_num failed!\n");
     return SYSERR;
   }
 
