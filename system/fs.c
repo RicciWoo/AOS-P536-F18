@@ -226,7 +226,6 @@ int fs_close(int fd) {
 }
 
 int fs_create(char *filename, int mode) {
-  
   return SYSERR;
 }
 
