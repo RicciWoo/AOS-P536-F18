@@ -292,24 +292,6 @@ int fs_create(char *filename, int mode) {
     return SYSERR;
   }
 
-  // create directory entry
-  struct dirent *dirEntry;
-  dirEntry = (struct dirent *)getmem(sizeof(struct dirent));
-  if (dirEntry == (void *)SYSERR) {
-    printf("dirent getmem failed!\n");
-    return SYSERR;
-  }
-
-  // set data in directory entry
-  dirEntry->inode_num = id;
-  namePtr = &dirEntry->name[0];
-  strncpy(namePtr, filename, len);
-
-  // set directory entry to root_dir
-  entrPtr = &rootDir->entry[numEntr];
-  memcpy(entrPtr, dirEntry, sizeof(struct dirent));
-  rootDir->numentries++;
-
   // create inode
   struct inode *fileInode;
   fileInode = (struct inode *)getmem(sizeof(struct inode));
@@ -332,6 +314,24 @@ int fs_create(char *filename, int mode) {
     printf("fs put indode by num failed!\n");
     return SYSERR;
   }
+
+  // create directory entry
+  struct dirent *dirEntry;
+  dirEntry = (struct dirent *)getmem(sizeof(struct dirent));
+  if (dirEntry == (void *)SYSERR) {
+    printf("dirent getmem failed!\n");
+    return SYSERR;
+  }
+
+  // set data in directory entry
+  dirEntry->inode_num = id;
+  namePtr = &dirEntry->name[0];
+  strncpy(namePtr, filename, len);
+
+  // set directory entry to root_dir
+  entrPtr = &rootDir->entry[numEntr];
+  memcpy(entrPtr, dirEntry, sizeof(struct dirent));
+  rootDir->numentries++;
 
   // open the created file
   rval = fs_open(filename, FSTATE_OPEN);
