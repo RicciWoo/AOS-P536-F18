@@ -230,49 +230,74 @@ int fs_close(int fd) {
 }
 
 int fs_create(char *filename, int mode) {
+  // get length of filename
+  int len = strlen(filename) + 1;
+  if (len > FILENAMELEN) {
+    printf("filename too long!\n");
+    return SYSERR;
+  }
+
   if (mode != O_CREAT) {
     printf("Unsupported mode!\n");
     return SYSERR;
   }
 
-  // get a free block
-  int i = FIRST_INODE_BLOCK + NUM_INODE_BLOCKS;
-  for (; i < fsd.nblocks; i++) {
-    int rval = fs_getmaskbit(i);
+  // create inode
+  struct inode *fileInode;
+  fileInode = (struct inode *)getmem(sizeof(struct inode));
+  if (fileInode) {
+    printf("inode getmem fialed!\n");
+    return SYSERR;
+  }
+  
+  // set inode data
+  int id = fsd.inodes_used;
+  fsd.inodes_used++;
+  fileInode->id  = id;
+  fileInode->type = INODE_TYPE_FILE;
+  fileInode->device = dev0;
+  fileInode->size = 0;
+
+  // get inode and fill it
+  int rval = fs_get_inode_by_num(id);
+  if (rval == (int)SYSERR) {
+    printf("fs get indode by num failed!\n");
+    return SYSERR;
+  }
+
+  // check file name in directory
+  struct directory *rootDir = &fsd.root_dir;
+  int numEntr = rootDir->numentries;
+  struct dirent *entrPtr;
+  int i;
+  for (i = 0; i < numEntr; i++) {
+    entrPtr = &rootDir->entry[i];
+    namePtr = &entryPtr->name[0];
+    rval = strncmp(namePtr, filename, len);
     if (rval == 0) {
-      break;
+      printf("filename already exists!\n");
+      return SYSERR;
     }
   }
 
-  // set the bitmask
-  fs_setmaskbit(i);
-
   // create directory entry
-  struct dirent *dirEntry = (struct dirent *)getmem(sizeof(struct dirent));
+  struct dirent *dirEntry;
+  dirEntry = (struct dirent *)getmem(sizeof(struct dirent));
   if (dirEntry == (void *)SYSERR) {
     printf("dirent getmem failed!\n");
     return SYSERR;
   }
 
-  // get
-
   // set data in directory entry
-  //&direntry->name[0]
+  dirEntry->inode_num = id;
+  char *namePtr = &direntry->name[0];
+  strncpy(namePtr, filename, len);
 
-  // create inode
-  struct inode *fileInode = (struct inode *)getmem(sizeof(struct inode));
-  if (fileInode) {
-    printf("inode getmem fialed!\n");
-    return SYSERR;
-  }
-  //fileInode->
+  // set directory entry to root_dir
+  entrPtr = &rootDir->entry[numEntr];
+  memcpy(entrPtr, dirEntry, sizeof(struct dirent));
 
-  // get inode and fill it
-  fs_get_inode_by_num(dev0, i, fileInode);
-
-
-
-  return SYSERR;
+  return OK;
 }
 
 int fs_seek(int fd, int offset) {
