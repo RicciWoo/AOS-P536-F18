@@ -232,6 +232,7 @@ int fs_open(char *filename, int flags) {
   int numEntr = rootDir->numentries;
   struct dirent *entrPtr;
   char *namePtr;
+  int rval;
   int i;
   for (i = 0; i < numEntr; i++) {
     entrPtr = &rootDir->entry[i];
@@ -250,7 +251,7 @@ int fs_open(char *filename, int flags) {
 
   // get inode number
   entrPtr = &rootDir->entry[i];
-  int inodeNum = &entrPtr->inode_num;
+  int inodeNum = entrPtr->inode_num;
 
   // get inode
   struct inode *inodePtr;
