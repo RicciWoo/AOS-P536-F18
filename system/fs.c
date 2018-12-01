@@ -274,6 +274,7 @@ int fs_create(char *filename, int mode) {
   int numEntr = rootDir->numentries;
   struct dirent *entrPtr;
   char *namePtr;
+  int rval;
   int i;
   for (i = 0; i < numEntr; i++) {
     entrPtr = &rootDir->entry[i];
@@ -326,7 +327,7 @@ int fs_create(char *filename, int mode) {
   fileInode->size = 0;
 
   // get inode and fill it
-  int rval = fs_put_inode_by_num(dev0, id, fileInode);
+  rval = fs_put_inode_by_num(dev0, id, fileInode);
   if (rval == (int)SYSERR) {
     printf("fs put indode by num failed!\n");
     return SYSERR;
