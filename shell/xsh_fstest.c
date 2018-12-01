@@ -55,6 +55,8 @@ shellcmd xsh_fstest(int nargs, char *args[]) {
     fs_testbitmask();
 
     fs_print_fsd();
+    printf("INODES_PER_BLOCK: %d\n", INODES_PER_BLOCK);
+    printf("NUM_INODE_BLOCKS: %d\n", NUM_INODE_BLOCKS);
     
     buf1 = getmem(SIZE*sizeof(char));
     buf2 = getmem(SIZE*sizeof(char));
