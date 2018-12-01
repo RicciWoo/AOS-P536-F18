@@ -307,6 +307,9 @@ int fs_create(char *filename, int mode) {
   memcpy(entrPtr, dirEntry, sizeof(struct dirent));
   rootDir->numentries++;
 
+  printf("inodes_used: %d\n", fsd.inodes_used);
+  printf("root_dir->numentries: %d\n", fsd.root_dir.numentries);
+
   printf("========== end of fs_create ==========");
   return OK;
 }
