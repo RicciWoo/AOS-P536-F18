@@ -222,6 +222,33 @@ void fs_printfreemask(void) {
 
 
 int fs_open(char *filename, int flags) {
+  printf("========== start of fs_open ==========");
+
+  // check file name in directory
+  struct directory *rootDir = &fsd.root_dir;
+  int numEntr = rootDir->numentries;
+  struct dirent *entrPtr;
+  char *namePtr;
+  int i;
+  for (i = 0; i < numEntr; i++) {
+    entrPtr = &rootDir->entry[i];
+    namePtr = &entrPtr->name[0];
+    rval = strncmp(namePtr, filename, len);
+    if (rval == 0) {
+      break;
+    }
+  }
+
+  // file not exists
+  if (i == numEntr) {
+    printf("file not exists: %s\n", filename);
+    return SYSERR;
+  }
+
+  // get inode
+
+
+  printf("========== end of fs_open ==========");
   return SYSERR;
 }
 
@@ -230,8 +257,6 @@ int fs_close(int fd) {
 }
 
 int fs_create(char *filename, int mode) {
-  printf("========== start of fs_create ==========\n");
-
   // get length of filename
   int len = strlen(filename) + 1;
   if (len > FILENAMELEN) {
@@ -255,15 +280,15 @@ int fs_create(char *filename, int mode) {
   // set inode data
   int id = fsd.inodes_used;
   fsd.inodes_used++;
-  fileInode->id  = id;
+  fileInode->id = id;
   fileInode->type = INODE_TYPE_FILE;
   fileInode->device = dev0;
   fileInode->size = 0;
 
   // get inode and fill it
-  int rval = fs_get_inode_by_num(dev0, id, fileInode);
+  int rval = fs_put_inode_by_num(dev0, id, fileInode);
   if (rval == (int)SYSERR) {
-    printf("fs get indode by num failed!\n");
+    printf("fs put indode by num failed!\n");
     return SYSERR;
   }
 
@@ -307,10 +332,13 @@ int fs_create(char *filename, int mode) {
   memcpy(entrPtr, dirEntry, sizeof(struct dirent));
   rootDir->numentries++;
 
-  printf("inodes_used: %d\n", fsd.inodes_used);
-  printf("root_dir->numentries: %d\n", fsd.root_dir.numentries);
+  // open the created file
+  rval = fs_open(filename, FSTATE_OPEN);
+  if (rval == (int)SYSERR) {
+    printf("fs_open failed!\n");
+    return SYSERR;
+  }
 
-  printf("========== end of fs_create ==========");
   return OK;
 }
 
