@@ -51,7 +51,7 @@ shellcmd xsh_fstest(int nargs, char *args[]) {
 #ifdef FS
 
     bs_mkdev(0, MDEV_BLOCK_SIZE, MDEV_NUM_BLOCKS); /* device "0" and default blocksize (=0) and count */
-    fs_mkfs(0,DEFAULT_NUM_INODES); /* bsdev 0*/
+    fs_mkfs(0, DEFAULT_NUM_INODES); /* bsdev 0*/
     fs_testbitmask();
 
     // fs_print_fsd();
@@ -70,7 +70,7 @@ shellcmd xsh_fstest(int nargs, char *args[]) {
         buf1[i] = (char) j;
     }
     
-    rval = fs_write(fd,buf1,SIZE);
+    rval = fs_write(fd, buf1, SIZE);
     if(rval == 0 || rval != SIZE )
     {
         printf("\n\r File write failed\n");
@@ -81,7 +81,7 @@ shellcmd xsh_fstest(int nargs, char *args[]) {
 
     // Now my file offset is pointing at EOF file, i need to bring it back to start of file
     // Assuming here implementation of fs_seek is like "original_offset = original_offset + input_offset_from_fs_seek"
-    fs_seek(fd,-rval); 
+    fs_seek(fd, -rval); 
     
     //read the file 
     rval = fs_read(fd, buf2, rval);
@@ -89,16 +89,16 @@ shellcmd xsh_fstest(int nargs, char *args[]) {
 
     if(rval == 0)
     {
-        printf("\n\r File read failed\n");
+        printf("\n\rFile read failed\n");
         goto clean_up;
     }
         
-    printf("\n\rContent of file %s\n",buf2);
+    printf("\n\rContent of file :\n%s\n", buf2);
     
     rval = fs_close(fd);
     if(rval != OK)
     {
-        printf("\n\rReturn val for fclose : %d\n",rval);
+        printf("\n\rReturn val for fclose: %d\n", rval);
     }
 
 clean_up:

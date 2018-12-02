@@ -437,8 +437,6 @@ int fs_seek(int fd, int offset) {
 }
 
 int fs_read(int fd, void *buf, int nbytes) {
-  printf("========== start of fs_read ==========\n");
-
   // check file index in file table
   if (fd >= NUM_FD) {
     printf("Invalid file descriptor!\n");
@@ -507,9 +505,6 @@ int fs_read(int fd, void *buf, int nbytes) {
   // update file pointer in file table
   fileTab->fileptr = newSize;
 
-  printf("file pointer: %d\n", fileTab->fileptr);
-
-  printf("========== end of fs_read ==========\n");
   return nbytes;
 }
 
