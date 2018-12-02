@@ -101,6 +101,8 @@ shellcmd xsh_fstest(int nargs, char *args[]) {
         printf("\n\rReturn val for fclose: %d\n", rval);
     }
 
+    fs_printfreemask();
+
 clean_up:
     freemem(buf1,SIZE);
     freemem(buf2,SIZE);
