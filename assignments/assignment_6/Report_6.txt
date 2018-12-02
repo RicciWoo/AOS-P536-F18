@@ -1,0 +1,71 @@
+
+Implementation of fs_create():
+
+1. check if input paramters are valid;
+2. check if file name already exists in root directory;
+3. check if number of directory entries exceeds maximum;
+4. create inode, set data into inode for this file;
+5. put the inode into inode block;
+6. create directory entry, and set data in it;
+7. add directory entry into root directory;
+8. call fs_open() to open this file for read and write.
+
+
+Implementation of fs_open():
+
+1. check if input parameters are valid;
+2. check if file name in root directory;
+3. get one available directory entry;
+4. get one available file descriptor;
+6. get inode of the file by number;
+7. check if only read on empty file;
+8. put file pointer to the end if write only;
+9. set data on file table.
+
+
+Implementaton of fs_write():
+
+1. check if input parameters are valid;
+2. check if file state is open;
+3. get inode of the file;
+4. check space for new content;
+5. get start block and end block to write;
+6. allocate new blocks if needed;
+7. write data to disk blocks;
+8. update file pointer in file table;
+9. update size in inode;
+10. update indoe in inode block.
+
+
+Implementation of fs_seek():
+
+1. check if input parameters are valid;
+2. check if file state is open;
+3. get file size from inode;
+4. get file pointer from file table;
+5. check if file pointer is valid after updated;
+6. update the file pointer.
+
+
+Implementation of fs_read():
+
+1. check if input parameters are valid;
+2. check if file state is open;
+3. get file size from inode;
+4. update nbytes if reach EOF;
+5. get start block and end block to read;
+6. read data from disk blocks;
+7. update file pointer in file table.
+
+
+Implementation of fs_close():
+
+1. check if input parameter is valid;
+2. check if file state is open;
+3. set file state to be closed.
+
+
+Problem:
+I found the size of file system (sizeof(struct fsystem)) is 604.
+It's larger than block size, and this can not be put into a single block.
+So, I guess we don't actually put file system into the first block.
