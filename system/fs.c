@@ -507,6 +507,8 @@ int fs_read(int fd, void *buf, int nbytes) {
   // update file pointer in file table
   fileTab->fileptr = newSize;
 
+  printf("file pointer: %d\n", fileTab->fileptr);
+
   printf("========== end of fs_read ==========\n");
   return nbytes;
 }
