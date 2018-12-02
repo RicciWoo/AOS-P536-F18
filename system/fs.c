@@ -474,6 +474,7 @@ int fs_write(int fd, void *buf, int nbytes) {
       }
 
       // set bit mask of that block
+      printf("file block: %d, disk block: %d\n", i, j);
       fs_setmaskbit(j);
 
       // save allocated block number in inode
