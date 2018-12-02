@@ -428,7 +428,7 @@ int fs_write(int fd, void *buf, int nbytes) {
   // get inode;
   struct filetable *fileTab = &oft[fd];
   struct inode *inodePtr;
-  memcpy(inodePtr, fileTab->in, sizeof(struct inode));
+  memcpy(inodePtr, (void *)fileTab->in, sizeof(struct inode));
 
   // check space for new content
   int newSize = fileTab->fileptr + nbytes;
@@ -497,7 +497,7 @@ int fs_write(int fd, void *buf, int nbytes) {
       offset = 0;
       size = fsd.blocksz;
     }
-    bufPtr = &buf[copied];
+    bufPtr = &((char *)buf[copied]);
     bs_bwrite(dev0, block, offset, bufPtr, size);
     copied += size;
   }
@@ -508,7 +508,7 @@ int fs_write(int fd, void *buf, int nbytes) {
   }
 
   // save inode back in block
-  memcpy(fileTab->in, inodePtr, sizeof(struct inode));
+  memcpy((void *)fileTab->in, inodePtr, sizeof(struct inode));
 
   printf("========== end of fs_write ==========\n");
   return SYSERR;
