@@ -258,7 +258,8 @@ int fs_open(char *filename, int flags) {
   printf("inodeNum = %d\n", inodeNum);
 
   // get inode
-  struct inode *inodePtr = NULL;
+  struct inode *inodePtr;
+  inodePtr = (struct inode *)memget(sizeof(struct inode));
   rval = fs_get_inode_by_num(dev0, inodeNum, inodePtr);
   if (rval == (int)SYSERR) {
     printf("fs_get_indode_by_num failed!\n");
