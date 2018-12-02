@@ -468,7 +468,7 @@ int fs_read(int fd, void *buf, int nbytes) {
   // update nbytes if reach EOF
   int newSize = fileTab->fileptr + nbytes;
   if (newSize > fileSize) {
-    nbytes = fileSize - filePtr;
+    nbytes = fileSize - fileTab->fileptr;
     newSize = fileSize;
   }
 
