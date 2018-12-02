@@ -438,7 +438,7 @@ int fs_seek(int fd, int offset) {
   printf("fileptr after move:  %d\n", fileTab->fileptr);
 
   printf("========== end of fs_seek ==========\n");
-  return SYSERR;
+  return OK;
 }
 
 int fs_read(int fd, void *buf, int nbytes) {
