@@ -93,7 +93,7 @@ shellcmd xsh_fstest(int nargs, char *args[]) {
         goto clean_up;
     }
         
-    printf("\n\rContent of file :\n%s\n", buf2);
+    printf("\n\rContent of file :\n%s\n\n", buf2);
     
     rval = fs_close(fd);
     if(rval != OK)
@@ -101,7 +101,7 @@ shellcmd xsh_fstest(int nargs, char *args[]) {
         printf("\n\rReturn val for fclose: %d\n", rval);
     }
 
-    fs_printfreemask();
+    // fs_printfreemask();
 
 clean_up:
     freemem(buf1,SIZE);
