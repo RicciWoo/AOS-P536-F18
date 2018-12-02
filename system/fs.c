@@ -456,7 +456,7 @@ int fs_write(int fd, void *buf, int nbytes) {
   // allocate new blocks
   int i;
   int rval;
-  if (curr > end) {
+  if (end > curr) {
     for (i = curr + 1; i <= end; i++) {
       // find free block
       int j = FIRST_INODE_BLOCK + NUM_INODE_BLOCKS;
