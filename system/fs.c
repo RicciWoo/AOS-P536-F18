@@ -507,7 +507,7 @@ int fs_read(int fd, void *buf, int nbytes) {
   fileTab->fileptr = newSize;
 
   printf("========== end of fs_read ==========\n");
-  return SYSERR;
+  return nbytes;
 }
 
 int fs_write(int fd, void *buf, int nbytes) {
