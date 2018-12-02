@@ -222,8 +222,6 @@ void fs_printfreemask(void) {
 
 
 int fs_open(char *filename, int flags) {
-  printf("========== start of fs_open ==========\n");
-
   // check length of filename
   int len = strlen(filename) + 1;
   if (len > FILENAMELEN) {
@@ -269,7 +267,7 @@ int fs_open(char *filename, int flags) {
   }
 
   // get file number
-  int fileNum = next_open_fd;
+  int fd = next_open_fd;
   next_open_fd++;
 
   // get inode number
@@ -298,7 +296,7 @@ int fs_open(char *filename, int flags) {
   }
 
   // set data on file table
-  struct filetable *fileTab = &oft[fileNum];
+  struct filetable *fileTab = &oft[fd];
   fileTab->state = FSTATE_OPEN;
   fileTab->fileptr = filePtr;
   fileTab->de = entrPtr;
@@ -306,46 +304,14 @@ int fs_open(char *filename, int flags) {
   in = &fileTab->in;
   memcpy(in, inodePtr, sizeof(struct inode));
 
-  printf("oft->state:    %d\n", oft[fileNum].state);
-  printf("oft->filptr:   %d\n", oft[fileNum].fileptr);
-  printf("oft->inode #:  %d\n", oft[fileNum].de->inode_num);
-  char *fileNamePtr = &oft[fileNum].de->name[0];
-  printf("oft->name:     %s\n", fileNamePtr);
-  printf("oft->inode id: %d\n", oft[fileNum].in.id);
-  printf("oft->type:     %d\n", oft[fileNum].in.type);
-  printf("oft->device:   %d\n", oft[fileNum].in.device);
-  printf("oft->size:     %d\n", oft[fileNum].in.size);
-
-  // // find free block
-  // int nBlocks = fsd.nblocks;
-  // i = FIRST_INODE_BLOCK + NUM_INODE_BLOCKS;
-  // if (inodePtr->size == 0) {
-  //   for (; i < nBlocks; i++) {
-  //     rval = fs_getmaskbit(i);
-  //     if (rval == 0) {
-  //       break;
-  //     }
-  //   }
-
-  //   // no block is empty
-  //   if (i == nBlocks) {
-  //     printf("no block is empty!\n");
-  //     return SYSERR;
-  //   }
-
-  //   // set bit mask of that block
-  //   fs_setmaskbit(i);
-
-  //   // 
-  //   inodePtr->blocks
-  // }
-
-  printf("========== end of fs_open ==========\n");
-  return OK;
+  return fd;
 }
 
 int fs_close(int fd) {
-  return SYSERR;
+  printf("========== start of fs_close ==========\n");
+
+  printf("========== end of fs_close ==========\n");
+  return OK;
 }
 
 int fs_create(char *filename, int mode) {
@@ -427,13 +393,13 @@ int fs_create(char *filename, int mode) {
   rootDir->numentries++;
 
   // open the created file
-  rval = fs_open(filename, FSTATE_OPEN);
-  if (rval == (int)SYSERR) {
+  int fd = fs_open(filename, FSTATE_OPEN);
+  if (fd == (int)SYSERR) {
     printf("fs_open failed!\n");
     return SYSERR;
   }
 
-  return OK;
+  return fd;
 }
 
 int fs_seek(int fd, int offset) {
@@ -445,6 +411,106 @@ int fs_read(int fd, void *buf, int nbytes) {
 }
 
 int fs_write(int fd, void *buf, int nbytes) {
+  printf("========== start of fs_write ==========\n");
+
+  // check file index in file table
+  if (fd >= NUM_FD) {
+    printf("Invalid file number!\n");
+    return SYSERR;
+  }
+
+  // check nbytes
+  if (nbytes <= 0) {
+    printf("no need to write!\n");
+    return OK;
+  }
+
+  // get inode;
+  struct filetable *fileTab = &oft[fd];
+  struct inode *inodePtr;
+  memcpy(inodePtr, fileTab->in, sizeof(struct inode));
+
+  // check space for new content
+  int newSize = fileTab->fileptr + nbytes;
+  if (newSize >= fsd.blocksz * INODEBLOCKS) {
+    printf("no enough space for new content!\n");
+    return SYSERR;
+  }
+
+  // get start block and end block
+  int start = fileTab->fileptr / fsd.blocksz;
+  if (fileTab->fileptr % fsd.blocksz == 0) {
+    start--;
+  }
+  int end = newSize / fsd.blocksz;
+  if (newSize % fsd.blocksz == 0) {
+    end--;
+  }
+  int curr = inodePtr->size / fsd.blocksz;
+  if (inodePtr->size % fsd.blocksz == 0) {
+    curr--;
+  }
+
+  // allocate new blocks
+  int i;
+  int rval;
+  if (curr > end) {
+    for (i = curr + 1; i <= end; i++) {
+      // find free block
+      int j = FIRST_INODE_BLOCK + NUM_INODE_BLOCKS;
+      for (; j < fsd.nblocks; j++) {
+        rval = fs_getmaskbit(j);
+        if (rval == 0) {
+          break;
+        }
+      }
+
+      // no block is empty
+      if (j == fsd.nblocks) {
+        printf("no block is empty!\n");
+        return SYSERR;
+      }
+
+      // set bit mask of that block
+      fs_setmaskbit(j);
+
+      // save allocated block number in inode
+      inodePtr->blocks[i] = j;
+    }
+  }
+
+  // no need to allocate new block
+  int block;
+  int offset;
+  int size;
+  int copied = 0;
+  char *bufPtr;
+  for (i = start + 1; i <= end; i++) {
+    block = inodePtr->blocks[i];
+    if (i == start + 1) {
+      offset = fileTab->fileptr % fsd.blocksz;
+      size = fsd.blocksz - offset;
+    } else if (i == end) {
+      offset = 0;
+      size = newSize % fsd.blocksz;
+    } else {
+      offset = 0;
+      size = fsd.blocksz;
+    }
+    bufPtr = &buf[copied];
+    bs_bwrite(dev0, block, offset, bufPtr, size);
+    copied += size;
+  }
+  
+  // update size in inode
+  if (newSize > inodePtr->size) {
+    inodePtr->size = newSize;
+  }
+
+  // save inode back in block
+  memcpy(fileTab->in, inodePtr, sizeof(struct inode));
+
+  printf("========== end of fs_write ==========\n");
   return SYSERR;
 }
 
