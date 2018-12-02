@@ -306,6 +306,16 @@ int fs_open(char *filename, int flags) {
   in = &fileTab->in;
   memcpy(in, inodePtr, sizeof(struct inode));
 
+  printf("oft->state:    %d\n", oft[fileNum].state);
+  printf("oft->filptr:   %d\n", oft[fileNum].fileptr);
+  printf("oft->inode #:  %d\n", oft[fileNum].de->inode_num);
+  char *fileNamePtr = &oft[fileNum].de->name[0];
+  printf("oft->name:     %s\n", fileNamePtr);
+  printf("oft->inode id: %d\n", oft[fileNum].in.id);
+  printf("oft->type:     %d\n", oft[fileNum].in.type);
+  printf("oft->device:   %d\n", oft[fileNum].in.device);
+  printf("oft->size:     %d\n", oft[fileNum].in.size);
+
   // // find free block
   // int nBlocks = fsd.nblocks;
   // i = FIRST_INODE_BLOCK + NUM_INODE_BLOCKS;
@@ -331,7 +341,7 @@ int fs_open(char *filename, int flags) {
   // }
 
   printf("========== end of fs_open ==========\n");
-  return SYSERR;
+  return OK;
 }
 
 int fs_close(int fd) {
