@@ -308,8 +308,6 @@ int fs_open(char *filename, int flags) {
 }
 
 int fs_close(int fd) {
-  printf("========== start of fs_close ==========\n");
-
   // check file index in file table
   if (fd >= NUM_FD) {
     printf("Invalid file descriptor!\n");
@@ -326,8 +324,6 @@ int fs_close(int fd) {
   // set file state to be closed
   fileTab->state = FSTATE_CLOSED;
 
-
-  printf("========== end of fs_close ==========\n");
   return OK;
 }
 
