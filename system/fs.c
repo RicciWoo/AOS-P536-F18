@@ -224,8 +224,18 @@ void fs_printfreemask(void) {
 int fs_open(char *filename, int flags) {
   printf("========== start of fs_open ==========\n");
 
-  // get length of filename
+  // check length of filename
   int len = strlen(filename) + 1;
+  if (len > FILENAMELEN) {
+    printf("filename too long!\n");
+    return SYSERR;
+  }
+
+  // check flags
+  if (flags != O_RDONLY && flags != 0_WRONLY && flags != 0_RDWR) {
+    printf("Unsupported flag!\n");
+    return SYSERR;
+  }
 
   // check file name in directory
   struct directory *rootDir = &fsd.root_dir;
@@ -243,19 +253,28 @@ int fs_open(char *filename, int flags) {
     }
   }
 
-  printf("i = %d\n", i);
-
   // file not exists
   if (i == numEntr) {
     printf("file not exists: %s\n", filename);
     return SYSERR;
   }
 
+  // get directory entry
+  entrPtr = &rootDir->entry[i];
+
+  // number of files exceeds maximum
+  if (next_open_fd >= NUM_FD) {
+    printf("number of opened files exceeds maximum!\n");
+    return SYSERR;
+  }
+
+  // get file number
+  int fileNum = next_open_fd;
+  next_open_fd++;
+
   // get inode number
   entrPtr = &rootDir->entry[i];
   int inodeNum = entrPtr->inode_num;
-
-  printf("inodeNum = %d\n", inodeNum);
 
   // get inode
   struct inode *inodePtr;
@@ -266,8 +285,50 @@ int fs_open(char *filename, int flags) {
     return SYSERR;
   }
 
-  printf("inode->id: %d\n", inodePtr->id);
-  printf("inode->size: %d\n", inodePtr->size);
+  // read only is not allowed on empty file
+  if (inodePtr->size == 0 && flags == 0_RDONLY) {
+    printf("read only not allowed on empty file!\n");
+    return SYSERR;
+  }
+
+  // if Write only set file pointer to the end
+  int filePtr = 0;
+  if (indodePtr->size != 0 && flags == 0_WRONLY) {
+    filePtr = inodePtr->size;
+  }
+
+  // set data on file table
+  struct filetable *fileTab = &oft[fileNum];
+  fileTab->state = FSTATE_OPEN;
+  fileTab->fileptr = filePtr;
+  fileTab->de = entrPtr;
+  struct inode *in;
+  in = &fileTab->in;
+  memcpy(in, inodePtr, sizeof(struct inode));
+
+  // // find free block
+  // int nBlocks = fsd.nblocks;
+  // i = FIRST_INODE_BLOCK + NUM_INODE_BLOCKS;
+  // if (inodePtr->size == 0) {
+  //   for (; i < nBlocks; i++) {
+  //     rval = fs_getmaskbit(i);
+  //     if (rval == 0) {
+  //       break;
+  //     }
+  //   }
+
+  //   // no block is empty
+  //   if (i == nBlocks) {
+  //     printf("no block is empty!\n");
+  //     return SYSERR;
+  //   }
+
+  //   // set bit mask of that block
+  //   fs_setmaskbit(i);
+
+  //   // 
+  //   inodePtr->blocks
+  // }
 
   printf("========== end of fs_open ==========\n");
   return SYSERR;
@@ -331,6 +392,7 @@ int fs_create(char *filename, int mode) {
 
   // get inode and fill it
   rval = fs_put_inode_by_num(dev0, id, fileInode);
+
   if (rval == (int)SYSERR) {
     printf("fs_put_indode_by_num failed!\n");
     return SYSERR;
