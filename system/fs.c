@@ -521,7 +521,7 @@ int fs_write(int fd, void *buf, int nbytes) {
     }
   }
 
-  // no need to allocate new block
+  // write data to disk blocks
   int block;
   int offset;
   int size;
@@ -542,6 +542,9 @@ int fs_write(int fd, void *buf, int nbytes) {
     bufPtr += size;
   }
   
+  // update file pointer in file table
+  fileTab->fileptr = newSize;
+
   // update size in inode
   if (newSize > inodePtr->size) {
     inodePtr->size = newSize;
