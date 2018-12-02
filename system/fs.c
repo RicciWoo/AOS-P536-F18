@@ -487,6 +487,7 @@ int fs_read(int fd, void *buf, int nbytes) {
   int offset;
   int size;
   char *bufPtr = (char *)buf;
+  int i;
   for (i = start + 1; i <= end; i++) {
     block = inodePtr->blocks[i];
     if (i == start + 1) {
