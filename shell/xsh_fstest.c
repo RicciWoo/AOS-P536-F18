@@ -87,7 +87,7 @@ shellcmd xsh_fstest(int nargs, char *args[]) {
     rval = fs_read(fd, buf2, rval);
     buf2[rval] = '\0'; // TODO: Write end of file symbol i.e. slash-zero instead of EOF. I can not do this because of WIKI editor limitation    
 
-    if(rval == SYSERR)
+    if(rval == 0)
     {
         printf("\n\r File read failed\n");
         goto clean_up;

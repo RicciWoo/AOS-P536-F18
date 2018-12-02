@@ -425,7 +425,7 @@ int fs_seek(int fd, int offset) {
   // get file pointer
   int filePtr = fileTab->fileptr;
   filePtr += offset;
-  if (filePtr < 0 || filePtr >size) {
+  if (filePtr < 0 || filePtr > size) {
     printf("Invalid offset!\n");
     return SYSERR;
   }
@@ -438,6 +438,73 @@ int fs_seek(int fd, int offset) {
 
 int fs_read(int fd, void *buf, int nbytes) {
   printf("========== start of fs_read ==========\n");
+
+  // check file index in file table
+  if (fd >= NUM_FD) {
+    printf("Invalid file descriptor!\n");
+    return SYSERR;
+  }
+
+  // check nbytes
+  if (nbytes <= 0) {
+    printf("no need to read!\n");
+    return 0;
+  }
+
+  // check file state
+  struct filetable *fileTab = &oft[fd];
+  int state = fileTab->state;
+  if (state != FSTATE_OPEN) {
+    printf("file not opened!\n");
+    return SYSERR;
+  }
+
+  // get file size from inode
+  struct inode *inodePtr;
+  inodePtr = (struct inode *)getmem(sizeof(struct inode));
+  memcpy(inodePtr, &fileTab->in, sizeof(struct inode));
+  int fileSize = inodePtr->size;
+
+  // update nbytes if reach EOF
+  int newSize = fileTab->fileptr + nbytes;
+  if (newSize > fileSize) {
+    nbytes = fileSize - filePtr;
+    newSize = fileSize;
+  }
+
+  // get start block and end block
+  int start = fileTab->fileptr / fsd.blocksz;
+  if (fileTab->fileptr % fsd.blocksz == 0) {
+    start--;
+  }
+  int end = newSize / fsd.blocksz;
+  if (newSize % fsd.blocksz == 0) {
+    end--;
+  }
+
+  // read data from disk blocks
+  int block;
+  int offset;
+  int size;
+  char *bufPtr = (char *)buf;
+  for (i = start + 1; i <= end; i++) {
+    block = inodePtr->blocks[i];
+    if (i == start + 1) {
+      offset = fileTab->fileptr % fsd.blocksz;
+      size = fsd.blocksz - offset;
+    } else if (i == end) {
+      offset = 0;
+      size = newSize % fsd.blocksz;
+    } else {
+      offset = 0;
+      size = fsd.blocksz;
+    }
+    bs_bread(dev0, block, offset, bufPtr, size);
+    bufPtr += size;
+  }
+
+  // update file pointer in file table
+  fileTab->fileptr = newSize;
 
   printf("========== end of fs_read ==========\n");
   return SYSERR;
@@ -453,14 +520,14 @@ int fs_write(int fd, void *buf, int nbytes) {
   // check nbytes
   if (nbytes <= 0) {
     printf("no need to write!\n");
-    return OK;
+    return 0;
   }
 
   // check file state
   struct filetable *fileTab = &oft[fd];
   int state = fileTab->state;
   if (state != FSTATE_OPEN) {
-    printf("file not open!");
+    printf("file not opened!\n");
     return SYSERR;
   }
 
