@@ -428,6 +428,7 @@ int fs_write(int fd, void *buf, int nbytes) {
   // get inode;
   struct filetable *fileTab = &oft[fd];
   struct inode *inodePtr;
+  inodePtr = (struct inode *)getmem(sizeof(struct inode));
 
   memcpy(inodePtr, &fileTab->in, sizeof(struct inode));
 
