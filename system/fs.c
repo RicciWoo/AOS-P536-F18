@@ -326,6 +326,7 @@ int fs_close(int fd) {
   // set file state to be closed
   fileTab->state = FSTATE_CLOSED;
 
+
   printf("========== end of fs_close ==========\n");
   return OK;
 }
