@@ -511,7 +511,7 @@ int fs_write(int fd, void *buf, int nbytes) {
   memcpy(&fileTab->in, inodePtr, sizeof(struct inode));
 
   printf("========== end of fs_write ==========\n");
-  return SYSERR;
+  return OK;
 }
 
 #endif /* FS */
