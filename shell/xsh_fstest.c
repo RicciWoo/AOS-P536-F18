@@ -54,7 +54,7 @@ shellcmd xsh_fstest(int nargs, char *args[]) {
     fs_mkfs(0,DEFAULT_NUM_INODES); /* bsdev 0*/
     fs_testbitmask();
 
-    fs_print_fsd();
+    // fs_print_fsd();
     
     buf1 = getmem(SIZE*sizeof(char));
     buf2 = getmem(SIZE*sizeof(char));
@@ -77,7 +77,7 @@ shellcmd xsh_fstest(int nargs, char *args[]) {
         goto clean_up;
     }
 
-    fs_printfreemask();
+    // fs_printfreemask();
 
     // Now my file offset is pointing at EOF file, i need to bring it back to start of file
     // Assuming here implementation of fs_seek is like "original_offset = original_offset + input_offset_from_fs_seek"

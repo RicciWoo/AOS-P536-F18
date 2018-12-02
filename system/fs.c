@@ -403,6 +403,41 @@ int fs_create(char *filename, int mode) {
 }
 
 int fs_seek(int fd, int offset) {
+  printf("========== start of fs_seek ==========\n");
+
+  if (fd >= NUM_FD) {
+    printf("Invalid file descriptor!\n");
+    return SYSERR;
+  }
+
+  // check file state
+  struct filetable *fileTab = &oft[fd];
+  int state = fileTab->state;
+  if (state != FSTATE_OPEN) {
+    printf("file not open!");
+    return SYSERR;
+  }
+
+  // get file size from inode
+  struct inode *inodePtr;
+  inodePtr = (struct inode *)getmem(sizeof(struct inode));
+  memcpy(inodePtr, &fileTab->in, sizeof(struct inode));
+  int size = inodePtr->size;
+
+  // get file pointer
+  int filePtr = fileTab->fileptr;
+  filePtr += offset;
+  if (filePtr < 0 || filePtr >size) {
+    printf("Invalid offset!\n");
+    return SYSERR;
+  }
+
+  // move the file pointer
+  printf("fileptr before move: %d\n", fileTab->fileptr);
+  fileTab->fileptr = filePtr;
+  printf("fileptr after move:  %d\n", fileTab->fileptr);
+
+  printf("========== end of fs_seek ==========\n");
   return SYSERR;
 }
 
@@ -411,11 +446,9 @@ int fs_read(int fd, void *buf, int nbytes) {
 }
 
 int fs_write(int fd, void *buf, int nbytes) {
-  printf("========== start of fs_write ==========\n");
-
   // check file index in file table
   if (fd >= NUM_FD) {
-    printf("Invalid file number!\n");
+    printf("Invalid file descriptor!\n");
     return SYSERR;
   }
 
@@ -425,11 +458,17 @@ int fs_write(int fd, void *buf, int nbytes) {
     return OK;
   }
 
-  // get inode;
+  // check file state
   struct filetable *fileTab = &oft[fd];
+  int state = fileTab->state;
+  if (state != FSTATE_OPEN) {
+    printf("file not open!");
+    return SYSERR;
+  }
+
+  // get inode
   struct inode *inodePtr;
   inodePtr = (struct inode *)getmem(sizeof(struct inode));
-
   memcpy(inodePtr, &fileTab->in, sizeof(struct inode));
 
   // check space for new content
@@ -474,7 +513,6 @@ int fs_write(int fd, void *buf, int nbytes) {
       }
 
       // set bit mask of that block
-      printf("file block: %d, disk block: %d\n", i, j);
       fs_setmaskbit(j);
 
       // save allocated block number in inode
@@ -511,7 +549,6 @@ int fs_write(int fd, void *buf, int nbytes) {
   // save inode back in block
   memcpy(&fileTab->in, inodePtr, sizeof(struct inode));
 
-  printf("========== end of fs_write ==========\n");
   return nbytes;
 }
 
