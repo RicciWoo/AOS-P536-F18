@@ -232,7 +232,7 @@ int fs_open(char *filename, int flags) {
   }
 
   // check flags
-  if (flags != O_RDONLY && flags != 0_WRONLY && flags != 0_RDWR) {
+  if (flags != O_RDONLY && flags != O_WRONLY && flags != O_RDWR) {
     printf("Unsupported flag!\n");
     return SYSERR;
   }
@@ -286,14 +286,14 @@ int fs_open(char *filename, int flags) {
   }
 
   // read only is not allowed on empty file
-  if (inodePtr->size == 0 && flags == 0_RDONLY) {
+  if (inodePtr->size == 0 && flags == O_RDONLY) {
     printf("read only not allowed on empty file!\n");
     return SYSERR;
   }
 
   // if Write only set file pointer to the end
   int filePtr = 0;
-  if (indodePtr->size != 0 && flags == 0_WRONLY) {
+  if (inodePtr->size != 0 && flags == O_WRONLY) {
     filePtr = inodePtr->size;
   }
 
