@@ -57,7 +57,7 @@ shellcmd xsh_fstest(int nargs, char *args[]) {
     // fs_print_fsd();
     
     buf1 = getmem(SIZE*sizeof(char));
-    buf2 = getmem(SIZE*sizeof(char));
+    buf2 = getmem((SIZE + 1)*sizeof(char)); // add 1 for holding '\0'
     
     // Create test file
     fd = fs_create("Test_File", O_CREAT);
@@ -73,7 +73,7 @@ shellcmd xsh_fstest(int nargs, char *args[]) {
     rval = fs_write(fd,buf1,SIZE);
     if(rval == 0 || rval != SIZE )
     {
-        printf("\n\r File write failed");
+        printf("\n\r File write failed\n");
         goto clean_up;
     }
 
@@ -85,20 +85,20 @@ shellcmd xsh_fstest(int nargs, char *args[]) {
     
     //read the file 
     rval = fs_read(fd, buf2, rval);
-    buf2[rval] = EOF; // TODO: Write end of file symbol i.e. slash-zero instead of EOF. I can not do this because of WIKI editor limitation    
+    buf2[rval] = '\0'; // TODO: Write end of file symbol i.e. slash-zero instead of EOF. I can not do this because of WIKI editor limitation    
 
-    if(rval == 0)
+    if(rval == SYSERR)
     {
-        printf("\n\r File read failed");
+        printf("\n\r File read failed\n");
         goto clean_up;
     }
         
-    printf("\n\rContent of file %s",buf2);
+    printf("\n\rContent of file %s\n",buf2);
     
     rval = fs_close(fd);
     if(rval != OK)
     {
-        printf("\n\rReturn val for fclose : %d",rval);
+        printf("\n\rReturn val for fclose : %d\n",rval);
     }
 
 clean_up:

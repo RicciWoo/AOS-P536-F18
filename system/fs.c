@@ -403,8 +403,6 @@ int fs_create(char *filename, int mode) {
 }
 
 int fs_seek(int fd, int offset) {
-  printf("========== start of fs_seek ==========\n");
-
   if (fd >= NUM_FD) {
     printf("Invalid file descriptor!\n");
     return SYSERR;
@@ -424,8 +422,6 @@ int fs_seek(int fd, int offset) {
   memcpy(inodePtr, &fileTab->in, sizeof(struct inode));
   int size = inodePtr->size;
 
-  printf("fileptr before move: %d\n", fileTab->fileptr);
-
   // get file pointer
   int filePtr = fileTab->fileptr;
   filePtr += offset;
@@ -436,13 +432,14 @@ int fs_seek(int fd, int offset) {
 
   // move the file pointer
   fileTab->fileptr = filePtr;
-  printf("fileptr after move:  %d\n", fileTab->fileptr);
 
-  printf("========== end of fs_seek ==========\n");
   return OK;
 }
 
 int fs_read(int fd, void *buf, int nbytes) {
+  printf("========== start of fs_read ==========\n");
+
+  printf("========== end of fs_read ==========\n");
   return SYSERR;
 }
 
